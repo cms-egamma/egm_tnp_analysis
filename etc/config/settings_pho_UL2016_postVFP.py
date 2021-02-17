@@ -70,8 +70,6 @@ if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_puTree('/eos/cms/s
 #############################################################
 biningDef = [
    { 'var' : 'ph_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
-#   { 'var' : 'ph_et' , 'type': 'float', 'bins': [20,35,50,100,500] },
-   #{ 'var' : 'ph_et' , 'type': 'float', 'bins': [20,35,50,100,200,500] },
    { 'var' : 'ph_et' , 'type': 'float', 'bins': [20,35,50,80,120,500] },
 ]
 
