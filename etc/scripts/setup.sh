@@ -11,9 +11,9 @@ if [[ `uname -n` == *"lxplus"* ]]; then
     . $LCG/external/gcc/4.8.0/$optVer/setup.sh
     . $ROOTSYS/bin/thisroot.sh
 
-## add python lib
-    . /opt/rh/python27/enable
-    export LD_LIBRARY_PATH=/opt/rh/python27/root/usr/lib64/:$LD_LIBRARY_PATH
 fi
 
 export PYTHONPATH=.:$PYTHONPATH
+
+### add pypyroot
+#. /afs/.cern.ch/sw/lcg/external/pypy/x86_64-slc6/setup-pypyroot.sh
