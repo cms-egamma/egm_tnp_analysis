@@ -5,7 +5,6 @@ Table of Contents
    * [Quick description](#quick-description)
    * [The different fitting steps](#the-different-fitting-steps)
    * [The settings file](#the-settings-file)
-   * [Changes for UL preparation:](#changes-for-ul-preparation)
    * [Update PU weights](#update-pu-weights)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
@@ -13,14 +12,17 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 # Install stable branch
 
 ```bash
-cmsrel CMSSW_10_6_1_patch1
-cd CMSSW_10_6_1_patch1/src
+cmsrel CMSSW_10_6_8
+cd CMSSW_10_6_8/src
 cmsenv
-git clone -b egm_tnp_CleanedCodeForUL_17March2020  https://github.com/lsoffi/egm_tnp_analysis
+git clone -b egm_tnp_CleanedCodeForUL_17March2020  git@github.com:ram1123/egm_tnp_analysis.git 
 cd egm_tnp_analysis
+make 
 ```
 
-**Note:** This package does not have any CMSSW dependenies. However, we are using this package inside the CMSSW release just to ensure that its getting appropriate version of gcc, ROOT, etc.
+**Note**: if you modify anything in [histUtils.pyx](libPython/histUtils.pyx) then you need to run `make cython-build` before `make` in the previous instructions.
+
+**Note:** This package does not have any CMSSW dependenies. However, we are using this package inside the CMSSW release just to ensure that its getting appropriate version of gcc, ROOT, RooFit, etc.
 
 # Quick description
 
