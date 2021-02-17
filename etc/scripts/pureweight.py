@@ -1,4 +1,3 @@
-#export  PYTHONPATH=$PYTHONPATH:/afs/cern.ch/user/s/soffi/scratch0/TEST/CMSSW-10-0-0-pre3/src/egm_tnp_analysis
 import etc.inputs.tnpSampleDef as tnpSamples
 from libPython.tnpClassUtils import mkdir
 import libPython.puReweighter as pu

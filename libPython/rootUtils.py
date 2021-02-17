@@ -3,6 +3,81 @@ import math
 from fitUtils import *
 #from fitSimultaneousUtils import *
 
+def removeNegativeBins(h):
+    for i in xrange(h.GetNbinsX()):
+        if (h.GetBinContent(i) < 0):
+            h.SetBinContent(i, 0)
+
+
+def makePassFailHistograms( sample, flag, bindef, var ):
+    ## open rootfile
+    tree = rt.TChain(sample.tree)
+    for p in sample.path:
+        print ' adding rootfile: ', p
+        tree.Add(p)
+
+    if not sample.puTree is None:
+        print ' - Adding weight tree: %s from file %s ' % (sample.weight.split('.')[0], sample.puTree)
+        tree.AddFriend(sample.weight.split('.')[0],sample.puTree)
+
+    ## open outputFile
+    outfile = rt.TFile(sample.histFile,'recreate')
+    hPass = []
+    hFail = []
+    for ib in range(len(bindef['bins'])):
+        hPass.append(rt.TH1D('%s_Pass' % bindef['bins'][ib]['name'],bindef['bins'][ib]['title'],var['nbins'],var['min'],var['max']))
+        hFail.append(rt.TH1D('%s_Fail' % bindef['bins'][ib]['name'],bindef['bins'][ib]['title'],var['nbins'],var['min'],var['max']))
+        hPass[ib].Sumw2()
+        hFail[ib].Sumw2()
+    
+        cuts = bindef['bins'][ib]['cut']
+        if sample.mcTruth :
+            cuts = '%s && mcTrue==1' % cuts
+        if not sample.cut is None :
+            cuts = '%s && %s' % (cuts,sample.cut)
+
+        notflag = '!(%s)' % flag
+#        for aVar in bindef['bins'][ib]['vars'].keys():
+#            if 'pt' in aVar or 'pT' in aVar or 'et' in aVar or 'eT' in aVar:
+#                ## for high pT change the failing spectra to any probe to get statistics
+#                if bindef['bins'][ib]['vars'][aVar]['min'] > 89: notflag = '( %s  || !(%s) )' % (flag,flag)
+
+        if sample.isMC and not sample.weight is None:
+            cutPass = '( %s && %s ) * %s ' % (cuts,    flag, sample.weight)
+            cutFail = '( %s && %s ) * %s ' % (cuts, notflag, sample.weight)
+            if sample.maxWeight < 999:
+                cutPass = '( %s && %s ) * (%s < %f ? %s : 1.0 )' % (cuts,    flag, sample.weight,sample.maxWeight,sample.weight)
+                cutFail = '( %s && %s ) * (%s < %f ? %s : 1.0 )' % (cuts, notflag, sample.weight,sample.maxWeight,sample.weight)
+        else:
+            cutPass = '( %s && %s )' % (cuts,    flag)
+            cutFail = '( %s && %s )' % (cuts, notflag)
+        
+        tree.Draw('%s >> %s' % (var['name'],hPass[ib].GetName()),cutPass,'goff')
+        tree.Draw('%s >> %s' % (var['name'],hFail[ib].GetName()),cutFail,'goff')
+
+        
+        removeNegativeBins(hPass[ib])
+        removeNegativeBins(hFail[ib])
+
+        hPass[ib].Write(hPass[ib].GetName())
+        hFail[ib].Write(hFail[ib].GetName())
+
+        bin1 = 1
+        bin2 = hPass[ib].GetXaxis().GetNbins()
+        epass = rt.Double(-1.0)
+        efail = rt.Double(-1.0)
+        passI = hPass[ib].IntegralAndError(bin1,bin2,epass)
+        failI = hFail[ib].IntegralAndError(bin1,bin2,efail)
+        eff   = 0
+        e_eff = 0
+        if passI > 0 :
+            itot  = (passI+failI)
+            eff   = passI / (passI+failI)
+            e_eff = math.sqrt(passI*passI*efail*efail + failI*failI*epass*epass) / (itot*itot)
+        print cuts
+        print '    ==> pass: %.1f +/- %.1f ; fail : %.1f +/- %.1f : eff: %1.3f +/- %1.3f' % (passI,epass,failI,efail,eff,e_eff)
+    outfile.Close()
+
 
 def histPlotter( filename, tnpBin, plotDir ):
     print 'opening ', filename
