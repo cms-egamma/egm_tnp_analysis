@@ -5,8 +5,6 @@ import os
 import sys
 import pickle
 import shutil
-import ROOT as rt
-rt.gROOT.SetBatch(True)
 
 
 parser = argparse.ArgumentParser(description='tnp EGM fitter')
@@ -140,53 +138,15 @@ if  args.doFit:
     sampleToFit.dump()
     for ib in range(len(tnpBins['bins'])):
         if (args.binNumber >= 0 and ib == args.binNumber) or args.binNumber < 0:
-           # Get setting file name
-           head, tail = os.path.split(args.settings) 
-           if not os.path.isfile('etc/config/fitPars/'+(tail).replace('.py','_'+args.flag+'_fitPars.py')):
-              print "\n===> Using default fit parameters as given in ",args.settings,"file."
-              if args.altSig and not args.addGaus:
-                 tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit )
-              elif args.altSig and args.addGaus:
-                 tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit_addGaus, 1)
-              elif args.altBkg:
-                 tnpRoot.histFitterAltBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltBkgFit )
-              else:
-                 tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFit )
-           else:
-              # Add fitPars directory to the path, so that we can import the dictionary
-              sys.path.append(os.path.abspath("etc/config/fitPars")) 
-              # Below line import fit parameter dictionary
-              # fit parameters file format should be like: <setting-conf-file>_<flag>_fitPars.py
-              importSetting4Fit = 'import %s_%s_fitPars as dynamic_fit_pars' % (tail.replace('/','.').split('.py')[0], args.flag) 
-              print importSetting4Fit
-              exec(importSetting4Fit)
-              #import settings_pho_UL2017_fitPars as dynamic_fit_pars
-              print "="*20,"\t bin number = ",args.binNumber
-              if not args.binNumber in dynamic_fit_pars.fitpars_perbin.keys():
-                 print "Parameters for bin number ",args.binNumber," does not exists."
-                 print "Please check if the file name ",tail+"_fitPars.py exists in directory etc/config/fitPars"
-                 print "If this file does not exists please create one in the recommended format"
-                 sys.exit()
-              if args.altSig  and not args.addGaus:
-                 tnp_dynamic_AltSigfit_pars = dynamic_fit_pars.fitpars_perbin[args.binNumber]['tnpParAltSigFit']
-                 print "tnp_dynamic_AltSigfit_pars = \n",tnp_dynamic_AltSigfit_pars
-                 print "="*20
-                 tnpRoot.histFitterAltSig( sampleToFit, tnpBins['bins'][ib], tnp_dynamic_AltSigfit_pars)
-              elif args.altSig and args.addGaus:
-                 tnp_dynamic_AltSigfit_pars = dynamic_fit_pars.fitpars_perbin[args.binNumber]['tnpParAltSigFit_addGaus']
-                 print "tnp_dynamic_AltSigfit_pars = \n",tnp_dynamic_AltSigfit_pars
-                 print "="*20
-                 tnpRoot.histFitterAltSig( sampleToFit, tnpBins['bins'][ib], tnp_dynamic_AltSigfit_pars, 1)
-              elif args.altBkg:
-                 tnp_dynamic_AltBkgfit_pars = dynamic_fit_pars.fitpars_perbin[args.binNumber]['tnpParAltBkgFit']
-                 print "tnp_dynamic_AltBkgfit_pars = \n",tnp_dynamic_AltBkgfit_pars
-                 print "="*20
-                 tnpRoot.histFitterAltBkg( sampleToFit, tnpBins['bins'][ib], tnp_dynamic_AltBkgfit_pars)
-              else:
-                 tnp_dynamic_Nomfit_pars = dynamic_fit_pars.fitpars_perbin[args.binNumber]['tnpParNomFit']
-                 print "tnp_dynamic_Nomfit_pars = \n",tnp_dynamic_Nomfit_pars
-                 print "="*20
-                 tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnp_dynamic_Nomfit_pars )
+            if args.altSig and not args.addGaus:
+                tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit )
+            elif args.altSig and args.addGaus:
+                tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit_addGaus, 1)
+            elif args.altBkg:
+                tnpRoot.histFitterAltBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltBkgFit )
+            else:
+                tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFit )
+
     args.doPlot = True
      
 ####################################################################
