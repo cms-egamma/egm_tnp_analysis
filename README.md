@@ -89,11 +89,19 @@ Everything will be done for a specific flag (so the settings can be the same for
       ```bash
       python tnpEGM_fitter.py etc/config/settings.py --flag myWP --doFit --mcSig --altSig
       ```
+      For some fits where we see one more peak tries to appear one can use `--addGaus` opton with altSig.
+      ```bash
+      python tnpEGM_fitter.py etc/config/settings.py --flag myWP --doFit --mcSig --addGaus --altSig
+      ```
 
    3. Alternate signal fit (using constraints from previous fits)
 
       ```bash
       python tnpEGM_fitter.py etc/config/settings.py --flag myWP --doFit  --altSig
+      ```
+      If one used `--addGaus` option in previous step then in this step you have to use the `--addGaus` option.
+      ```bash
+      python tnpEGM_fitter.py etc/config/settings.py --flag myWP --doFit  --altSig --addGaus
       ```
 
    4. Alternate background fit (using constraints from previous fits)
