@@ -2,10 +2,10 @@ import ROOT as rt
 import math
 from fitUtils import *
 #from fitSimultaneousUtils import *
-    
+
 def removeNegativeBins(h):
     for i in xrange(h.GetNbinsX()):
-	if (h.GetBinContent(i) < 0):
+        if (h.GetBinContent(i) < 0):
             h.SetBinContent(i, 0)
 
 
@@ -15,7 +15,7 @@ def makePassFailHistograms( sample, flag, bindef, var ):
     for p in sample.path:
         print ' adding rootfile: ', p
         tree.Add(p)
-    
+
     if not sample.puTree is None:
         print ' - Adding weight tree: %s from file %s ' % (sample.weight.split('.')[0], sample.puTree)
         tree.AddFriend(sample.weight.split('.')[0],sample.puTree)
@@ -79,8 +79,6 @@ def makePassFailHistograms( sample, flag, bindef, var ):
     outfile.Close()
 
 
-
-
 def histPlotter( filename, tnpBin, plotDir ):
     print 'opening ', filename
     print '  get canvas: ' , '%s_Canv' % tnpBin['name']
@@ -109,8 +107,10 @@ def getAllEffi( info, bindef ):
         rootfile = rt.TFile( info['mcNominal'], 'read' )
         hP = rootfile.Get('%s_Pass'%bindef['name'])
         hF = rootfile.Get('%s_Fail'%bindef['name'])
-        bin1 = 1
-        bin2 = hP.GetXaxis().GetNbins()
+        #bin1 = 1
+        #bin2 = hP.GetXaxis().GetNbins()
+        bin1 = 11
+        bin2 = 70
         eP = rt.Double(-1.0)
         eF = rt.Double(-1.0)
         nP = hP.IntegralAndError(bin1,bin2,eP)
@@ -124,8 +124,10 @@ def getAllEffi( info, bindef ):
         rootfile = rt.TFile( info['tagSel'], 'read' )
         hP = rootfile.Get('%s_Pass'%bindef['name'])
         hF = rootfile.Get('%s_Fail'%bindef['name'])
-        bin1 = 1
-        bin2 = hP.GetXaxis().GetNbins()
+      #  bin1 = 1
+      #  bin2 = hP.GetXaxis().GetNbins()
+        bin1 = 11
+        bin2 = 70
         eP = rt.Double(-1.0)
         eF = rt.Double(-1.0)
         nP = hP.IntegralAndError(bin1,bin2,eP)
@@ -139,8 +141,10 @@ def getAllEffi( info, bindef ):
         rootfile = rt.TFile( info['mcAlt'], 'read' )
         hP = rootfile.Get('%s_Pass'%bindef['name'])
         hF = rootfile.Get('%s_Fail'%bindef['name'])
-        bin1 = 1
-        bin2 = hP.GetXaxis().GetNbins()
+        #bin1 = 1
+        #bin2 = hP.GetXaxis().GetNbins()
+        bin1 = 11
+        bin2 = 70
         eP = rt.Double(-1.0)
         eF = rt.Double(-1.0)
         nP = hP.IntegralAndError(bin1,bin2,eP)

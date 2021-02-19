@@ -132,11 +132,13 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     effminmax =  findMinMax( effDataList )
     effiMin = effminmax[0]
     effiMax = effminmax[1]
+    effiMin = 0.18
+    effiMax = 1.35
 
     sfminmax =  findMinMax( sfList )
     sfMin = sfminmax[0]
-#    sfMin = 0.94
-#    sfMax = 1.02
+    sfMin = 0.78
+    sfMax = 1.12
 
     for key in sorted(effDataList.keys()):
         grBinsEffData = effUtil.makeTGraphFromList(effDataList[key], 'min', 'max')
@@ -174,7 +176,7 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
             
         grBinsSF.GetHistogram().GetYaxis().SetTitle("Data / MC " )
         grBinsSF.GetHistogram().GetYaxis().SetTitleOffset(1)
-            
+
         grBinsEffData.GetHistogram().GetYaxis().SetTitleOffset(1)
         grBinsEffData.GetHistogram().GetYaxis().SetTitle("Data efficiency" )
         grBinsEffData.GetHistogram().GetYaxis().SetRangeUser( effiMin, effiMax )
@@ -240,6 +242,9 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     CMS_lumi.CMS_lumi(c, 4, 10)
 
     c.Print(nameout)
+    listName = nameout.split('/')
+    for iext in ["pdf","C","png"]:
+        c.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SFvs'+xAxis+'_'+listName[-3]).replace('pdf',iext))
 
     return listOfTGraph2
 
@@ -274,7 +279,11 @@ def diagnosticErrorPlot( effgr, ierror, nameout ):
     
     c2D_Err.Print(nameout)
 
-
+    listName = nameout.split('/')
+    for iext in ["pdf","C","png"]:
+        c2D_Err.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+'_'+errorNames[ierror]+listName[-3]).replace('pdf',iext))
+    
+    return h2_sfErrorAbs
 
 def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     print " Opening file: %s (plot lumi: %3.1f)" % ( filein, lumi )
@@ -315,7 +324,7 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     customEtaBining = []
     customEtaBining.append( (0.000,0.800))
     customEtaBining.append( (0.800,1.444))
-    customEtaBining.append( (1.444,1.566))
+#    customEtaBining.append( (1.444,1.566))
     customEtaBining.append( (1.566,2.000))
     customEtaBining.append( (2.000,2.500))
 
@@ -325,9 +334,9 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     cDummy.Print( pdfout + "[" )
 
 
-    EffiGraph1D( effGraph.pt_1DGraph_list( False ) , #eff Data
+    EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, False ) , #eff Data
                  None, 
-                 effGraph.pt_1DGraph_list( True ) , #SF
+                 effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, True ) , #SF
                  pdfout,
                  xAxis = axis[0], yAxis = axis[1] )
 #EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,False) , 
@@ -374,7 +383,9 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     h2Error.DrawCopy("colz TEXT45")
 
     c2D.Print( pdfout )
-
+    listName = pdfout.split('/')
+    for iext in ["pdf","C","png"]:
+        c2D.SaveAs(pdfout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+'_'+listName[-3]).replace('pdf',iext))
 
     rootout = rt.TFile(nameOutBase + '_EGM2D.root','recreate')
     rootout.cd()
@@ -383,13 +394,14 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     h2EffMC  .Write('EGamma_EffMC2D'  ,rt.TObject.kOverwrite)
     for igr in range(len(listOfSF1D)):
         listOfSF1D[igr].Write( 'grSF1D_%d' % igr, rt.TObject.kOverwrite)
-    rootout.Close()
 
-    for isyst in range(len(efficiency.getSystematicNames())):
-        diagnosticErrorPlot( effGraph, isyst, pdfout )
 
+    errorNames = efficiency.getSystematicNames()
+    for isyst in range(len(errorNames)):
+        h2_isyst = diagnosticErrorPlot( effGraph, isyst, pdfout )
+        h2_isyst.Write( errorNames[isyst],rt.TObject.kOverwrite)
     cDummy.Print( pdfout + "]" )
-
+    rootout.Close()
 
 
 if __name__ == "__main__":

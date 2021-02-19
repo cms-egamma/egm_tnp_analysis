@@ -1,119 +1,155 @@
 from libPython.tnpClassUtils import tnpSample
 
-### qll stat
-eosDir1         = '/eos/cms/store/group/phys_egamma/tnp/80X/PhoEleIDs/v1/'
-eosDir2         = '/eos/cms/store/group/phys_egamma/tnp/80X/PhoEleIDs/v2/'
-eosDirREC       = '/eos/cms/store/group/phys_egamma/tnp/80X/RecoSF/RECOSFs_2016/'
-eosWinter17     = '/eos/cms/store/group/phys_egamma/tnp/80X/PhoEleIDs/Moriond17_v1/'
-eosLegacy80X_v1 = '/eos/cms//store/group/phys_egamma/tnp/80X/PhoEleIDs/Moriond17_GainSwitch_regr80X_scalesSmearing/'
+#github branches
+#LegacyReReco2016: https://github.com/swagata87/egm_tnp_analysis/tree/Legacy2016_94XIDv2 
+#ReReco2017: https://github.com/swagata87/egm_tnp_analysis/tree/tnp_2017datamc_IDV2_10_2_0
+#PromptReco2018: https://github.com/swagata87/egm_tnp_analysis/tree/egm_tnp_Prompt2018_102X_10222018_MC102XECALnoiseFix200kRelVal
+#UL2017: https://github.com/swagata87/egm_tnp_analysis/blob/UL2017Final/etc/inputs/tnpSampleDef.py
 
-Legacy2016_v1_80X = {
-    'DY_madgraph_Winter17' : tnpSample('DY_madgraph_Winter17',
-                                       eosLegacy80X_v1 + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_DYToLL_madgraph_Moriond17.root',
-                                       isMC = True, nEvts = 48243566 ),
-    
-    'data_Run2016B' : tnpSample('data_Run2016B' , eosLegacy80X_v1 + 'data/TnPTree_SingleElectron_2016rereco_RunB.root' , lumi = 5.767 ),
-    'data_Run2016C' : tnpSample('data_Run2016C' , eosLegacy80X_v1 + 'data/TnPTree_SingleElectron_2016rereco_RunC.root' , lumi = 2.646 ),
-    'data_Run2016D' : tnpSample('data_Run2016D' , eosLegacy80X_v1 + 'data/TnPTree_SingleElectron_2016rereco_RunD.root' , lumi = 4.353 ),
-    'data_Run2016E' : tnpSample('data_Run2016E' , eosLegacy80X_v1 + 'data/TnPTree_SingleElectron_2016rereco_RunE.root' , lumi = 3.985 ),
-    'data_Run2016F' : tnpSample('data_Run2016F' , eosLegacy80X_v1 + 'data/TnPTree_SingleElectron_2016rereco_RunF.root' , lumi = 3.160 ),
-    'data_Run2016G' : tnpSample('data_Run2016G' , eosLegacy80X_v1 + 'data/TnPTree_SingleElectron_2016rereco_RunG.root' , lumi = 7.539 ),
-    'data_Run2016H' : tnpSample('data_Run2016H' , eosLegacy80X_v1 + 'data/TnPTree_SingleElectron_2016prompt_RunH.root' , lumi = 8.762 ),
+### eos repositories
+eosLegacyReReco2016 = '/eos/cms/store/group/phys_egamma/swmukher/egmNtuple_V2ID_2016/'
+eosReReco2017 = '/eos/cms/store/group/phys_egamma/swmukher/ntuple_2017_v2/'
+eosReReco2018 = '/eos/cms/store/group/phys_egamma/swmukher/rereco2018/ECAL_NOISE/'
+#eosUL2017 = '/eos/cms/store/group/phys_egamma/asroy/Tag-and-Probe_Tree/UL2017/'
+eosUL2017 = '/eos/cms/store/group/phys_egamma/asroy/Tag-and-Probe_Tree/UL2017_MINIAOD_Nm1/'
+eosUL2018 = '/eos/cms/store/group/phys_egamma/asroy/Tag-and-Probe_Tree/UL2018_MINIAOD_Nm1/'
+eosUL2016 = '/eos/cms/store/group/phys_egamma/akapoor/Tag-and-Probe_Tree/UL2016_ntuples/'
+
+
+
+ReReco2017 = {
+
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosReReco2017 + 'DYJetsToLL.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_1j_madgraph'              : tnpSample('DY_1j_madgraph',
+                                       eosReReco2017 + 'DY1JetsToLLM50madgraphMLM.root',
+                                       isMC = True, nEvts =  -1 ),
+#    'DY_amcatnlo'                 : tnpSample('DY_amcatnlo',
+#                                       eosMoriond18 + 'DYJetsToLLM50amcatnloFXFX.root',
+#                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
+                                       eosReReco2017 + 'DYJetsToLLM50amcatnloFXFXext.root',
+                                       isMC = True, nEvts =  -1 ),
+
+
+    'data_Run2017B' : tnpSample('data_Run2017B' , eosReReco2017 + 'RunB.root' , lumi = 4.793 ),
+    'data_Run2017C' : tnpSample('data_Run2017C' , eosReReco2017 + 'RunC.root' , lumi = 9.753),
+    'data_Run2017D' : tnpSample('data_Run2017D' , eosReReco2017 + 'RunD.root' , lumi = 4.320 ),
+    'data_Run2017E' : tnpSample('data_Run2017E' , eosReReco2017 + 'RunE.root' , lumi = 8.802),
+    'data_Run2017F' : tnpSample('data_Run2017F' , eosReReco2017 + 'RunF.root' , lumi = 13.567),
+
+    }
+
+LegacyReReco2016 = {
+
+    'DY_madgraph' : tnpSample('DY_madgraph', 
+                                        eosLegacyReReco2016 + 'TnPTree_DY_M50_madgraphMLM.root',
+                                        isMC = True, nEvts =  -1 ),
+    'DY_amcatnlo' : tnpSample('DY_amcatnlo', 
+                                        eosLegacyReReco2016 + 'TnPTree_DY_M50_amcatnloFXFX.root',
+                                        isMC = True, nEvts =  -1 ),
+
+    'data_Run2016Bv2' : tnpSample('data_Run2017Bv2' , eosLegacyReReco2016 + 'TnPTree_2016B_2.root' , lumi = 5.785 ),
+    'data_Run2016C' : tnpSample('data_Run2017C' , eosLegacyReReco2016 + 'TnPTree_2016C.root' , lumi = 2.573 ),
+    'data_Run2016D' : tnpSample('data_Run2017D' , eosLegacyReReco2016 + 'TnPTree_2016D.root' , lumi = 4.248 ),
+    'data_Run2016E' : tnpSample('data_Run2017E' , eosLegacyReReco2016 + 'TnPTree_2016E.root' , lumi = 3.947 ),
+    'data_Run2016F' : tnpSample('data_Run2017F' , eosLegacyReReco2016 + 'TnPTree_2016F.root' , lumi = 3.102 ),
+    'data_Run2016G' : tnpSample('data_Run2017G' , eosLegacyReReco2016 + 'TnPTree_2016G.root' , lumi = 7.540 ),
+    'data_Run2016H' : tnpSample('data_Run2017H' , eosLegacyReReco2016 + 'TnPTree_2016H.root' , lumi = 7.813 ),
+
+
+
 }
 
 
-Moriond17_80X = {
+ReReco2018 = {
+    ### MiniAOD TnP for IDs scale 
+
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                            eosReReco2018 + 'DYJetsToLLmadgraphMLM.root',
+                                            isMC = True, nEvts =  -1 ),
+
+    'DY_powheg'              : tnpSample('DY_powheg',
+                                            eosReReco2018 + 'DYToEEpowheg.root',
+                                            isMC = True, nEvts =  -1 ),
+    
+
+    'data_Run2018A' : tnpSample('data_Run2018A' , eosReReco2018 + 'RunA.root' , lumi = 10.723),  
+    'data_Run2018B' : tnpSample('data_Run2018B' , eosReReco2018 + 'RunB.root' , lumi = 5.964),
+    'data_Run2018C' : tnpSample('data_Run2018C' , eosReReco2018 + 'RunC.root' , lumi = 6.382),
+    'data_Run2018D' : tnpSample('data_Run2018D' , eosReReco2018 + 'RunD.root' , lumi = 29.181), 
+
+    }
+
+
+UL2017 = {
     ### MiniAOD TnP for IDs scale factors
-    'DY_madgraph'          : tnpSample('DY_madgraph',
-                                       eosWinter17 + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_DYToLL_madgraph_Spring16_reHLT.root',
-                                       isMC = True, nEvts = -1 ),
-    'DY_madgraph_Winter17' : tnpSample('DY_madgraph_Winter17', 
-                                       eosWinter17 + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_DYToLL_madgraph_Moriond17.root',
-                                       isMC = True, nEvts = 48652793 ),
-    'DYee_powheg_Winter17' : tnpSample('DYee_powheg_Winter17', 
-                                       eosWinter17 + 'mc/TnPTree_DYToEE_NNPDF30_13TeV-powheg-pythia8_DYToEE_powheg_Moriond17.root',
-                                       isMC = True, nEvts = 49986588 ),
-    'DY_amcatnlo_Winter17' : tnpSample('DY_amcatnlo_Winter17', 
-                                       eosWinter17 + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_DYToLL_mcAtNLO_Moriond17.root',
-                                       isMC = True, nEvts = 28968252 ),
-    'Wj_madgraph_Winter17' : tnpSample('Wj_madgraph_Winter17', 
-                                       eosWinter17 + 'mc/TnPTree_WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_WJets_madgraph_Moriond17.root',
-                                       isMC = True, nEvts = 29048609 ),
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosUL2017 + 'DYJetsToEE.root ',
+                                       isMC = True, nEvts =  -1 ),
+#    'DY_amcatnlo'                 : tnpSample('DY_amcatnlo',
+#                                       eosUL2017 + 'DYJetsToLLM50amcatnloFXFX.root',
+#                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
+                                       eosUL2017 + 'DYJetsToLL_amcatnloFXFX.root',
+                                       isMC = True, nEvts =  -1 ),
 
-    'data_Run2016B' : tnpSample('data_Run2016B' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunB.root' , lumi = 5.767 ),
-    'data_Run2016C' : tnpSample('data_Run2016C' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunC.root' , lumi = 2.646 ),
-    'data_Run2016D' : tnpSample('data_Run2016D' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunD.root' , lumi = 4.353 ),
-    'data_Run2016E' : tnpSample('data_Run2016E' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunE.root' , lumi = 3.985 ),
-    'data_Run2016F' : tnpSample('data_Run2016F' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunF.root' , lumi = 3.160 ),
-    'data_Run2016G' : tnpSample('data_Run2016G' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunG.root' , lumi = 7.539 ),
-    'data_Run2016H' : tnpSample('data_Run2016H' , eosWinter17 + 'data/TnPTree_SingleElectron_2016prompt_RunH.root' , lumi = 8.762 ),
 
-    
+    'data_Run2017B' : tnpSample('data_Run2017B' , eosUL2017 + 'SingleEle_RunB.root' , lumi = 4.793961427),
+    'data_Run2017C' : tnpSample('data_Run2017C' , eosUL2017 + 'SingleEle_RunC.root' , lumi = 9.631214821 ),
+    'data_Run2017D' : tnpSample('data_Run2017D' , eosUL2017 + 'SingleEle_RunD.root' , lumi = 4.247682053 ),
+    'data_Run2017E' : tnpSample('data_Run2017E' , eosUL2017 + 'SingleEle_RunE.root' , lumi = 9.313642402 ),
+    'data_Run2017F' : tnpSample('data_Run2017F' , eosUL2017 + 'SingleEle_RunF.root' , lumi = 13.510934811),
 
-    ### AOD TnP for RECO scale factors
-    'DY_madgraph_Winter17_rec' : tnpSample('DY_madgraph_Winter17_rec'  , 
-                                           eosDirREC + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_DYToLL_madgraph_Winter2017.root',
-                                           isMC = True, nEvts = 49748967),
-    'DY_amcatnlo_Winter17_rec' : tnpSample('DY_amcatnlo_Winter17_rec'  , 
-                                           eosDirREC + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_DYToLL_mcAtNLO_Winter2017.root',
-                                           isMC = True, nEvts = 28658054),    
-    'data_Run2016B_rec' : tnpSample('data_Run2016B_rec', eosDirREC + 'data/TnPTree_SingleElectron_2016rereco_RunB.root', lumi = 5.899),
-    'data_Run2016C_rec' : tnpSample('data_Run2016C_rec', eosDirREC + 'data/TnPTree_SingleElectron_2016rereco_RunC.root', lumi = 2.646),
-    'data_Run2016D_rec' : tnpSample('data_Run2016D_rec', eosDirREC + 'data/TnPTree_SingleElectron_2016rereco_RunD.root', lumi = 4.353),
-    'data_Run2016E_rec' : tnpSample('data_Run2016E_rec', eosDirREC + 'data/TnPTree_SingleElectron_2016rereco_RunE.root', lumi = 4.050),
-    'data_Run2016F_rec' : tnpSample('data_Run2016F_rec', eosDirREC + 'data/TnPTree_SingleElectron_2016rereco_RunF.root', lumi = 3.160),
-    'data_Run2016G_rec' : tnpSample('data_Run2016G_rec', eosDirREC + 'data/TnPTree_SingleElectron_2016rereco_RunG.root', lumi = 7.391),
-    'data_Run2016H_rec' : tnpSample('data_Run2016H_rec', eosDirREC + 'data/TnPTree_SingleElectron_2016prompt_RunH.root', lumi = 8.762),
     }
 
-Moriond17_80X_prompt = {
-    'DY_madgraph' : tnpSample('DY_madgraph', eosDir1 + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_DYToLL_madgraph.root', 
-                              isMC = True, nEvts = 33584160 ),
-    'data_Run2016B' : tnpSample('data_Run2016B' , eosDir2 + 'data/TnPTree_SingleElectron_2016prompt_RunB.root' , lumi = -1 ),
-    'data_Run2016C' : tnpSample('data_Run2016C' , eosDir2 + 'data/TnPTree_SingleElectron_2016prompt_RunC.root' , lumi = -1 ),
-    'data_Run2016D' : tnpSample('data_Run2016D' , eosDir2 + 'data/TnPTree_SingleElectron_2016prompt_RunD.root' , lumi = -1 ),
-    'data_Run2016F' : tnpSample('data_Run2016F' , eosDir2 + 'data/TnPTree_SingleElectron_2016prompt_RunF.root' , lumi = -1 ),
-    'data_Run2016G' : tnpSample('data_Run2016G' , eosDir2 + 'data/TnPTree_SingleElectron_2016prompt_RunG.root' , lumi = -1 ),
-    'data_Run2016H' : tnpSample('data_Run2016H' , eosDir2 + 'data/TnPTree_SingleElectron_2016prompt_RunH.root' , lumi = -1 ),
+UL2018 = {
+    ### MiniAOD TnP for IDs scale factors
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosUL2018 + 'DYJetsToLL_madgraphMLM.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
+                                       eosUL2018 + 'DYJetsToLL_amcatnloFXFX.root',
+                                       isMC = True, nEvts =  -1 ),
+
+
+    'data_Run2018A' : tnpSample('data_Run2018A' , eosUL2018 + 'EGamma_RunA.root' , lumi = 14.02672485),
+    'data_Run2018B' : tnpSample('data_Run2018B' , eosUL2018 + 'EGamma_RunB.root' , lumi = 7.060617355),
+    'data_Run2018C' : tnpSample('data_Run2018C' , eosUL2018 + 'EGamma_RunC.root' , lumi = 6.894770971),
+    'data_Run2018D' : tnpSample('data_Run2018D' , eosUL2018 + 'EGamma_RunD.root' , lumi = 31.74220577),
     }
 
 
+UL2016_preVFP = {
+    ### MiniAOD TnP for IDs scale factors
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosUL2016 + 'DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_preVFP_UL2016.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
+                                       eosUL2016 + 'DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_preVFP_UL2016.root',
+                                       isMC = True, nEvts =  -1 ),
 
-### for this round eleIDs, phoIDs, trigger trees are included in the same file
-eosDir = 'eos/cms/store/group/phys_egamma/tnp/80X/76Xids/AllIDs_v0/'
-Ichep2016_80X = {
-    'DY_amcatnlo' : tnpSample('DY_amcatnlo', eosDir+'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_DYToLL_mcAtNLO.root', isMC = True, nEvts = 28696958 ),
-    'DY_madgraph' : tnpSample('DY_madgraph', eosDir+'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root'           , isMC = True, nEvts = 44716638 ),
-    'Wjets'       : tnpSample('Wjets'      , eosDir+'mc/TnPTree_WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_WJets_madgraph.root' , isMC = True, nEvts = 28062407 ),
-    'ttbar'       : tnpSample('ttbar'      , eosDir+'mc/TnPTree_TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ttbar_madgraph.root'     , isMC = True, nEvts = 10215131 ),
-    'data_Run2016B' : tnpSample('data_Run2016B' , eosDir+'data/TnPTree_SingleElectron_Run2016B.root' , lumi = 5.884 ),
-    'data_Run2016C' : tnpSample('data_Run2016C' , eosDir+'data/TnPTree_SingleElectron_Run2016C.root' , lumi = 2.646 ),
-    'data_Run2016D' : tnpSample('data_Run2016D' , eosDir+'data/TnPTree_SingleElectron_Run2016D.root' , lumi = 4.353 ),
-}
 
-eosDir_v0 = 'eos/cms/store/group/phys_egamma/tnp/80X/'
-ICHEP2016 = {
-    'mc_DY_madgraph_ele' : tnpSample('mc_DY_madgraph_ele', eosDir_v0 + 'Photons_76Xids/elev2/mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root' ,
-                                     isMC = True, nEvts = 36311064 ),
-    'mc_DY_amcatnlo_ele' : tnpSample('mc_DY_amcatnlo_ele', eosDir_v0 + 'Photons_76Xids/elev2/mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root',
-                                     isMC = True, nEvts = 28696958 ),
-    'mc_DY_madgraph_pho' : tnpSample('mc_DY_madgraph_pho', eosDir_v0 + 'Photons_76Xids/phov2/mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root' ,
-                                     isMC = True, nEvts = 41253879 ),
-    'mc_DY_amcatnlo_pho' : tnpSample('mc_DY_amcatnlo_pho', eosDir_v0 + 'Photons_76Xids/phov2/mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root',
-                                     isMC = True, nEvts = 28696958 ),
-    'mc_Wjets_madgraph_pho' : tnpSample('mc_Wjets_madgraph_pho', eosDir_v0 + 'Photons_76Xids/phov2/mc/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root'        , 
-                                        isMC = True, nEvts = 999 ),
-    'mc_DY_madgraph_rec' : tnpSample('mc_DY_madgraph_rec', eosDir_v0 + 'RecoSF/RECOv3/mc//TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root'       ,
-                                     isMC = True, nEvts = 49877138 ),
-    'mc_DY_amcatnlo_rec' : tnpSample('mc_DY_amcatnlo_rec', eosDir_v0 + 'RecoSF/RECOv3/mc//TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root'      , 
-                                     isMC = True, nEvts = 28328619 ),
-    'data_2016_runB_ele' :  tnpSample('data_2016_runB_ele', eosDir_v0 + 'Photons_76Xids/elev2/data/TnPTree_SingleElectron_2016_RunB.root' , lumi = 5.709 ),
-    'data_2016_runC_ele' :  tnpSample('data_2016_runC_ele', eosDir_v0 + 'Photons_76Xids/elev3/data/TnPTree_SingleElectron_2016_RunC.root' , lumi = 2.646 ),
-    'data_2016_runD_ele' :  tnpSample('data_2016_runD_ele', eosDir_v0 + 'Photons_76Xids/elev3/data/TnPTree_SingleElectron_2016_RunD.root' , lumi = 4.330 ),
-    'data_2016_runB_pho' :  tnpSample('data_2016_runB_pho', eosDir_v0 + 'Photons_76Xids/phov2/data/TnPTree_SingleElectron_2016_RunB.root' , lumi = 5.900 ),
-    'data_2016_runC_pho' :  tnpSample('data_2016_runC_pho', eosDir_v0 + 'Photons_76Xids/phov3/data/TnPTree_SingleElectron_2016_RunC.root' , lumi = 2.646 ),
-    'data_2016_runD_pho' :  tnpSample('data_2016_runD_pho', eosDir_v0 + 'Photons_76Xids/phov3/data/TnPTree_SingleElectron_2016_RunD.root' , lumi = 4.330 ),
-    'data_2016_runB_rec' :  tnpSample('data_2016_runB_rec', eosDir_v0 + 'RecoSF/RECOv3/data//TnPTree_SingleElectron_2016_RunB.root'       , lumi = 5.237 ),
-    'data_2016_runC_rec' :  tnpSample('data_2016_runC_rec', eosDir_v0 + 'RecoSF/RECOv4/data//TnPTree_SingleElectron_2016_RunC.root'       , lumi = 2.646 ),
-    'data_2016_runD_rec' :  tnpSample('data_2016_runD_rec', eosDir_v0 + 'RecoSF/RECOv5/data//TnPTree_SingleElectron_2016_RunD.root'       , lumi = 4.313 ),
-}
+    'data_Run2016B' : tnpSample('data_Run2016B' , eosUL2016 + 'UL2016_SingleEle_Run2016B.root' , lumi = 0.030493962),
+    'data_Run2016B_ver2' : tnpSample('data_Run2016B_ver2' , eosUL2016 + 'UL2016_SingleEle_Run2016B_ver2.root' , lumi = 5.879330594),
+    'data_Run2016C' : tnpSample('data_Run2016C' , eosUL2016 + 'UL2016_SingleEle_Run2016C.root' , lumi = 2.64992914),
+    'data_Run2016D' : tnpSample('data_Run2016D' , eosUL2016 + 'UL2016_SingleEle_Run2016D.root' , lumi = 4.292865604),
+    'data_Run2016E' : tnpSample('data_Run2016E' , eosUL2016 + 'UL2016_SingleEle_Run2016E.root' , lumi = 4.185165152),
+    'data_Run2016F' : tnpSample('data_Run2016F' , eosUL2016 + 'UL2016_SingleEle_Run2016F.root' , lumi = 2.725508364),
+    }
+
+UL2016_postVFP = {
+    ### MiniAOD TnP for IDs scale factors
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosUL2016 + 'DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_postVFP_UL2016.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
+                                       eosUL2016 + 'DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_postVFP_UL2016.root',
+                                       isMC = True, nEvts =  -1 ),
+
+
+    'data_Run2016F_postVFP' : tnpSample('data_Run2016F_postVFP' , eosUL2016 + 'UL2016_SingleEle_Run2016F_postVFP.root' , lumi = 0.414987426),
+    'data_Run2016G' : tnpSample('data_Run2016G' , eosUL2016 + 'UL2016_SingleEle_Run2016G.root' , lumi = 7.634508755),
+    'data_Run2016H' : tnpSample('data_Run2016H' , eosUL2016 + 'UL2016_SingleEle_Run2016H.root' , lumi = 8.802242522),
+    }

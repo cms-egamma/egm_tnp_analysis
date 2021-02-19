@@ -29,9 +29,9 @@ public:
   tnpFitter( TH1 *hPass, TH1 *hFail, std::string histname  );
   ~tnpFitter(void) {if( _work != 0 ) delete _work; }
   void setZLineShapes(TH1 *hZPass, TH1 *hZFail );
-  void setWorkspace(std::vector<std::string>);
+  void setWorkspace(std::vector<std::string>, bool isaddGaus=false);
   void setOutputFile(TFile *fOut ) {_fOut = fOut;}
-  void fits(bool mcTruth,std::string title = "");
+  void fits(bool mcTruth,std::string title = "", bool isaddGaus=false);
   void useMinos(bool minos = true) {_useMinos = minos;}
   void textParForCanvas(RooFitResult *resP, RooFitResult *resF, TPad *p);
   
@@ -109,7 +109,7 @@ void tnpFitter::setZLineShapes(TH1 *hZPass, TH1 *hZFail ) {
   _work->import(rooFail) ;  
 }
 
-void tnpFitter::setWorkspace(std::vector<std::string> workspace) {
+void tnpFitter::setWorkspace(std::vector<std::string> workspace, bool isaddGaus) {
   for( unsigned icom = 0 ; icom < workspace.size(); ++icom ) {
     _work->factory(workspace[icom].c_str());
   }
@@ -123,11 +123,17 @@ void tnpFitter::setWorkspace(std::vector<std::string> workspace) {
   _work->factory(TString::Format("nSigF[%f,0.5,%f]",_nTotF*0.9,_nTotF*1.5));
   _work->factory(TString::Format("nBkgF[%f,0.5,%f]",_nTotF*0.1,_nTotF*1.5));
   _work->factory("SUM::pdfPass(nSigP*sigPass,nBkgP*bkgPass)");
-  _work->factory("SUM::pdfFail(nSigF*sigFail,nBkgF*bkgFail)");
+  
+  if (isaddGaus) {
+    _work->factory("SUM::pdfFail(expr('sigFracF*nSigF',{sigFracF,nSigF})*sigFail,nBkgF*bkgFail, expr('(1.-sigFracF)*nSigF',{sigFracF,nSigF})*sigGaussFail)");
+  } 
+  else {
+    _work->factory("SUM::pdfFail(nSigF*sigFail,nBkgF*bkgFail)");
+  }
   _work->Print();			         
 }
 
-void tnpFitter::fits(bool mcTruth,string title) {
+void tnpFitter::fits(bool mcTruth,string title, bool isaddGaus) {
 
   cout << " title : " << title << endl;
 
@@ -165,7 +171,6 @@ void tnpFitter::fits(bool mcTruth,string title) {
   _work->var("sigmaF")->setRange(0.8* _work->var("sigmaP")->getVal(), 3.0* _work->var("sigmaP")->getVal());
   RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minos(_useMinos),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
   //RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minos(_useMinos),SumW2Error(kTRUE),Save());
-
 
   RooPlot *pPass = _work->var("x")->frame(60,120);
   RooPlot *pFail = _work->var("x")->frame(60,120);
