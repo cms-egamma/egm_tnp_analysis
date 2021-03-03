@@ -9,13 +9,13 @@ Table of Contents
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
-# Install stable branch
+# Install stable branch (Modified by Nurfikri)
 
 ```bash
 cmsrel CMSSW_10_6_8
 cd CMSSW_10_6_8/src
 cmsenv
-git clone git@github.com:cms-egamma/egm_tnp_analysis.git
+git clone -b VVllqq git@github.com:nurfikri89/egm_tnp_analysis.git
 cd egm_tnp_analysis
 make 
 ```
