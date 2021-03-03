@@ -90,8 +90,13 @@ def histPlotter( filename, tnpBin, plotDir ):
 
 def computeEffi( n1,n2,e1,e2):
     effout = []
-    eff   = n1/(n1+n2)
-    e_eff = 1/(n1+n2)*math.sqrt(e1*e1*n2*n2+e2*e2*n1*n1)/(n1+n2)
+    if (n1+n2 > 0):
+        eff   = n1/(n1+n2)
+        e_eff = 1/(n1+n2)*math.sqrt(e1*e1*n2*n2+e2*e2*n1*n1)/(n1+n2)
+    else:
+        eff = 0.01
+        e_eff = 0.1
+
     if e_eff < 0.001 : e_eff = 0.001
 
     effout.append(eff)

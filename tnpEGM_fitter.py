@@ -185,10 +185,14 @@ if args.sumUp:
         'dataNominal' : sampleToFit.nominalFit,
         'dataAltSig'  : sampleToFit.altSigFit ,
         'dataAltBkg'  : sampleToFit.altBkgFit ,
+        'dataAltSig'  : None ,
+        'dataAltBkg'  : None ,
         'mcNominal'   : sampleToFit.mcRef.histFile,
         'mcAlt'       : None,
         'tagSel'      : None
         }
+
+    print sampleToFit.mcRef.histFile
 
     if not tnpConf.samplesDef['mcAlt' ] is None:
         info['mcAlt'    ] = tnpConf.samplesDef['mcAlt' ].histFile
