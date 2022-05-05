@@ -5,6 +5,7 @@ import os
 import sys
 import pickle
 import shutil
+from multiprocessing import Pool
 
 
 parser = argparse.ArgumentParser(description='tnp EGM fitter')
@@ -93,9 +94,9 @@ if args.createHists:
 
     import libPython.histUtils as tnpHist
 
-    for sampleType in tnpConf.samplesDef.keys():
+    def parallel_hists(sampleType):
         sample =  tnpConf.samplesDef[sampleType]
-        if sample is None : continue
+        if sample is None : return
         if sampleType == args.sample or args.sample == 'all' :
             print 'creating histogram for sample '
             sample.dump()
@@ -103,6 +104,9 @@ if args.createHists:
             if sample.mcTruth:
                 var = { 'name' : 'pair_mass', 'nbins' : 80, 'min' : 50, 'max': 130 }
             tnpHist.makePassFailHistograms( sample, tnpConf.flags[args.flag], tnpBins, var )
+    
+    pool = Pool()
+    pool.map(parallel_hists, tnpConf.samplesDef.keys())
 
     sys.exit(0)
 
@@ -136,7 +140,7 @@ if args.mcSig :
 
 if  args.doFit:
     sampleToFit.dump()
-    for ib in range(len(tnpBins['bins'])):
+    def parallel_fit(ib):
         if (args.binNumber >= 0 and ib == args.binNumber) or args.binNumber < 0:
             if args.altSig and not args.addGaus:
                 tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit )
@@ -146,6 +150,8 @@ if  args.doFit:
                 tnpRoot.histFitterAltBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltBkgFit )
             else:
                 tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFit )
+    pool = Pool()
+    pool.map(parallel_fit, range(len(tnpBins['bins'])))
 
     args.doPlot = True
      
@@ -162,6 +168,8 @@ if  args.doPlot:
         fileName = sampleToFit.altBkgFit
         fitType  = 'altBkgFit'
         
+    os.system('hadd -f %s %s' % (fileName, fileName.replace('.root', '-*.root')))
+
     plottingDir = '%s/plots/%s/%s' % (outputDirectory,sampleToFit.name,fitType)
     if not os.path.exists( plottingDir ):
         os.makedirs( plottingDir )
