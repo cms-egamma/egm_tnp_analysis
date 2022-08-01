@@ -183,3 +183,46 @@ The settings (for example [settings_pho_UL2017.py](etc/config/settings_pho_UL201
 ```bash
 export  PYTHONPATH=$PYTHONPATH:/afs/cern.ch/user/s/soffi/scratch0/TEST/CMSSW-10-0-0-pre3/src/egm_tnp_analysis 
 ```
+
+# Notes from Ruole Yi
+The process of Tag&probe analysis
+
+1. Make tnptree https://github.com/sethcooper/EgammaAnalysis-TnPTreeProducer
+* Dataset: https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmVRun2LegacyAnalysis NLO sample https://cms-pdmv.cern.ch/grasp/samples?dataset_query=*DYJetsToLL_LHEFilterPtZ*&campaign=RunIISummer20UL16*GEN,RunIISummer20UL16*GENAPV,RunIISummer20UL17*GEN,RunIISummer20UL18*GEN
+* Setup tree structure: https://github.com/sethcooper/EgammaAnalysis-TnPTreeProducer/blob/legacyTriggerScaleFactorsLQ/python/TnPTreeProducer_cfg.py
+* Use file to submit job to crab: https://github.com/sethcooper/EgammaAnalysis-TnPTreeProducer/blob/legacyTriggerScaleFactorsLQ/crab/tnpCrabSubmit.py
+* Submit to crab: crab submit -c tnpCrabSubmit.py
+* If wanna kill job: crab kill + path of output file 
+* Summit failed job: first check job status then `crab resubmit`
+* Check output: login cmslpc check /eos/uscms/store/user/ryi/LQ/TnP/
+* Combine crab output:https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3AdvancedTopic#Merging_output_files or use hadd mergedfile.root out_file_*.root (先开启cmssw-cmsenv)
+* Cmslpc-eos 的job可以转移到lxplus-afs 的cern box：/eos/user/r/ryi
+scp /eos/uscms/store/user/ryi/LQ/TnP/2018UL-DY-LO-ext.root  ryi@lxplus.cern.ch:/eos/user/r/ryi/TagandProbe/TnP2017/
+
+
+2. Analyse tnptree https://github.com/sethcooper/egm_tnp_analysis 
+* Cmsenv first 
+* python tnpEGM_fitter.py etc/config/settings_passTrigger.py
+* python tnpEGM_fitter.py etc/config/settings_passTrigger.py  --flag passingTrigger --createBins
+* python tnpEGM_fitter.py etc/config/settings_passTrigger.py  --flag passingTrigger --checkBins
+* python tnpEGM_fitter.py etc/config/settings_passTrigger.py --flag passingTrigger --createHists
+
+nominal fit
+python tnpEGM_fitter.py etc/config/settings_passTrigger.py --flag passingTrigger --doFit
+
+MC fit to constrain alternate signal parameters
+python tnpEGM_fitter.py etc/config/settings_passTrigger.py --flag passingTrigger --doFit --mcSig  --altSig --addGaus
+
+Alternate signal fit
+python tnpEGM_fitter.py etc/config/settings_passTrigger.py --flag passingTrigger --doFit  --altSig --addGaus
+
+Alternate background fit
+python tnpEGM_fitter.py etc/config/settings_passTrigger.py --flag passingTrigger --doFit  --altBkg
+
+Check fits and redo failed ones
+python tnpEGM_fitter.py etc/config/settings_passTrigger.py --flag passingTrigger --doFit --iBin ib
+
+egm txt ouput file
+* python tnpEGM_fitter.py etc/config/settings_passTrigger.py --flag passingTrigger --sumUp
+ 
+
