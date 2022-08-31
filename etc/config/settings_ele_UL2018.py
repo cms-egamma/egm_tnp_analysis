@@ -32,9 +32,9 @@ tnpTreeDir = 'tnpEleIDs'
 
 samplesDef = {
     'data'   : tnpSamples.UL2018['data_Run2018A'].clone(),
-    'mcNom'  : tnpSamples.UL2018['DY_madgraph'].clone(),
-    'mcAlt'  : tnpSamples.UL2018['DY_amcatnloext'].clone(),
-    'tagSel' : tnpSamples.UL2018['DY_madgraph'].clone(),
+    'mcNom'  : tnpSamples.UL2018['DY_amcatnloext'].clone(),
+    'mcAlt'  : tnpSamples.UL2018['DY_madgraph'].clone(),
+    'tagSel' : tnpSamples.UL2018['DY_amcatnloext'].clone(),
 }
 
 ## can add data sample easily
@@ -56,23 +56,18 @@ if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_mcTruth()
 if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_mcTruth()
 if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_mcTruth()
 if not samplesDef['tagSel'] is None:
-    samplesDef['tagSel'].rename('mcAltSel_DY_madgraph')
+    samplesDef['tagSel'].rename('mcAltSel_DY_amcatnloext')
     samplesDef['tagSel'].set_cut('tag_Ele_pt > 37') #canceled non trig MVA cut
 
-## set MC weight, simple way (use tree weight) 
-#weightName = 'totWeight'
-#if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_weight(weightName)
-#if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_weight(weightName)
-#if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_weight(weightName)
 
 ## set MC weight, can use several pileup rw for different data taking periods
 weightName = 'weights_2018_runABCD.totWeight'
 if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_weight(weightName)
 if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_weight(weightName)
 if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_weight(weightName)
-if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_puTree('/eos/cms/store/group/phys_egamma/asroy/Tag-and-Probe_Tree/UL2018_MINIAOD_Nm1/PU_Trees/DY_madgraph_ele.pu.puTree.root')
-if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_puTree('/eos/cms/store/group/phys_egamma/asroy/Tag-and-Probe_Tree/UL2018_MINIAOD_Nm1/PU_Trees/DY_amcatnloext_ele.pu.puTree.root')
-if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_puTree('/eos/cms/store/group/phys_egamma/asroy/Tag-and-Probe_Tree/UL2018_MINIAOD_Nm1/PU_Trees/DY_madgraph_ele.pu.puTree.root')
+if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_puTree('/eos/cms/store/group/phys_egamma/asroy/Tag-and-Probe_Tree/UL2018_MINIAOD_Nm1/PU_Trees/DY_amcatnloext_ele.pu.puTree.root')
+if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_puTree('/eos/cms/store/group/phys_egamma/asroy/Tag-and-Probe_Tree/UL2018_MINIAOD_Nm1/PU_Trees/DY_madgraph_ele.pu.puTree.root')
+if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_puTree('/eos/cms/store/group/phys_egamma/asroy/Tag-and-Probe_Tree/UL2018_MINIAOD_Nm1/PU_Trees/DY_amcatnloext_ele.pu.puTree.root')
 
 
 #############################################################
@@ -80,7 +75,6 @@ if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_puTree('/eos/cms/s
 #############################################################
 biningDef = [
    { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
-#   { 'var' : 'el_pt' , 'type': 'float', 'bins': [10,20,35,50,100,500] },
    { 'var' : 'el_pt' , 'type': 'float', 'bins': [10,20,35,50,100,200,500] },
 
 
@@ -92,20 +86,6 @@ biningDef = [
 ### cut
 cutBase   = 'tag_Ele_pt > 35 && abs(tag_sc_eta) < 2.17 && el_q*tag_Ele_q < 0'
 
-# can add addtionnal cuts for some bins (first check bin number using tnpEGM --checkBins)
-#LS: we removed the met cuts cause JEC not ready for UL2018
-#additionalCuts = { 
-#    0 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45',
-#    1 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45',
-#    2 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45',
-#    3 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45',
-#    4 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45',
-#    5 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45',
-#    6 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45',
-#    7 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45',
-#    8 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45',
-#    9 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*tag_Ele_pt*(1-cos(event_met_pfphi-tag_Ele_phi))) < 45'
-#}
 additionalCuts = { 
     0 : 'tag_Ele_trigMVA > 0.92 ',
     1 : 'tag_Ele_trigMVA > 0.92 ',
