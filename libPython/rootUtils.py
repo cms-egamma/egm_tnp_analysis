@@ -1,7 +1,7 @@
 import ROOT as rt
 import math
 from fitUtils import *
-#from fitSimultaneousUtils import *
+import ctypes
 
 def removeNegativeBins(h):
     for i in xrange(h.GetNbinsX()):
@@ -64,10 +64,10 @@ def makePassFailHistograms( sample, flag, bindef, var ):
 
         bin1 = 1
         bin2 = hPass[ib].GetXaxis().GetNbins()
-        epass = rt.Double(-1.0)
-        efail = rt.Double(-1.0)
-        passI = hPass[ib].IntegralAndError(bin1,bin2,epass)
-        failI = hFail[ib].IntegralAndError(bin1,bin2,efail)
+        epass = -1.0
+        efail = -1.0
+        passI = hPass[ib].IntegralAndError(bin1,bin2,ctypes.c_double(epass))
+        failI = hFail[ib].IntegralAndError(bin1,bin2,ctypes.c_double(efail))
         eff   = 0
         e_eff = 0
         if passI > 0 :
@@ -111,10 +111,10 @@ def getAllEffi( info, bindef ):
         #bin2 = hP.GetXaxis().GetNbins()
         bin1 = 11
         bin2 = 70
-        eP = rt.Double(-1.0)
-        eF = rt.Double(-1.0)
-        nP = hP.IntegralAndError(bin1,bin2,eP)
-        nF = hF.IntegralAndError(bin1,bin2,eF)
+        eP = -1.
+        eF = -1.
+        nP = hP.IntegralAndError(bin1,bin2,ctypes.c_double(eP))
+        nF = hF.IntegralAndError(bin1,bin2,ctypes.c_double(eF))
 
         effis['mcNominal'] = computeEffi(nP,nF,eP,eF)
         rootfile.Close()
@@ -128,10 +128,10 @@ def getAllEffi( info, bindef ):
       #  bin2 = hP.GetXaxis().GetNbins()
         bin1 = 11
         bin2 = 70
-        eP = rt.Double(-1.0)
-        eF = rt.Double(-1.0)
-        nP = hP.IntegralAndError(bin1,bin2,eP)
-        nF = hF.IntegralAndError(bin1,bin2,eF)
+        eP = -1.
+        eF = -1.
+        nP = hP.IntegralAndError(bin1,bin2,ctypes.c_double(eP))
+        nF = hF.IntegralAndError(bin1,bin2,ctypes.c_double(eF))
 
         effis['tagSel'] = computeEffi(nP,nF,eP,eF)
         rootfile.Close()
@@ -145,10 +145,10 @@ def getAllEffi( info, bindef ):
         #bin2 = hP.GetXaxis().GetNbins()
         bin1 = 11
         bin2 = 70
-        eP = rt.Double(-1.0)
-        eF = rt.Double(-1.0)
-        nP = hP.IntegralAndError(bin1,bin2,eP)
-        nF = hF.IntegralAndError(bin1,bin2,eF)
+        eP = -1.
+        eF = -1.
+        nP = hP.IntegralAndError(bin1,bin2,ctypes.c_double(eP))
+        nF = hF.IntegralAndError(bin1,bin2,ctypes.c_double(eF))
 
         effis['mcAlt'] = computeEffi(nP,nF,eP,eF)
         rootfile.Close()
