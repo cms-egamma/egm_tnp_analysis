@@ -173,8 +173,8 @@ def getAllEffi( info, bindef ):
         hP = rootfile.Get('%s_Pass'%bindef['name'])
         hF = rootfile.Get('%s_Fail'%bindef['name'])
 
-        if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
-        if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
+        #if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
+        #if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
         rootfile.Close()
 
         effis['dataNominal'] = computeEffi(nP,nF,eP,eF)
@@ -196,8 +196,8 @@ def getAllEffi( info, bindef ):
         hP = rootfile.Get('%s_Pass'%bindef['name'])
         hF = rootfile.Get('%s_Fail'%bindef['name'])
 
-        if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
-        if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
+        #if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
+        #if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
         rootfile.Close()
 
         effis['dataAltSig'] = computeEffi(nP,nF,eP,eF)
@@ -221,8 +221,8 @@ def getAllEffi( info, bindef ):
         hP = rootfile.Get('%s_Pass'%bindef['name'])
         hF = rootfile.Get('%s_Fail'%bindef['name'])
 
-        if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
-        if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
+        #if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
+        #if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
         rootfile.Close()
 
         effis['dataAltBkg'] = computeEffi(nP,nF,eP,eF)

@@ -198,8 +198,8 @@ if args.sumUp:
         'tagSel'      : None
         }
 
-    if not tnpConf.samplesDef['mcAlt' ] is None:
-        info['mcAlt'    ] = tnpConf.samplesDef['mcAlt' ].histFile
+    #if not tnpConf.samplesDef['mcAlt' ] is None:
+    #    info['mcAlt'    ] = tnpConf.samplesDef['mcAlt' ].histFile
     if not tnpConf.samplesDef['tagSel'] is None:
         info['tagSel'   ] = tnpConf.samplesDef['tagSel'].histFile
 
@@ -221,7 +221,7 @@ if args.sumUp:
             print astr
             fOut.write( astr + '\n' )
             
-        astr =  '%+8.3f\t%+8.3f\t%+8.3f\t%+8.3f\t%5.3f\t%5.3f\t%5.3f\t%5.3f\t%5.3f\t%5.3f\t%5.3f\t%5.3f' % (
+        astr =  '%+8.5f\t%+8.5f\t%+8.5f\t%+8.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f' % (
             float(v1Range[0]), float(v1Range[2]),
             float(v2Range[0]), float(v2Range[2]),
             effis['dataNominal'][0],effis['dataNominal'][1],

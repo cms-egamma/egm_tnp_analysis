@@ -15,6 +15,8 @@ eosUL2016preVFP  = '/eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-
 eosUL2016postVFP = '/eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-10/UL2016postVFP/merged/'
 eosUL2017 = '/eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2017/merged/'
 eosUL2018 = '/eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2018/merged/'
+#Run3
+eosRun3 = '/eos/cms/store/group/phys_egamma/ec/fmausolf/EGM_comm/'
 
 
 ReReco2017 = {
@@ -142,3 +144,52 @@ UL2018 = {
     'data_Run2018D' : tnpSample('data_Run2018D' , eosUL2018 + 'Run2018D.root' , lumi = 31.74220577),
 }
 
+Run3 = {
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosRun3 + 'DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8_EleID_PhoID/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8_EleID_PhoID/221018_080249/0000/merged.root',
+                                       isMC = True, nEvts =  -1 ),
+#    'DY_amcatnlo'                 : tnpSample('DY_amcatnlo',
+#                                       eosUL2017 + 'DYJetsToLLM50amcatnloFXFX.root',
+#                                       isMC = True, nEvts =  -1 ),
+#    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
+#                                       eosUL2017 + 'DYJetsToLL_amcatnloFXFX.root',
+#                                       isMC = True, nEvts =  -1 ),
+
+
+    'data_Run3B' : tnpSample('data_Run3B' , eosRun3 + 'ntuple_Run3_data_2022B_EleID_PhoID/data/EGamma/crab_Egamma2022B_EleID_PhoID/221012_155735/0000/merged.root' , lumi = 0.086),
+    'data_Run3C' : tnpSample('data_Run3C' , eosRun3 + 'ntuple_Run3_data_2022C_EleID_PhoID/data/EGamma/crab_Egamma2022C_EleID_PhoID/221014_145533/0000/merged.root' , lumi = 4.45),
+    'data_Run3D' : tnpSample('data_Run3D' , eosRun3 + 'ntuple_Run3_data_2022D_EleID_PhoID/data/EGamma/crab_Egamma2022D_EleID_PhoID/221014_145636/0000/merged.root' , lumi = 0.912),
+    'data_Run3E' : tnpSample('data_Run3E' , eosRun3 + 'ntuple_Run3_data_2022E_EleID_PhoID/data/EGamma/crab_Egamma2022E_EleID_PhoID/221018_073725/0000/merged.root' , lumi = 2.08),
+    'data_Run3F' : tnpSample('data_Run3F' , eosRun3 + 'ntuple_Run3_data_2022F_EleID_PhoID/data/EGamma/crab_Egamma2022F_EleID_PhoID/221114_171125/0000/merged.root' , lumi = 4.99),
+    'data_Run3G' : tnpSample('data_Run3G' , eosRun3 + 'ntuple_Run3_data_2022G_EleID_PhoID/data/EGamma/crab_Egamma2022G_EleID_PhoID/221211_201213/0000/merged.root' , lumi = 2.43),
+}
+
+PS_ON = {
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosRun3 + 'TnP_DY_NLO_MC_Run3Winter22/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/TnP_DY_NLO_MC_Run3Winter22/220812_091911/0000/merged.root ',
+                                       isMC = True, nEvts =  -1 ),
+#    'DY_amcatnlo'                 : tnpSample('DY_amcatnlo',
+#                                       eosUL2017 + 'DYJetsToLLM50amcatnloFXFX.root',
+#                                       isMC = True, nEvts =  -1 ),
+#    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
+#                                       eosUL2017 + 'DYJetsToLL_amcatnloFXFX.root',
+#                                       isMC = True, nEvts =  -1 ),
+
+
+    'PS_ON_Run' : tnpSample('PS_ON_Run' , eosRun3 + 'ntuple_Run3_data_2022D_357705/data/EGamma/crab_Egamma2022D_357705/220830_173054/0000/merged.root' , lumi = 0.038),
+}
+
+PS_OFF = {
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosRun3 + 'TnP_DY_NLO_MC_Run3Winter22/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/TnP_DY_NLO_MC_Run3Winter22/220812_091911/0000/merged.root ',
+                                       isMC = True, nEvts =  -1 ),
+#    'DY_amcatnlo'                 : tnpSample('DY_amcatnlo',
+#                                       eosUL2017 + 'DYJetsToLLM50amcatnloFXFX.root',
+#                                       isMC = True, nEvts =  -1 ),
+#    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
+#                                       eosUL2017 + 'DYJetsToLL_amcatnloFXFX.root',
+#                                       isMC = True, nEvts =  -1 ),
+
+
+    'PS_OFF_Run' : tnpSample('PS_OFF_Run' , eosRun3 + 'ntuple_Run3_data_2022D_357704/data/EGamma/crab_Egamma2022D_357704/220830_173016/0000/merged.root' , lumi = 0.017),
+}
