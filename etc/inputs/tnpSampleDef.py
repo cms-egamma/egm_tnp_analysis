@@ -163,33 +163,3 @@ Run3 = {
     'data_Run3F' : tnpSample('data_Run3F' , eosRun3 + 'ntuple_Run3_data_2022F_EleID_PhoID/data/EGamma/crab_Egamma2022F_EleID_PhoID/221114_171125/0000/merged.root' , lumi = 4.99),
     'data_Run3G' : tnpSample('data_Run3G' , eosRun3 + 'ntuple_Run3_data_2022G_EleID_PhoID/data/EGamma/crab_Egamma2022G_EleID_PhoID/221211_201213/0000/merged.root' , lumi = 2.43),
 }
-
-PS_ON = {
-    'DY_madgraph'              : tnpSample('DY_madgraph',
-                                       eosRun3 + 'TnP_DY_NLO_MC_Run3Winter22/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/TnP_DY_NLO_MC_Run3Winter22/220812_091911/0000/merged.root ',
-                                       isMC = True, nEvts =  -1 ),
-#    'DY_amcatnlo'                 : tnpSample('DY_amcatnlo',
-#                                       eosUL2017 + 'DYJetsToLLM50amcatnloFXFX.root',
-#                                       isMC = True, nEvts =  -1 ),
-#    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
-#                                       eosUL2017 + 'DYJetsToLL_amcatnloFXFX.root',
-#                                       isMC = True, nEvts =  -1 ),
-
-
-    'PS_ON_Run' : tnpSample('PS_ON_Run' , eosRun3 + 'ntuple_Run3_data_2022D_357705/data/EGamma/crab_Egamma2022D_357705/220830_173054/0000/merged.root' , lumi = 0.038),
-}
-
-PS_OFF = {
-    'DY_madgraph'              : tnpSample('DY_madgraph',
-                                       eosRun3 + 'TnP_DY_NLO_MC_Run3Winter22/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/TnP_DY_NLO_MC_Run3Winter22/220812_091911/0000/merged.root ',
-                                       isMC = True, nEvts =  -1 ),
-#    'DY_amcatnlo'                 : tnpSample('DY_amcatnlo',
-#                                       eosUL2017 + 'DYJetsToLLM50amcatnloFXFX.root',
-#                                       isMC = True, nEvts =  -1 ),
-#    'DY_amcatnloext'                 : tnpSample('DY_amcatnloext',
-#                                       eosUL2017 + 'DYJetsToLL_amcatnloFXFX.root',
-#                                       isMC = True, nEvts =  -1 ),
-
-
-    'PS_OFF_Run' : tnpSample('PS_OFF_Run' , eosRun3 + 'ntuple_Run3_data_2022D_357704/data/EGamma/crab_Egamma2022D_357704/220830_173016/0000/merged.root' , lumi = 0.017),
-}
