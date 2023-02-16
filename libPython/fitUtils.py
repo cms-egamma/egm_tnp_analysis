@@ -128,7 +128,7 @@ def histFitterNominal( sample, tnpBin, tnpWorkspaceParam ):
     title = tnpBin['title'].replace(';',' - ')
     title = title.replace('probe_sc_eta','#eta_{SC}')
     title = title.replace('probe_Ele_pt','p_{T}')
-    fitter.fits(sample.mcTruth,title)
+    fitter.fits(sample.mcTruth,sample.isMC,title)
     rootfile.Close()
 
 
@@ -188,7 +188,7 @@ def histFitterAltSig( sample, tnpBin, tnpWorkspaceParam, isaddGaus=0 ):
     title = tnpBin['title'].replace(';',' - ')
     title = title.replace('probe_sc_eta','#eta_{SC}')
     title = title.replace('probe_Ele_pt','p_{T}')
-    fitter.fits(sample.mcTruth,title, isaddGaus)
+    fitter.fits(sample.mcTruth,sample.isMC,title, isaddGaus)
 
     rootfile.Close()
 
@@ -243,7 +243,7 @@ def histFitterAltBkg( sample, tnpBin, tnpWorkspaceParam ):
     title = tnpBin['title'].replace(';',' - ')
     title = title.replace('probe_sc_eta','#eta_{SC}')
     title = title.replace('probe_Ele_pt','p_{T}')
-    fitter.fits(sample.mcTruth,title)
+    fitter.fits(sample.mcTruth,sample.isMC,title)
     rootfile.Close()
 
 
