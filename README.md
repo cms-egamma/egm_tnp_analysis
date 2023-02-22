@@ -1,5 +1,5 @@
 Table of Contents
-=================
+================
 
    * [Install stable branch](#install-stable-branch)
    * [Quick description](#quick-description)
