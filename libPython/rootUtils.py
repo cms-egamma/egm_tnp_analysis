@@ -29,7 +29,7 @@ def makePassFailHistograms( sample, flag, bindef, var ):
         hFail.append(rt.TH1D('%s_Fail' % bindef['bins'][ib]['name'],bindef['bins'][ib]['title'],var['nbins'],var['min'],var['max']))
         hPass[ib].Sumw2()
         hFail[ib].Sumw2()
-    
+
         cuts = bindef['bins'][ib]['cut']
         if sample.mcTruth :
             cuts = '%s && mcTrue==1' % cuts
@@ -51,11 +51,11 @@ def makePassFailHistograms( sample, flag, bindef, var ):
         else:
             cutPass = '( %s && %s )' % (cuts,    flag)
             cutFail = '( %s && %s )' % (cuts, notflag)
-        
+
         tree.Draw('%s >> %s' % (var['name'],hPass[ib].GetName()),cutPass,'goff')
         tree.Draw('%s >> %s' % (var['name'],hFail[ib].GetName()),cutFail,'goff')
 
-        
+
         removeNegativeBins(hPass[ib])
         removeNegativeBins(hFail[ib])
 
@@ -90,13 +90,17 @@ def histPlotter( filename, tnpBin, plotDir ):
 
 def computeEffi( n1,n2,e1,e2):
     effout = []
-    eff   = n1/(n1+n2)
-    e_eff = 1/(n1+n2)*math.sqrt(e1*e1*n2*n2+e2*e2*n1*n1)/(n1+n2)
-    if e_eff < 0.001 : e_eff = 0.001
+    if n1+n2 == 0 :
+         eff = 0
+         e_eff =0
+    else:
+         eff   = n1/(n1+n2)
+         e_eff = 1/(n1+n2)*math.sqrt(e1*e1*n2*n2+e2*e2*n1*n1)/(n1+n2)
+         if e_eff < 0.001 : e_eff = 0.001
 
     effout.append(eff)
     effout.append(e_eff)
-    
+
     return effout
 
 
@@ -136,7 +140,7 @@ def getAllEffi( info, bindef ):
         effis['tagSel'] = computeEffi(nP,nF,eP,eF)
         rootfile.Close()
     else: effis['tagSel'] = [-1,-1]
-        
+
     if not info['mcAlt'] is None and os.path.isfile(info['mcAlt']):
         rootfile = rt.TFile( info['mcAlt'], 'read' )
         hP = rootfile.Get('%s_Pass'%bindef['name'])
@@ -162,7 +166,7 @@ def getAllEffi( info, bindef ):
 
         fitP = fitresP.floatParsFinal().find('nSigP')
         fitF = fitresF.floatParsFinal().find('nSigF')
-        
+
         nP = fitP.getVal()
         nF = fitF.getVal()
         eP = fitP.getError()

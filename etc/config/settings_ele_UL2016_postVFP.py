@@ -18,6 +18,7 @@ flags = {
     'passingMVA94XwpLisoV2'    : '(passingMVA94XwpLisoV2 == 1)',
     'passingMVA94XwpLnoisoV2'  : '(passingMVA94XwpLnoisoV2 == 1)',
     'passingMVA94XwpHZZisoV2'  : '(passingMVA94XwpHZZisoV2 == 1)',
+    'passingCutBasedLoose94XV2': '(passingCutBasedLoose94XV2==1)',
     }
 
 baseOutDir = 'results/UL2016_postVFP/tnpEleID/'
@@ -27,11 +28,13 @@ baseOutDir = 'results/UL2016_postVFP/tnpEleID/'
 #############################################################
 ### samples are defined in etc/inputs/tnpSampleDef.py
 ### not: you can setup another sampleDef File in inputs
-import etc.inputs.tnpSampleDef as tnpSamples
-tnpTreeDir = 'tnpEleIDs'
+#import etc.inputs.tnpSampleDef as tnpSamples
+import etc.inputs.tnpSamplesUL as tnpSamples
+#tnpTreeDir = 'tnpEleIDs'
+tnpTreeDir = 'tnpEleTrig'
 
 samplesDef = {
-    'data'   : tnpSamples.UL2016_postVFP['data_Run2016F'].clone(),
+    'data'   : tnpSamples.UL2016_postVFP['data_Run2016F_postVFP'].clone(),
     'mcNom'  : tnpSamples.UL2016_postVFP['DY_amcatnloext'].clone(),
     'mcAlt'  : tnpSamples.UL2016_postVFP['DY_madgraph'].clone(),
     'tagSel' : tnpSamples.UL2016_postVFP['DY_amcatnloext'].clone(),
@@ -61,7 +64,8 @@ if not samplesDef['tagSel'] is None:
 
 
 ## set MC weight, can use several pileup rw for different data taking periods
-weightName = 'weights_2016_run2016.totWeight'
+#weightName = 'weights_2016_run2016.totWeight'
+weightName = 'totWeight'
 if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_weight(weightName)
 if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_weight(weightName)
 if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_weight(weightName)
@@ -75,7 +79,7 @@ if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_puTree('/eos/cms/s
 #############################################################
 biningDef = [
    { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
-   { 'var' : 'el_pt' , 'type': 'float', 'bins': [10,20,35,50,100,200,500] },
+   { 'var' : 'el_pt' , 'type': 'float', 'bins': [10,20,35,50,100,200,500,1000] },
 
 
 ]
@@ -86,7 +90,7 @@ biningDef = [
 ### cut
 cutBase   = 'tag_Ele_pt > 35 && abs(tag_sc_eta) < 2.17 && el_q*tag_Ele_q < 0'
 
-additionalCuts = { 
+additionalCuts = {
     0 : 'tag_Ele_trigMVA > 0.92 ',
     1 : 'tag_Ele_trigMVA > 0.92 ',
     2 : 'tag_Ele_trigMVA > 0.92 ',
@@ -126,11 +130,10 @@ tnpParAltSigFit_addGaus = [
     "acmsP[60.,50.,75.]","betaP[0.04,0.01,0.06]","gammaP[0.1, 0.005, 1]","peakP[90.0]",
     "acmsF[60.,50.,85.]","betaF[0.04,0.01,0.06]","gammaF[0.1, 0.005, 1]","peakF[90.0]",
     ]
-         
+
 tnpParAltBkgFit = [
     "meanP[-0.0,-5.0,5.0]","sigmaP[0.9,0.5,5.0]",
     "meanF[-0.0,-5.0,5.0]","sigmaF[0.9,0.5,5.0]",
     "alphaP[0.,-5.,5.]",
     "alphaF[0.,-5.,5.]",
     ]
-        
