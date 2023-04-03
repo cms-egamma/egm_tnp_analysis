@@ -18,7 +18,7 @@ flags = {
 #    "passingTrigger": "(passHltEle35WPTightGsf == 1)  || (passHltPhoton200 == 1)",  #2017
     "passingTrigger": "(passHltEle27WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton175 == 1)",  #2016
 }
-baseOutDir = "results/trigger/2016_post_heep70_3_18_23"
+baseOutDir = "results/trigger/2016_post_heep70_3_18_23_test"
 
 #############################################################
 # ######### samples definition  - preparing the samples
@@ -123,14 +123,14 @@ if not samplesDef["tagSel"] is None:
 #    {"var": "el_pt", "type": "float", "bins": [10,20,35,50,100,200,500]},
 #]
 
-#biningDef = [
-#   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5, -1.566, -1.4442, 0.0, 1.4442, 1.566, 2.5] },
-#   { 'var' : 'el_pt' , 'type': 'float', 'bins': [27.,50., 60., 100, 200.,300., 400., 500., 1000.] },
 biningDef = [
-   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
+   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5, -1.566, -1.4442, 0.0, 1.4442, 1.566, 2.5] },
+   { 'var' : 'el_pt' , 'type': 'float', 'bins': [27,50,100,250,400,650] },
+#biningDef = [
+ #  { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
 #   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5, -1.566, -1.4442, 0.0, 1.4442, 1.566, 2.5] },
   # { 'var' : 'el_pt' , 'type': 'float', 'bins': [27,50,80,110,150,200,400,1000] },
-   { 'var' : 'el_pt' , 'type': 'float', 'bins': [27,50,55, 60, 65, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 300, 500., 1000.] },
+  # { 'var' : 'el_pt' , 'type': 'float', 'bins': [27,50, 60, 70, 80, 100, 110, 130, 150, 170, 190, 210, 250, 300, 500., 1000.] },
 
  #  { 'var' : 'el_pt' , 'type': 'float', 'bins': [27.,50., 100, 200., 500., 1000.] },
 

@@ -166,6 +166,10 @@ class efficiencyList:
                         averageMC   = (effPlus.effMC   + effMinus.effMC  )/2.
                         self.effList[ptBin][etaBinMinus].combineSyst(averageData,averageMC)
                         self.effList[ptBin][etaBinPlus ].combineSyst(averageData,averageMC)
+
+                        #if the uncertanty effi on Data or on MC too big
+                        #check event number in each bin
+                        
 #                        self.effList[ptBin][etaBinMinus].combineSyst(effMinus.effData,effMinus.effMC)
 #                        self.effList[ptBin][etaBinPlus ].combineSyst(effPlus.effData,effPlus.effMC)
                         #print 'syst 1 [-] (etaBin: %1.3f,%1.3f) ; (ptBin: %3.0f,%3.0f): %f '% (etaBin[0],etaBin[1],ptBin[0],ptBin[1],self.effList[ptBin][etaBinMinus].syst[1])

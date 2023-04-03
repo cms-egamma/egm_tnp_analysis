@@ -133,17 +133,17 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     effminmax =  findMinMax( effDataList )
     effiMin = effminmax[0]
     effiMax = effminmax[1]
-    effiMin = 0.18
-    effiMax = 1.35
-#    effiMin = 0.5
-#    effiMax = 1.5
+#    effiMin = 0.18
+#    effiMax = 1.35
+    effiMin = 0.5
+    effiMax = 1.5
 
     sfminmax =  findMinMax( sfList )
     sfMin = sfminmax[0]
-    sfMin = 0.78
-    sfMax = 1.12
-#    sfMin = 0.48
+#    sfMin = 0.78
 #    sfMax = 1.12
+    sfMin = 0.48
+    sfMax = 1.12
 
     for key in sorted(effDataList.keys()):
         grBinsEffData = effUtil.makeTGraphFromList(effDataList[key], 'min', 'max')
@@ -330,13 +330,12 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     print " ------------------------------- "
 
     customEtaBining = []
-    customEtaBining.append( (0.000,0.800))
-    customEtaBining.append( (0.800,1.444))
-#    customEtaBining.append( (1.444,1.566))
-    customEtaBining.append( (1.566,2.000))
-    customEtaBining.append( (2.000,2.500))
-#    customEtaBining.append( (0.000,1.444))
-#    customEtaBining.append( (1.566,2.500))
+#    customEtaBining.append( (0.000,0.800))
+#    customEtaBining.append( (0.800,1.444))
+#    customEtaBining.append( (1.566,2.000))
+#    customEtaBining.append( (2.000,2.500))
+    customEtaBining.append( (0.000,1.444))
+    customEtaBining.append( (1.566,2.500))
 
 
 
