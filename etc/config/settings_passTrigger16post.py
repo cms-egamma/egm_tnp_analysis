@@ -124,8 +124,8 @@ if not samplesDef["tagSel"] is None:
 #]
 
 biningDef = [
-   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5, -1.566, -1.4442, 0.0, 1.4442, 1.566, 2.5] },
-   { 'var' : 'el_pt' , 'type': 'float', 'bins': [27,50,100,250,400,650] },
+   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5, 2.5] },
+   { 'var' : 'el_pt' , 'type': 'float', 'bins': [27,650] },
 #biningDef = [
  #  { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
 #   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5, -1.566, -1.4442, 0.0, 1.4442, 1.566, 2.5] },

@@ -1,0 +1,2 @@
+The file was not found or info['mcAlt'] is None.
+info['mcAlt'] value: None

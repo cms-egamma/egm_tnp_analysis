@@ -169,7 +169,7 @@ class efficiencyList:
 
                         #if the uncertanty effi on Data or on MC too big
                         #check event number in each bin
-                        
+
 #                        self.effList[ptBin][etaBinMinus].combineSyst(effMinus.effData,effMinus.effMC)
 #                        self.effList[ptBin][etaBinPlus ].combineSyst(effPlus.effData,effPlus.effMC)
                         #print 'syst 1 [-] (etaBin: %1.3f,%1.3f) ; (ptBin: %3.0f,%3.0f): %f '% (etaBin[0],etaBin[1],ptBin[0],ptBin[1],self.effList[ptBin][etaBinMinus].syst[1])
@@ -292,12 +292,12 @@ class efficiencyList:
                         else:
                             averageMC   = (effPlus.effMC   + effMinus.effMC  )/2.
                         ### so this is h2D bin is inside the bining used by e/gamma POG
-                        if self.effList[ptBin][etaBin].effMC==0:
+                        if averageMC==0 or self.effList[ptBin][etaBin].effMC==0:
                             h2.SetBinContent(ix,iy, 0)
-                            h2.SetBinError  (ix,iy, 0 )
+                            h2.SetBinError  (ix,iy, 0)
                         else:
                             h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effData      / self.effList[ptBin][etaBin].effMC)
-                            h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / averageMC )
+                            h2.SetBinError(ix,iy, self.effList[ptBin][etaBin].systCombined / averageMC )
                         if onlyError   == 0 :
                             if averageMC==0:
                                 h2.SetBinContent(ix,iy, 0  )
@@ -314,7 +314,7 @@ class efficiencyList:
                             h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effMC)
                             h2.SetBinError  (ix,iy, 0 )
                         elif onlyError == -1 :
-                            if self.effList[ptBin][etaBin].effMC==0:
+                            if averageMC==0 or self.effList[ptBin][etaBin].effMC==0:
                                 h2.SetBinContent(ix,iy, 0)
                                 h2.SetBinError  (ix,iy, 0)
                             else:

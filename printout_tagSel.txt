@@ -1,0 +1,5 @@
+eP_tagSel: -1.0
+eF_tagSel: -1.0
+nP_tagSel: 0.000399141079178
+nF_tagSel: 0.0
+effis_tagSel: {'mcNominal': [1.0, 2505.3798072068676], 'tagSel': [1.0, 2505.3798072068676]}

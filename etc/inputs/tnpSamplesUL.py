@@ -53,12 +53,21 @@ UL2018 = {
     "DY_madgraph": tnpSample(
         #"DY_madgraph", "/afs/cern.ch/user/s/scooper/work/private/cmssw/10_6_13/LegacyTriggerScaleFactors/src/EgammaAnalysis/TnPTreeProducer/python/TnPTree_mc.root", isMC=True, nEvts=-1
         "DY_madgraph", eosUL2018 + "UL2018_withHEEP_LO.root", isMC=True, nEvts=-1
+        #"DY_madgraph", eosUL2018 + "DY_LO.root", isMC=True, nEvts=-1
     ),
     "DY_amcatnloext": tnpSample(
         "DY_amcatnloext",
         #eosUL2018 + "DYJetsToLL_amcatnloFXFX.root",
     #    eosUL2018 + "UL2018_DY_NLO_ptbinned_heep.root",
-        eosUL2018 + "DY_NLO.root",
+        eosUL2018 + "DY_NLO_inclusive_allptrange.root",
+        isMC=True,
+        nEvts=-1,
+    ),
+    "DY_amcatnloext_reweight": tnpSample(
+        "DY_amcatnloext_reweight",
+        #eosUL2018 + "DYJetsToLL_amcatnloFXFX.root",
+        #eosUL2018 + "UL2018_DY_NLO_ptbinned_heep.root",
+        eosUL2018 + "DY_NLO_inclusive_allptrange_reweight.root",
         isMC=True,
         nEvts=-1,
     ),
@@ -77,15 +86,19 @@ UL2018 = {
 #}
     "data_Run2018A": tnpSample(
         "data_Run2018A", eosUL2018 + "UL2018_Run2018A_heep.root", lumi=14.02672485
+    #    "data_Run2018A", eosUL2018 + "Run2018A.root", lumi=14.02672485
     ),
     "data_Run2018B": tnpSample(
         "data_Run2018B", eosUL2018 + "UL2018_Run2018B_heep.root", lumi=7.060617355
+    #    "data_Run2018B", eosUL2018 + "Run2018B.root", lumi=7.060617355
     ),
     "data_Run2018C": tnpSample(
         "data_Run2018C", eosUL2018 + "UL2018_Run2018C_heep.root", lumi=6.894770971
+    #    "data_Run2018C", eosUL2018 + "Run2018C.root", lumi=6.894770971
     ),
     "data_Run2018D": tnpSample(
         "data_Run2018D", eosUL2018 + "UL2018_Run2018D_heep.root", lumi=31.74220577
+    #    "data_Run2018D", eosUL2018 + "Run2018D.root", lumi=31.74220577
     ),
 }
 

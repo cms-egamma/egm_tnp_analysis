@@ -1,0 +1,5 @@
+eP_mcNominal: -1.0
+eF_mcNominal: -1.0
+nP_mcNominal: 0.000399141079178
+nF_mcNominal: 0.0
+effis_mcNominal: {'mcNominal': [1.0, 2505.3798072068676]}

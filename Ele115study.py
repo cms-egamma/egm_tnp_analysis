@@ -8,42 +8,42 @@ from statsmodels.stats.proportion import proportion_confint
 lq_masses = [300,400,500,600,700,800,900,1000]
 file_paths = [
 #2018
-#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/6AD97ED0-A43C-1A42-BBF1-7992785001D8.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/46E92EB7-4720-E94D-9212-0687FAACA519.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/D98F99A2-5DCF-4D48-B244-5FF709435B7C.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/C8BE3437-8092-D848-9E37-397D1B381AF2.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/85C2C8B6-18CE-7B4A-B8D6-F73A20D5DDEC.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/38B78932-1C59-974B-A6F5-6FB16079A726.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/786F206C-2151-E745-96DC-EB1CB1A76587.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/2039CF0C-B7DB-2944-AC81-FEE2811C84C0.root",
+#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/6AD97ED0-A43C-1A42-BBF1-7992785001D8.root",  #300
+#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/46E92EB7-4720-E94D-9212-0687FAACA519.root",  #400
+#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/D98F99A2-5DCF-4D48-B244-5FF709435B7C.root",  #500
+#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/C8BE3437-8092-D848-9E37-397D1B381AF2.root",  #600
+#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/85C2C8B6-18CE-7B4A-B8D6-F73A20D5DDEC.root",  #700
+#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/38B78932-1C59-974B-A6F5-6FB16079A726.root",  #800
+#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/786F206C-2151-E745-96DC-EB1CB1A76587.root",  #900
+#    "/eos/user/r/ryi/TagandProbe/TnP2018/LQToDele/2039CF0C-B7DB-2944-AC81-FEE2811C84C0.root",  #1000
 #2017
-#    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/C11F1D64-88F9-9643-BFC2-55440632567C.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/EBD1DEDF-6CE0-434B-85A5-1BB4D3B8A57A.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/633136EC-BA51-3F41-9E09-60F96F16FE18.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/0EB7984F-640F-7B45-B675-05EC85BD3918.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/78C35BA8-44BB-5E4B-9A43-42A6EEDB5050.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/787C3B71-2C63-A142-ACFE-317DF138D848.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/88BF7591-0D6E-394C-A50F-B0F417FBA93F.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/3A379BE6-1304-E34E-911A-F54820310E60.root",
+    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/C11F1D64-88F9-9643-BFC2-55440632567C.root", #300
+    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/EBD1DEDF-6CE0-434B-85A5-1BB4D3B8A57A.root", #400
+    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/633136EC-BA51-3F41-9E09-60F96F16FE18.root", #500
+    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/0EB7984F-640F-7B45-B675-05EC85BD3918.root", #600
+    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/78C35BA8-44BB-5E4B-9A43-42A6EEDB5050.root", #700
+    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/787C3B71-2C63-A142-ACFE-317DF138D848.root",  #800
+    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/88BF7591-0D6E-394C-A50F-B0F417FBA93F.root",  #900
+    "/eos/user/r/ryi/TagandProbe/TnP2017/LQToDele/3A379BE6-1304-E34E-911A-F54820310E60.root",  #1000
 #2016post
-    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/7208357C-2A06-FD4D-8757-332060540A1B.root",
-    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/9659C839-17E5-4142-A1AC-E85617D4976A.root",
-    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/F6D661BC-25AA-674B-98F1-122072DBF1A4.root",
-    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/BEB068B6-F7CC-9D48-B153-2517684BDBC3.root",
-    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/49150006-AAC0-C94B-81A9-4D22B9CBD58A.root",
-    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/8E2FCEE7-CA19-C943-980D-CC31E4579E3B.root",
-    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/0154061C-663F-DF49-8153-DC1969B7E571.root",
-    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/E8BE0CF8-AA01-DA43-818D-CB32B3D86246.root",
+#    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/7208357C-2A06-FD4D-8757-332060540A1B.root",  #300
+#    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/9659C839-17E5-4142-A1AC-E85617D4976A.root",  #400
+#    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/F6D661BC-25AA-674B-98F1-122072DBF1A4.root",  #500
+#    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/BEB068B6-F7CC-9D48-B153-2517684BDBC3.root",  #600
+#    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/49150006-AAC0-C94B-81A9-4D22B9CBD58A.root",  #700
+#    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/8E2FCEE7-CA19-C943-980D-CC31E4579E3B.root",  #800
+#    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/0154061C-663F-DF49-8153-DC1969B7E571.root",  #900
+#    "/eos/user/r/ryi/TagandProbe/TnP2016post/LQToDele/E8BE0CF8-AA01-DA43-818D-CB32B3D86246.root",  #1000
 
 #2016pre
-#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/E35CA8EE-657A-DE4A-87C3-963172EEF315.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/9F005757-07D5-6B4E-8F8B-F0647AFA2097.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/990823AF-0DA0-B141-9964-BF18C10461C7.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/7E66302D-6516-814D-B99F-3789922B8BE9.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/54C0D80F-8012-5C41-9F7A-2FC91F702D1E.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/9A3F0F9E-9B20-9C47-9044-C89688948BEA.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/E706B63C-13DC-BF45-8B16-A87F642836A7.root",
-#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/49FA601A-4F26-F74C-99E4-A79DA21CB85B.root",
+#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/E35CA8EE-657A-DE4A-87C3-963172EEF315.root",  #300
+#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/9F005757-07D5-6B4E-8F8B-F0647AFA2097.root",  #400
+#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/990823AF-0DA0-B141-9964-BF18C10461C7.root",  #500
+#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/7E66302D-6516-814D-B99F-3789922B8BE9.root",  #600
+#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/54C0D80F-8012-5C41-9F7A-2FC91F702D1E.root",  #700
+#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/9A3F0F9E-9B20-9C47-9044-C89688948BEA.root",  #800
+#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/E706B63C-13DC-BF45-8B16-A87F642836A7.root",  #900
+#    "/eos/user/r/ryi/TagandProbe/TnP2016pre/LQToDele/49FA601A-4F26-F74C-99E4-A79DA21CB85B.root",  #1000
 ]
 #to download to local:
 #voms-proxy-init -voms cms -valid 192:00

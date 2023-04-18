@@ -40,7 +40,7 @@ import libPython.rootUtils as tnpRoot
 if args.flag is None:
     print '[tnpEGM_fitter] flag is MANDATORY, this is the working point as defined in the settings.py'
     sys.exit(0)
-    
+
 if not args.flag in tnpConf.flags.keys() :
     print '[tnpEGM_fitter] flag %s not found in flags definitions' % args.flag
     print '  --> define in settings first'
@@ -64,7 +64,7 @@ if args.checkBins:
         print tnpBins['bins'][ib]['name']
         print '  - cut: ',tnpBins['bins'][ib]['cut']
     sys.exit(0)
-    
+
 if args.createBins:
     if os.path.exists( outputDirectory ):
             shutil.rmtree( outputDirectory )
@@ -104,7 +104,7 @@ if args.createHists:
             if sample.mcTruth:
                 var = { 'name' : 'pair_mass', 'nbins' : 80, 'min' : 50, 'max': 130 }
             tnpHist.makePassFailHistograms( sample, tnpConf.flags[args.flag], tnpBins, var )
-    
+
     pool = Pool()
     pool.map(parallel_hists, tnpConf.samplesDef.keys())
 
@@ -154,20 +154,20 @@ if  args.doFit:
     pool.map(parallel_fit, range(len(tnpBins['bins'])))
 
     args.doPlot = True
-     
+
 ####################################################################
 ##### dumping plots
 ####################################################################
 if  args.doPlot:
     fileName = sampleToFit.nominalFit
     fitType  = 'nominalFit'
-    if args.altSig : 
+    if args.altSig :
         fileName = sampleToFit.altSigFit
         fitType  = 'altSigFit'
-    if args.altBkg : 
+    if args.altBkg :
         fileName = sampleToFit.altBkgFit
         fitType  = 'altBkgFit'
-        
+
     os.system('hadd -f %s %s' % (fileName, fileName.replace('.root', '-*.root')))
 
     plottingDir = '%s/plots/%s/%s' % (outputDirectory,sampleToFit.name,fitType)
@@ -184,7 +184,7 @@ if  args.doPlot:
 
 
 ####################################################################
-##### dumping egamma txt file 
+##### dumping egamma txt file
 ####################################################################
 if args.sumUp:
     sampleToFit.dump()
@@ -204,13 +204,13 @@ if args.sumUp:
         info['tagSel'   ] = tnpConf.samplesDef['tagSel'].histFile
 
     effis = None
-    effFileName ='%s/egammaEffi.txt' % outputDirectory 
+    effFileName ='%s/egammaEffi.txt' % outputDirectory
     fOut = open( effFileName,'w')
-    
+
     for ib in range(len(tnpBins['bins'])):
         effis = tnpRoot.getAllEffi( info, tnpBins['bins'][ib] )
 
-        ### formatting assuming 2D bining -- to be fixed        
+        ### formatting assuming 2D bining -- to be fixed
         v1Range = tnpBins['bins'][ib]['title'].split(';')[1].split('<')
         v2Range = tnpBins['bins'][ib]['title'].split(';')[2].split('<')
         if ib == 0 :
@@ -220,7 +220,7 @@ if args.sumUp:
             astr = '### var2 : %s' % v2Range[1]
             print astr
             fOut.write( astr + '\n' )
-            
+
         astr =  '%+8.5f\t%+8.5f\t%+8.5f\t%+8.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f\t%5.5f' % (
             float(v1Range[0]), float(v1Range[2]),
             float(v2Range[0]), float(v2Range[2]),

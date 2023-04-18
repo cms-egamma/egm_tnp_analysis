@@ -15,7 +15,6 @@ tdrstyle.setTDRStyle()
 effiMin = 0.68
 effiMax = 1.07
 
-
 sfMin = 0.78
 sfMax = 1.12
 
@@ -118,7 +117,7 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     if 'pT' in xAxis or 'pt' in xAxis:
         p1.SetLogx()
         p2.SetLogx()
-        xMin = 25
+        xMin = 10
         xMax = 1000
     elif 'vtx' in xAxis or 'Vtx' in xAxis or 'PV' in xAxis:
         xMin =  3
@@ -133,16 +132,12 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     effminmax =  findMinMax( effDataList )
     effiMin = effminmax[0]
     effiMax = effminmax[1]
-#    effiMin = 0.18
-#    effiMax = 1.35
-    effiMin = 0.5
-    effiMax = 1.5
+    effiMin = 0.18
+    effiMax = 1.35
 
     sfminmax =  findMinMax( sfList )
     sfMin = sfminmax[0]
-#    sfMin = 0.78
-#    sfMax = 1.12
-    sfMin = 0.48
+    sfMin = 0.78
     sfMax = 1.12
 
     for key in sorted(effDataList.keys()):
@@ -170,8 +165,6 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
         grBinsSF.GetHistogram()     .GetXaxis().SetLimits(xMin,xMax)
         grBinsSF.GetHistogram().SetMinimum(sfMin)
         grBinsSF.GetHistogram().SetMaximum(sfMax)
-        grBinsEffData.GetHistogram().GetYaxis().SetLimits(0.48,1.12)
-        grBinsSF.GetHistogram()     .GetYaxis().SetLimits(0.5,1.5)
 
         grBinsSF.GetHistogram().GetXaxis().SetTitleOffset(1)
         if 'eta' in xAxis or 'Eta' in xAxis:
@@ -251,8 +244,7 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     c.Print(nameout)
     listName = nameout.split('/')
     for iext in ["pdf","C","png"]:
-        #c.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SFvs'+xAxis+'_'+listName[-3]).replace('pdf',iext))
-        c.SaveAs('egammaEffi.txt_egammaPlots.pdf')
+        c.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SFvs'+xAxis+'_'+listName[-3]).replace('pdf',iext))
 
     return listOfTGraph2
 
@@ -332,12 +324,11 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     customEtaBining = []
 #    customEtaBining.append( (0.000,0.800))
 #    customEtaBining.append( (0.800,1.444))
+##    customEtaBining.append( (1.444,1.566))
 #    customEtaBining.append( (1.566,2.000))
 #    customEtaBining.append( (2.000,2.500))
     customEtaBining.append( (0.000,1.444))
     customEtaBining.append( (1.566,2.500))
-
-
 
     pdfout = nameOutBase + '_egammaPlots.pdf'
     cDummy = rt.TCanvas()

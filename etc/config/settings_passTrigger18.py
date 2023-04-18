@@ -13,7 +13,8 @@ flags = {
     "passingLoose":   "(passingLoose  == 1)",
     "passingMedium":  "(passingMedium == 1)",
     "passingTight":   "(passingTight  == 1)",
-    "passingTrigger": "(passHltEle32WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton200 == 1)", #2018
+    "passingTrigger": "(passHltEle32WPTightGsf == 1) || (passHltPhoton200 == 1)", #2018
+#    "passingTrigger": "(passHltEle32WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton200 == 1)", #2018
 #    "passingTrigger": "(passHltEle35WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton200 == 1)",  #2017
 #    "passingTrigger": "(passHltEle35WPTightGsf == 1)  || (passHltPhoton200 == 1)",  #2017
 #    "passingTrigger": "(passHltEle27WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton175 == 1)",  #2016
@@ -128,11 +129,11 @@ if not samplesDef["tagSel"] is None:
 #   { 'var' : 'el_pt' , 'type': 'float', 'bins': [27.,50., 60., 100, 200.,300., 400., 500., 1000.] },
 biningDef = [
    { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
- #  { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5, -1.566, -1.4442, 0.0, 1.4442, 1.566, 2.5] },
+  # { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5, 0, 2.5] },
  #  { 'var' : 'el_pt' , 'type': 'float', 'bins': [32,50,80,110,150,200,400,1000] },
    { 'var' : 'el_pt' , 'type': 'float', 'bins': [32,50, 60, 70, 80, 100, 110, 130, 150, 170, 190, 210, 250, 300, 500.] },
 
- #  { 'var' : 'el_pt' , 'type': 'float', 'bins': [27.,50., 100, 200., 500., 1000.] },
+ #  { 'var' : 'el_pt' , 'type': 'float', 'bins': [32., 1000.] },
 
 
 ]
