@@ -31,7 +31,7 @@ def isFloat( myFloat ):
 graphColors = [rt.kBlack, rt.kGray+1, rt.kRed +1, rt.kRed-2, rt.kAzure+2, rt.kAzure-1,
                rt.kSpring-1, rt.kYellow -2 , rt.kYellow+1,
                rt.kBlack, rt.kBlack, rt.kBlack,
-               rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack ]
+               rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack,rt.kBlack,rt.kBlack,rt.kBlack,rt.kBlack,rt.kBlack ]
 
 
 
@@ -132,12 +132,12 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     effminmax =  findMinMax( effDataList )
     effiMin = effminmax[0]
     effiMax = effminmax[1]
-    effiMin = 0.18
-    effiMax = 1.35
+    effiMin = 0.5
+    effiMax = 1.5
 
     sfminmax =  findMinMax( sfList )
     sfMin = sfminmax[0]
-    sfMin = 0.78
+    sfMin = 0.47
     sfMax = 1.12
 
     for key in sorted(effDataList.keys()):

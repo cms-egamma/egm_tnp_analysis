@@ -3,7 +3,6 @@ import math
 from fitUtils import *
 import ctypes
 
-
 def removeNegativeBins(h):
     for i in xrange(h.GetNbinsX()):
         if (h.GetBinContent(i) < 0):
@@ -104,105 +103,58 @@ def computeEffi( n1,n2,e1,e2):
 
 
 import os.path
-from ROOT import TGraphAsymmErrors, TH1D, TArrayD
-
-def getAllEffi(info, bindef):
+def getAllEffi( info, bindef ):
     effis = {}
-
     if not info['mcNominal'] is None and os.path.isfile(info['mcNominal']):
-        rootfile = rt.TFile(info['mcNominal'], 'read')
-        hP = rootfile.Get('%s_Pass' % bindef['name'])
-        hF = rootfile.Get('%s_Fail' % bindef['name'])
+        rootfile = rt.TFile( info['mcNominal'], 'read' )
+        hP = rootfile.Get('%s_Pass'%bindef['name'])
+        hF = rootfile.Get('%s_Fail'%bindef['name'])
+        #bin1 = 1
+        #bin2 = hP.GetXaxis().GetNbins()
+        bin1 = 11
+        bin2 = 70
+        eP = -1.
+        eF = -1.
+        nP = hP.IntegralAndError(bin1,bin2,ctypes.c_double(eP))
+        nF = hF.IntegralAndError(bin1,bin2,ctypes.c_double(eF))
 
-        custom_bins = TArrayD(3)
-        custom_bins[0] = 0
-        custom_bins[1] = hP.GetXaxis().GetXmax()
-        custom_bins[2] = hP.GetXaxis().GetXmax() + 1
-
-        hP_rebin = hP.Rebin(2, "hP_rebin", custom_bins.GetArray())
-        hF_rebin = hF.Rebin(2, "hF_rebin", custom_bins.GetArray())
-
-        hTotal = hP_rebin.Clone("hTotal")
-        hTotal.Add(hF_rebin)
-
-        graph = TGraphAsymmErrors()
-        graph.Divide(hP_rebin, hTotal, "cl=0.683 b(1,1) mode")
-
-        if graph.GetN() > 0:
-            efficiency = graph.GetY()[0]
-            efficiency_error = graph.GetErrorY(0)
-        else:
-            efficiency = -1
-            efficiency_error = -1
-
-        effis['mcNominal'] = [efficiency, efficiency_error]
+        effis['mcNominal'] = computeEffi(nP,nF,eP,eF)
         rootfile.Close()
-    else:
-        effis['mcNominal'] = [-1, -1]
-
+    else: effis['mcNominal'] = [-1,-1]
 
     if not info['tagSel'] is None and os.path.isfile(info['tagSel']):
-        rootfile = rt.TFile(info['tagSel'], 'read')
-        hP = rootfile.Get('%s_Pass' % bindef['name'])
-        hF = rootfile.Get('%s_Fail' % bindef['name'])
+        rootfile = rt.TFile( info['tagSel'], 'read' )
+        hP = rootfile.Get('%s_Pass'%bindef['name'])
+        hF = rootfile.Get('%s_Fail'%bindef['name'])
+      #  bin1 = 1
+      #  bin2 = hP.GetXaxis().GetNbins()
+        bin1 = 11
+        bin2 = 70
+        eP = -1.
+        eF = -1.
+        nP = hP.IntegralAndError(bin1,bin2,ctypes.c_double(eP))
+        nF = hF.IntegralAndError(bin1,bin2,ctypes.c_double(eF))
 
-        custom_bins = TArrayD(3)
-        custom_bins[0] = 0
-        custom_bins[1] = hP.GetXaxis().GetXmax()
-        custom_bins[2] = hP.GetXaxis().GetXmax() + 1
-
-        hP_rebin = hP.Rebin(2, "hP_rebin", custom_bins.GetArray())
-        hF_rebin = hF.Rebin(2, "hF_rebin", custom_bins.GetArray())
-
-        hTotal = hP_rebin.Clone("hTotal")
-        hTotal.Add(hF_rebin)
-
-        graph = TGraphAsymmErrors()
-        graph.Divide(hP_rebin, hTotal, "cl=0.683 b(1,1) mode")
-
-        if graph.GetN() > 0:
-            efficiency = graph.GetY()[0]
-            efficiency_error = graph.GetErrorY(0)
-        else:
-            efficiency = -1
-            efficiency_error = -1
-
-        effis['tagSel'] = [efficiency, efficiency_error]
+        effis['tagSel'] = computeEffi(nP,nF,eP,eF)
         rootfile.Close()
-    else:
-        effis['tagSel'] = [-1, -1]
+    else: effis['tagSel'] = [-1,-1]
 
     if not info['mcAlt'] is None and os.path.isfile(info['mcAlt']):
-        rootfile = rt.TFile(info['mcAlt'], 'read')
-        hP = rootfile.Get('%s_Pass' % bindef['name'])
-        hF = rootfile.Get('%s_Fail' % bindef['name'])
+        rootfile = rt.TFile( info['mcAlt'], 'read' )
+        hP = rootfile.Get('%s_Pass'%bindef['name'])
+        hF = rootfile.Get('%s_Fail'%bindef['name'])
+        #bin1 = 1
+        #bin2 = hP.GetXaxis().GetNbins()
+        bin1 = 11
+        bin2 = 70
+        eP = -1.
+        eF = -1.
+        nP = hP.IntegralAndError(bin1,bin2,ctypes.c_double(eP))
+        nF = hF.IntegralAndError(bin1,bin2,ctypes.c_double(eF))
 
-        custom_bins = TArrayD(3)
-        custom_bins[0] = 0
-        custom_bins[1] = hP.GetXaxis().GetXmax()
-        custom_bins[2] = hP.GetXaxis().GetXmax() + 1
-
-        hP_rebin = hP.Rebin(2, "hP_rebin", custom_bins.GetArray())
-        hF_rebin = hF.Rebin(2, "hF_rebin", custom_bins.GetArray())
-
-        hTotal = hP_rebin.Clone("hTotal")
-        hTotal.Add(hF_rebin)
-
-        graph = TGraphAsymmErrors()
-        graph.Divide(hP_rebin, hTotal, "cl=0.683 b(1,1) mode")
-
-        if graph.GetN() > 0:
-            efficiency = graph.GetY()[0]
-            efficiency_error = graph.GetErrorY(0)
-        else:
-            efficiency = -1
-            efficiency_error = -1
-
-        effis['mcAlt'] = [efficiency, efficiency_error]
+        effis['mcAlt'] = computeEffi(nP,nF,eP,eF)
         rootfile.Close()
-    else:
-        effis['mcAlt'] = [-1, -1]
-
+    else: effis['mcAlt'] = [-1,-1]
 
     if not info['dataNominal'] is None and os.path.isfile(info['dataNominal']) :
         rootfile = rt.TFile( info['dataNominal'], 'read' )

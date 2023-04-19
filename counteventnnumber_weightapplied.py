@@ -8,8 +8,8 @@ tree = file.Get("tnpEleTrig/fitter_tree")
 
 num_entries = tree.GetEntries()
 # Define the pt and eta bin you are interested in
-pt_min = 250.0
-pt_max = 400.0
+pt_min = 350.0
+pt_max = 500.0
 eta_min = 1.566
 eta_max = 2.5
 
