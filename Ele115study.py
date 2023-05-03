@@ -1,7 +1,10 @@
-import uproot
 import matplotlib.pyplot as plt
 import numpy as np
 from statsmodels.stats.proportion import proportion_confint
+import ROOT
+from ROOT import TCanvas, TGraphErrors, TLegend
+from numpy.ctypeslib import as_ctypes
+import uproot
 
 
 # List of LQ masses and corresponding file paths
@@ -108,37 +111,111 @@ trigger_efficiencies_3, trigger_efficiency_errors_3 = calculate_trigger_efficien
 # Calculate the ratio of trigger efficiencies
 trigger_efficiency_ratios = np.array(trigger_efficiencies_1) / np.array(trigger_efficiencies_2)
 
-# Create a two-panel plot
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 8), sharex=True, gridspec_kw={'height_ratios': [3, 1], 'hspace': 0.1})
+# ... (all the code remains the same until the "Calculate trigger efficiencies" part) ...
 
-# Plot trigger efficiencies on the upper panel
-ax1.plot(lq_masses, trigger_efficiencies_1, marker="o", label=" || ".join(combined_trigger_paths[0]))
-ax1.plot(lq_masses, trigger_efficiencies_2, marker="o", label=" || ".join(combined_trigger_paths[1]))
-ax1.plot(lq_masses, trigger_efficiencies_3, marker="o", label=" || ".join(combined_trigger_paths[2]))
+# Create a ROOT canvas
+canvas = TCanvas("canvas", "Trigger Efficiency as a function of LQ Mass", 800, 800)
 
-ax1.errorbar(lq_masses, trigger_efficiencies_1, yerr=np.array(trigger_efficiency_errors_1).T, fmt='o', capsize=4, label=" || ".join(combined_trigger_paths[0]))
-ax1.errorbar(lq_masses, trigger_efficiencies_2, yerr=np.array(trigger_efficiency_errors_2).T, fmt='o', capsize=4, label=" || ".join(combined_trigger_paths[1]))
-ax1.errorbar(lq_masses, trigger_efficiencies_3, yerr=np.array(trigger_efficiency_errors_3).T, fmt='o', capsize=4, label=" || ".join(combined_trigger_paths[2]))
+# Create TGraphErrors for trigger efficiencies
 
-#plt.errorbar(lq_masses, trigger_efficiencies_1, yerr=np.array(trigger_efficiency_errors_1).T, fmt='o', capsize=4, label=" || ".join(combined_trigger_paths[0]))
-#plt.errorbar(lq_masses, trigger_efficiencies_2, yerr=np.array(trigger_efficiency_errors_2).T, fmt='o', capsize=4, label=" || ".join(combined_trigger_paths[1]))
-#plt.errorbar(lq_masses, trigger_efficiencies_3, yerr=np.array(trigger_efficiency_errors_3).T, fmt='o', capsize=4, label=" || ".join(combined_trigger_paths[2]))
 
-ax1.set_ylim(0.8, 1.2)
-ax1.set_ylabel("Trigger Efficiency")
-ax1.set_title("Trigger Efficiency as a function of LQ Mass")
-ax1.legend()
-ax1.grid()
+# Create TGraphErrors for trigger efficiencies
+graph1 = TGraphErrors(
+    len(lq_masses),
+    as_ctypes(np.array(lq_masses, dtype=float)),
+    as_ctypes(np.array(trigger_efficiencies_1, dtype=float)),
+    as_ctypes(np.zeros(len(lq_masses))),
+    as_ctypes(np.ascontiguousarray(np.array(trigger_efficiency_errors_1)[:, 1]))
+)
 
-# Plot the ratio of trigger efficiencies on the lower panel
-ax2.plot(lq_masses, trigger_efficiency_ratios, marker="o", label="Efficiency Ratio")
-ax2.errorbar(lq_masses, trigger_efficiency_ratios, yerr=np.array(trigger_efficiency_errors_3).T, fmt='o', capsize=4, label=" || ".join(combined_trigger_paths[2]))
+graph2 = TGraphErrors(
+    len(lq_masses),
+    as_ctypes(np.array(lq_masses, dtype=float)),
+    as_ctypes(np.array(trigger_efficiencies_2, dtype=float)),
+    as_ctypes(np.zeros(len(lq_masses))),
+    as_ctypes(np.ascontiguousarray(np.array(trigger_efficiency_errors_2)[:, 1]))
+)
 
-ax2.set_xlabel("LQ Mass (GeV)")
-ax2.set_ylabel("TE Ratio without/with Ele115")
-ax2.set_ylim(0.95, 1.05)
-ax2.legend()
-ax2.grid()
+graph3 = TGraphErrors(
+    len(lq_masses),
+    as_ctypes(np.array(lq_masses, dtype=float)),
+    as_ctypes(np.array(trigger_efficiencies_3, dtype=float)),
+    as_ctypes(np.zeros(len(lq_masses))),
+    as_ctypes(np.ascontiguousarray(np.array(trigger_efficiency_errors_3)[:, 1]))
+)
 
-plt.show()
+
+
+# Set markers and colors
+graph1.SetMarkerColor(ROOT.kBlue)
+graph1.SetLineColor(ROOT.kBlue)
+graph1.SetMarkerStyle(20)
+
+graph2.SetMarkerColor(ROOT.kRed)
+graph2.SetLineColor(ROOT.kRed)
+graph2.SetMarkerStyle(21)
+
+graph3.SetMarkerColor(ROOT.kGreen)
+graph3.SetLineColor(ROOT.kGreen)
+graph3.SetMarkerStyle(22)
+
+# Set titles, labels and ranges
+graph1.SetTitle("Trigger Efficiency as a function of LQ Mass")
+graph1.GetXaxis().SetTitle("LQ Mass (GeV)")
+graph1.GetYaxis().SetTitle("Trigger Efficiency")
+graph1.GetYaxis().SetRangeUser(0.8, 1.2)
+
+# Draw the graphs
+graph1.Draw("APL")
+graph2.Draw("PL")
+graph3.Draw("PL")
+
+# Create a legend and add entries
+legend = TLegend(0.1, 0.7, 0.4, 0.9)
+legend.AddEntry(graph1, " || ".join(combined_trigger_paths[0]), "lp")
+legend.AddEntry(graph2, " || ".join(combined_trigger_paths[1]), "lp")
+legend.AddEntry(graph3, " || ".join(combined_trigger_paths[2]), "lp")
+legend.SetTextSize(0.03)
+legend.Draw()
+
+canvas.cd()
+lower_pad = ROOT.TPad("lower_pad", "Lower Pad", 0, 0, 1, 0.3)
+lower_pad.SetTopMargin(0.02)
+lower_pad.SetBottomMargin(0.35)
+lower_pad.Draw()
+lower_pad.cd()
+
+# Create TGraphErrors for the ratio plot
+ratio_graph = TGraphErrors(
+    len(lq_masses),
+    as_ctypes(np.array(lq_masses, dtype=float)),
+    as_ctypes(np.array(trigger_efficiency_ratios, dtype=float)),
+    as_ctypes(np.zeros(len(lq_masses))),
+    as_ctypes(np.ascontiguousarray(np.array(trigger_efficiency_ratios) * np.sqrt(np.array(trigger_efficiency_errors_1)[:, 1]**2 / np.array(trigger_efficiencies_1)**2 + np.array(trigger_efficiency_errors_2)[:, 1]**2 / np.array(trigger_efficiencies_2)**2)))
+)
+
+# Set marker and color for the ratio plot
+ratio_graph.SetMarkerColor(ROOT.kBlack)
+ratio_graph.SetLineColor(ROOT.kBlack)
+ratio_graph.SetMarkerStyle(20)
+
+# Set titles, labels, and ranges for the ratio plot
+ratio_graph.SetTitle("")
+ratio_graph.GetXaxis().SetTitle("LQ Mass (GeV)")
+ratio_graph.GetXaxis().SetTitleSize(0.12)
+ratio_graph.GetXaxis().SetLabelSize(0.1)
+ratio_graph.GetYaxis().SetTitle("Ratio")
+ratio_graph.GetYaxis().SetTitleSize(0.12)
+ratio_graph.GetYaxis().SetLabelSize(0.1)
+ratio_graph.GetYaxis().SetTitleOffset(0.4)
+ratio_graph.GetYaxis().SetRangeUser(0.5, 1.5)
+
+# Draw the ratio plot
+ratio_graph.Draw("APL")
+
+
+# Update and save the canvas
+canvas.Update()
+canvas.SaveAs("trigger_efficiencies.root")
+canvas.SaveAs("trigger_efficiencies.pdf")

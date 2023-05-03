@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 
 import sys,os
 from math import sqrt
@@ -214,7 +216,7 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
         p1.cd()
         listOfTGraph1[use_igr].Draw(option)
         if not listOfMC[use_igr] is None:
-            listOfMC[use_igr].Draw("ez")
+            listOfMC[use_igr].Draw("same ez")
 
         p2.cd()
         listOfTGraph2[use_igr].SetLineColor(graphColors[use_igr])
@@ -244,7 +246,8 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     c.Print(nameout)
     listName = nameout.split('/')
     for iext in ["pdf","C","png"]:
-        c.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SFvs'+xAxis+'_'+listName[-3]).replace('pdf',iext))
+        c.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SFvs'+xAxis+'_'+listName[-3]).replace('pdf','root'))
+
 
     return listOfTGraph2
 
@@ -281,7 +284,8 @@ def diagnosticErrorPlot( effgr, ierror, nameout ):
 
     listName = nameout.split('/')
     for iext in ["pdf","C","png"]:
-        c2D_Err.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+'_'+errorNames[ierror]+listName[-3]).replace('pdf',iext))
+        c2D_Err.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+'_'+errorNames[ierror]+listName[-3]).replace('pdf','root'))
+
 
     return h2_sfErrorAbs
 
@@ -322,21 +326,21 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     print " ------------------------------- "
 
     customEtaBining = []
-#    customEtaBining.append( (0.000,0.800))
-#    customEtaBining.append( (0.800,1.444))
-##    customEtaBining.append( (1.444,1.566))
-#    customEtaBining.append( (1.566,2.000))
-#    customEtaBining.append( (2.000,2.500))
-    customEtaBining.append( (0.000,1.444))
-    customEtaBining.append( (1.566,2.500))
+    customEtaBining.append( (0.000,0.800))
+    customEtaBining.append( (0.800,1.444))
+    customEtaBining.append( (1.566,2.000))
+    customEtaBining.append( (2.000,2.500))
+#    customEtaBining.append( (0.000,1.444))
+#    customEtaBining.append( (1.566,2.500))
 
     pdfout = nameOutBase + '_egammaPlots.pdf'
     cDummy = rt.TCanvas()
     cDummy.Print( pdfout + "[" )
 
 
-    EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, False ) , #eff Data
-                 None,
+    EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, False) , #eff Data
+                 #None,
+                 effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, True ) , #plot mc efficiency
                  effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, True ) , #SF
                  pdfout,
                  xAxis = axis[0], yAxis = axis[1] )

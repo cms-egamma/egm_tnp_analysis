@@ -58,8 +58,8 @@ UL2018 = {
     "DY_amcatnloext": tnpSample(
         "DY_amcatnloext",
         #eosUL2018 + "DYJetsToLL_amcatnloFXFX.root",
-    #    eosUL2018 + "UL2018_DY_NLO_ptbinned_heep.root",
-        eosUL2018 + "DY_NLO_inclusive_allptrange.root",
+        eosUL2018 + "UL2018_DY_NLO_ptbinned_heep.root",
+    #    eosUL2018 + "DY_NLO_inclusive_allptrange.root",
         isMC=True,
         nEvts=-1,
     ),
