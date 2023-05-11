@@ -373,6 +373,10 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     c2D.GetPad(1).SetLogy()
     c2D.GetPad(2).SetLogy()
 
+    for ix in range(1, h2SF.GetNbinsX()+1):
+        for iy in range(1, h2SF.GetNbinsY()+1):
+            error = h2Error.GetBinContent(ix, iy)
+            h2SF.SetBinError(ix, iy, error)
 
     c2D.cd(1)
     dmin = 1.0 - h2SF.GetMinimum()
@@ -380,12 +384,20 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     dall = max(dmin,dmax)
     h2SF.SetMinimum(1-dall)
     h2SF.SetMaximum(1+dall)
-    h2SF.DrawCopy("colz TEXT45")
+    h2SF.Draw("colz TEXT45")
 
     c2D.cd(2)
     h2Error.SetMinimum(0)
     h2Error.SetMaximum(min(h2Error.GetMaximum(),0.2))
     h2Error.DrawCopy("colz TEXT45")
+
+    # Specify the bins you want to check bin error
+#    bins_to_check = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+#    for ix, iy in bins_to_check:
+#        error = h2SF.GetBinError(ix, iy)
+#        print("Error for bin ({}, {}) is: {}".format(ix, iy, error))
+
+
 
     c2D.Print( pdfout )
     listName = pdfout.split('/')
@@ -395,6 +407,7 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     rootout = rt.TFile(nameOutBase + '_EGM2D.root','recreate')
     rootout.cd()
     h2SF.Write('EGamma_SF2D',rt.TObject.kOverwrite)
+    h2Error.Write('EGamma_Error2D',rt.TObject.kOverwrite)
     h2EffData.Write('EGamma_EffData2D',rt.TObject.kOverwrite)
     h2EffMC  .Write('EGamma_EffMC2D'  ,rt.TObject.kOverwrite)
     for igr in range(len(listOfSF1D)):

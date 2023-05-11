@@ -1,4 +1,5 @@
 import math
+import copy
 
 class efficiency:
     #    altEff = [-1]*7
@@ -81,7 +82,7 @@ class efficiency:
             return eff.deepcopy()
         if eff.effData < 0 :
             return self.deepcopy()
-
+        #    return copy.deepcopy(self)
         ptbin  = self.ptBin
         etabin = self.etaBin
         errData2 = 1.0 / (1.0/(self.errEffData*self.errEffData)+1.0/(eff.errEffData*eff.errEffData))

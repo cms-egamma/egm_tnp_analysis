@@ -145,6 +145,12 @@ graph3 = TGraphErrors(
     as_ctypes(np.ascontiguousarray(np.array(trigger_efficiency_errors_3)[:, 1]))
 )
 
+efficiency_baseline = ROOT.TLine(lq_masses[0], 1.0, lq_masses[-1], 1.0)
+efficiency_baseline.SetLineColor(ROOT.kBlack)
+efficiency_baseline.SetLineStyle(2)
+ratio_baseline = ROOT.TLine(lq_masses[0], 1.0, lq_masses[-1], 1.0)
+ratio_baseline.SetLineColor(ROOT.kBlack)
+ratio_baseline.SetLineStyle(2)
 
 
 # Set markers and colors
@@ -164,19 +170,20 @@ graph3.SetMarkerStyle(22)
 graph1.SetTitle("Trigger Efficiency as a function of LQ Mass")
 graph1.GetXaxis().SetTitle("LQ Mass (GeV)")
 graph1.GetYaxis().SetTitle("Trigger Efficiency")
-graph1.GetYaxis().SetRangeUser(0.8, 1.2)
+graph1.GetYaxis().SetRangeUser(0.75, 1.15)
 
 # Draw the graphs
 graph1.Draw("APL")
 graph2.Draw("PL")
 graph3.Draw("PL")
+efficiency_baseline.Draw("same")
 
 # Create a legend and add entries
 legend = TLegend(0.1, 0.7, 0.4, 0.9)
 legend.AddEntry(graph1, " || ".join(combined_trigger_paths[0]), "lp")
 legend.AddEntry(graph2, " || ".join(combined_trigger_paths[1]), "lp")
 legend.AddEntry(graph3, " || ".join(combined_trigger_paths[2]), "lp")
-legend.SetTextSize(0.03)
+legend.SetTextSize(0.02)
 legend.Draw()
 
 canvas.cd()
@@ -209,11 +216,11 @@ ratio_graph.GetYaxis().SetTitle("Ratio")
 ratio_graph.GetYaxis().SetTitleSize(0.12)
 ratio_graph.GetYaxis().SetLabelSize(0.1)
 ratio_graph.GetYaxis().SetTitleOffset(0.4)
-ratio_graph.GetYaxis().SetRangeUser(0.5, 1.5)
+ratio_graph.GetYaxis().SetRangeUser(0.9, 1.1)
 
 # Draw the ratio plot
 ratio_graph.Draw("APL")
-
+ratio_baseline.Draw("same")
 
 # Update and save the canvas
 canvas.Update()

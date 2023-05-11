@@ -204,11 +204,11 @@ def getAllEffi(info, bindef):
         effis['mcAlt'] = [-1, -1]
 
 
-    if not info['dataNominal'] is None and os.path.isfile(info['dataNominal']) :
-        rootfile = rt.TFile( info['dataNominal'], 'read' )
-        from ROOT import RooFit,RooFitResult
-        fitresP = rootfile.Get( '%s_resP' % bindef['name']  )
-        fitresF = rootfile.Get( '%s_resF' % bindef['name'] )
+    if not info['dataNominal'] is None and os.path.isfile(info['dataNominal']):
+        rootfile = rt.TFile(info['dataNominal'], 'read')
+        from ROOT import RooFit, RooFitResult
+        fitresP = rootfile.Get('%s_resP' % bindef['name'])
+        fitresF = rootfile.Get('%s_resF' % bindef['name'])
 
         fitP = fitresP.floatParsFinal().find('nSigP')
         fitF = fitresF.floatParsFinal().find('nSigF')
@@ -219,63 +219,126 @@ def getAllEffi(info, bindef):
         eF = fitF.getError()
         rootfile.Close()
 
-        rootfile = rt.TFile( info['data'], 'read' )
-        hP = rootfile.Get('%s_Pass'%bindef['name'])
-        hF = rootfile.Get('%s_Fail'%bindef['name'])
+        rootfile = rt.TFile(info['data'], 'read')
+        hP = rootfile.Get('%s_Pass' % bindef['name'])
+        hF = rootfile.Get('%s_Fail' % bindef['name'])
 
-        #if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
-        #if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
+        custom_bins = TArrayD(3)
+        custom_bins[0] = 0
+        custom_bins[1] = hP.GetXaxis().GetXmax()
+        custom_bins[2] = hP.GetXaxis().GetXmax() + 1
+
+        hP_rebin = hP.Rebin(2, "hP_rebin", custom_bins.GetArray())
+        hF_rebin = hF.Rebin(2, "hF_rebin", custom_bins.GetArray())
+
+        hTotal = hP_rebin.Clone("hTotal")
+        hTotal.Add(hF_rebin)
+
+        graph = TGraphAsymmErrors()
+        graph.Divide(hP_rebin, hTotal, "cl=0.683 b(1,1) mode")
+
+        if graph.GetN() > 0:
+            efficiency = graph.GetY()[0]
+            efficiency_error = graph.GetErrorY(0)
+        else:
+            efficiency = -1
+            efficiency_error = -1
+
+        effis['dataNominal'] = [efficiency, efficiency_error]
         rootfile.Close()
-
-        effis['dataNominal'] = computeEffi(nP,nF,eP,eF)
     else:
-        effis['dataNominal'] = [-1,-1]
-    if not info['dataAltSig'] is None and os.path.isfile(info['dataAltSig']) :
-        rootfile = rt.TFile( info['dataAltSig'], 'read' )
-        from ROOT import RooFit,RooFitResult
-        fitresP = rootfile.Get( '%s_resP' % bindef['name']  )
-        fitresF = rootfile.Get( '%s_resF' % bindef['name'] )
+        effis['dataNominal'] = [-1, -1]
 
-        nP = fitresP.floatParsFinal().find('nSigP').getVal()
-        nF = fitresF.floatParsFinal().find('nSigF').getVal()
-        eP = fitresP.floatParsFinal().find('nSigP').getError()
-        eF = fitresF.floatParsFinal().find('nSigF').getError()
+
+    if not info['dataAltSig'] is None and os.path.isfile(info['dataAltSig']):
+        rootfile = rt.TFile(info['dataAltSig'], 'read')
+        from ROOT import RooFit, RooFitResult
+        fitresP = rootfile.Get('%s_resP' % bindef['name'])
+        fitresF = rootfile.Get('%s_resF' % bindef['name'])
+
+        fitP = fitresP.floatParsFinal().find('nSigP')
+        fitF = fitresF.floatParsFinal().find('nSigF')
+
+        nP = fitP.getVal()
+        nF = fitF.getVal()
+        eP = fitP.getError()
+        eF = fitF.getError()
         rootfile.Close()
 
-        rootfile = rt.TFile( info['data'], 'read' )
-        hP = rootfile.Get('%s_Pass'%bindef['name'])
-        hF = rootfile.Get('%s_Fail'%bindef['name'])
+        rootfile = rt.TFile(info['data'], 'read')
+        hP = rootfile.Get('%s_Pass' % bindef['name'])
+        hF = rootfile.Get('%s_Fail' % bindef['name'])
 
-        #if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
-        #if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
+        custom_bins = TArrayD(3)
+        custom_bins[0] = 0
+        custom_bins[1] = hP.GetXaxis().GetXmax()
+        custom_bins[2] = hP.GetXaxis().GetXmax() + 1
+
+        hP_rebin = hP.Rebin(2, "hP_rebin", custom_bins.GetArray())
+        hF_rebin = hF.Rebin(2, "hF_rebin", custom_bins.GetArray())
+
+        hTotal = hP_rebin.Clone("hTotal")
+        hTotal.Add(hF_rebin)
+
+        graph = TGraphAsymmErrors()
+        graph.Divide(hP_rebin, hTotal, "cl=0.683 b(1,1) mode")
+
+        if graph.GetN() > 0:
+            efficiency = graph.GetY()[0]
+            efficiency_error = graph.GetErrorY(0)
+        else:
+            efficiency = -1
+            efficiency_error = -1
+
+        effis['dataAltSig'] = [efficiency, efficiency_error]
         rootfile.Close()
-
-        effis['dataAltSig'] = computeEffi(nP,nF,eP,eF)
-
     else:
-        effis['dataAltSig'] = [-1,-1]
+        effis['dataAltSig'] = [-1, -1]
+
 
     if not info['dataAltBkg'] is None and os.path.isfile(info['dataAltBkg']):
-        rootfile = rt.TFile( info['dataAltBkg'], 'read' )
-        from ROOT import RooFit,RooFitResult
-        fitresP = rootfile.Get( '%s_resP' % bindef['name']  )
-        fitresF = rootfile.Get( '%s_resF' % bindef['name'] )
+        rootfile = rt.TFile(info['dataAltBkg'], 'read')
+        from ROOT import RooFit, RooFitResult
+        fitresP = rootfile.Get('%s_resP' % bindef['name'])
+        fitresF = rootfile.Get('%s_resF' % bindef['name'])
 
-        nP = fitresP.floatParsFinal().find('nSigP').getVal()
-        nF = fitresF.floatParsFinal().find('nSigF').getVal()
-        eP = fitresP.floatParsFinal().find('nSigP').getError()
-        eF = fitresF.floatParsFinal().find('nSigF').getError()
+        fitP = fitresP.floatParsFinal().find('nSigP')
+        fitF = fitresF.floatParsFinal().find('nSigF')
+
+        nP = fitP.getVal()
+        nF = fitF.getVal()
+        eP = fitP.getError()
+        eF = fitF.getError()
         rootfile.Close()
 
-        rootfile = rt.TFile( info['data'], 'read' )
-        hP = rootfile.Get('%s_Pass'%bindef['name'])
-        hF = rootfile.Get('%s_Fail'%bindef['name'])
+        rootfile = rt.TFile(info['data'], 'read')
+        hP = rootfile.Get('%s_Pass' % bindef['name'])
+        hF = rootfile.Get('%s_Fail' % bindef['name'])
 
-        #if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
-        #if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
+        custom_bins = TArrayD(3)
+        custom_bins[0] = 0
+        custom_bins[1] = hP.GetXaxis().GetXmax()
+        custom_bins[2] = hP.GetXaxis().GetXmax() + 1
+
+        hP_rebin = hP.Rebin(2, "hP_rebin", custom_bins.GetArray())
+        hF_rebin = hF.Rebin(2, "hF_rebin", custom_bins.GetArray())
+
+        hTotal = hP_rebin.Clone("hTotal")
+        hTotal.Add(hF_rebin)
+
+        graph = TGraphAsymmErrors()
+        graph.Divide(hP_rebin, hTotal, "cl=0.683 b(1,1) mode")
+
+        if graph.GetN() > 0:
+            efficiency = graph.GetY()[0]
+            efficiency_error = graph.GetErrorY(0)
+        else:
+            efficiency = -1
+            efficiency_error = -1
+
+        effis['dataAltBkg'] = [efficiency, efficiency_error]
         rootfile.Close()
-
-        effis['dataAltBkg'] = computeEffi(nP,nF,eP,eF)
     else:
-        effis['dataAltBkg'] = [-1,-1]
+        effis['dataAltBkg'] = [-1, -1]
+
     return effis
