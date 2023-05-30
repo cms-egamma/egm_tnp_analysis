@@ -3,7 +3,7 @@
 *.d
 *.so
 *.pcm
-*.sub
+condor_*.sub
 results/
 .__afsB28E
 .__afs0E8E
