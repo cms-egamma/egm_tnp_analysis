@@ -10,13 +10,20 @@ from libPython.tnpClassUtils import tnpSample
 eosLegacyReReco2016 = '/eos/cms/store/group/phys_egamma/swmukher/egmNtuple_V2ID_2016/'
 eosReReco2017 = '/eos/cms/store/group/phys_egamma/swmukher/ntuple_2017_v2/'
 eosReReco2018 = '/eos/cms/store/group/phys_egamma/swmukher/rereco2018/ECAL_NOISE/'
+
 # UL Summer19
 eosUL2016preVFP  = '/eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-10/UL2016preVFP/merged/'
 eosUL2016postVFP = '/eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-10/UL2016postVFP/merged/'
 eosUL2017 = '/eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2017/merged/'
 eosUL2018 = '/eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2018/merged/'
+
 #Run3
 eosRun3 = '/eos/cms/store/group/phys_egamma/ec/fmausolf/EGM_comm/'
+
+eos_Run3_124X = '/eos/cms/store/group/phys_egamma/tnpTuples/bjoshi/2023-04-25/2022/'
+eos_Run3_PromptReco = '/eos/cms/store/group/phys_egamma/tnpTuples/bjoshi/2023-04-25/2022/'
+eos_Reco_Run3_PromptReco = '/eos/cms/store/group/phys_egamma/tnpTuples/bjoshi/2023-05-01/2022/data/'
+eos_Reco_Run3_124X = '/eos/cms/store/group/phys_egamma/tnpTuples/bjoshi/2023-02-09/2022/mc/'
 
 
 ReReco2017 = {
@@ -40,8 +47,7 @@ ReReco2017 = {
     'data_Run2017D' : tnpSample('data_Run2017D' , eosReReco2017 + 'RunD.root' , lumi = 4.320 ),
     'data_Run2017E' : tnpSample('data_Run2017E' , eosReReco2017 + 'RunE.root' , lumi = 8.802),
     'data_Run2017F' : tnpSample('data_Run2017F' , eosReReco2017 + 'RunF.root' , lumi = 13.567),
-
-    }
+}
 
 LegacyReReco2016 = {
 
@@ -59,9 +65,6 @@ LegacyReReco2016 = {
     'data_Run2016F' : tnpSample('data_Run2017F' , eosLegacyReReco2016 + 'TnPTree_2016F.root' , lumi = 3.102 ),
     'data_Run2016G' : tnpSample('data_Run2017G' , eosLegacyReReco2016 + 'TnPTree_2016G.root' , lumi = 7.540 ),
     'data_Run2016H' : tnpSample('data_Run2017H' , eosLegacyReReco2016 + 'TnPTree_2016H.root' , lumi = 7.813 ),
-
-
-
 }
 
 
@@ -163,3 +166,34 @@ Run3 = {
     'data_Run3F' : tnpSample('data_Run3F' , eosRun3 + 'ntuple_Run3_data_2022F_EleID_PhoID/data/EGamma/crab_Egamma2022F_EleID_PhoID/221114_171125/0000/merged.root' , lumi = 4.99),
     'data_Run3G' : tnpSample('data_Run3G' , eosRun3 + 'ntuple_Run3_data_2022G_EleID_PhoID/data/EGamma/crab_Egamma2022G_EleID_PhoID/221211_201213/0000/merged.root' , lumi = 2.43),
 }
+
+
+
+Run3_124X_PromptReco2022F = {
+        'DY_1j_madgraph_postEE'    : tnpSample('DY_1j_madgraph_postEE', eos_Run3_124X + '/mc/TnPTree_DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8_2022_DY_LO_postEE.root', isMC=True, nEvts = 96505000),
+        'data_Run2022F': tnpSample('data_Run2022F', eos_Run3_PromptReco + '/data/TnPTree_EGamma_2022_Run2022F.root', lumi = 18.0064)}
+
+Run3_124X_PromptReco2022G = {
+        'DY_1j_madgraph_postEE'    : tnpSample('DY_1j_madgraph_postEE', eos_Run3_124X + '/mc/TnPTree_DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8_2022_DY_LO_postEE.root', isMC=True, nEvts = 96505000),
+        'data_Run2022G': tnpSample('data_Run2022G', eos_Run3_PromptReco + '/data/TnPTree_EGamma_2022_Run2022G.root', lumi = 3.1219)}
+
+Run3_124X_PromptReco_preEE = {
+        'DY_1j_madgraph'    : tnpSample('DY_1j_madgraph', eos_Run3_PromptReco + '/mc/TnPTree_DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8_2022_DY_LO.root', isMC=True, nEvts = 27310302),
+        'data_Run2022B': tnpSample('data_Run2022B', eos_Run3_PromptReco + '/data/TnPTree_EGamma_2022_Run2022B.root', lumi = 0.0975),
+        'data_Run2022C': tnpSample('data_Run2022C', eos_Run3_PromptReco + '/data/TnPTree_EGamma_2022_Run2022C.root', lumi = 5.0702),
+        'data_Run2022D': tnpSample('data_Run2022D', eos_Run3_PromptReco + '/data/TnPTree_EGamma_2022_Run2022D.root', lumi = 1.8260),
+        }
+
+Run3_124X_PromptReco_postEE = {
+        'DY_1j_madgraph_postEE'    : tnpSample('DY_1j_madgraph_postEE', eos_Run3_124X + '/mc/TnPTree_DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8_2022_DY_LO_postEE.root', isMC=True, nEvts = 96505000),
+        'data_Run2022E': tnpSample('data_Run2022E', eos_Run3_PromptReco + '/data/TnPTree_EGamma_2022_Run2022E.root', lumi = 5.8784),
+        'data_Run2022F': tnpSample('data_Run2022F', eos_Run3_PromptReco + '/data/TnPTree_EGamma_2022_Run2022F.root', lumi = 18.0064),
+        'data_Run2022G': tnpSample('data_Run2022G', eos_Run3_PromptReco + '/data/TnPTree_EGamma_2022_Run2022G.root', lumi = 3.1219)
+        }
+
+Run3_Reco_124X_PromptReco_postEE = {
+        'DY_1j_madgraph_postEE'    : tnpSample('DY_1j_madgraph_postEE', eos_Reco_Run3_124X + 'TnPTree_DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8_2022_DY_LO_postEE.root', isMC=True, nEvts = 96505000),
+        'data_Run2022E': tnpSample('data_Run2022E', eos_Reco_Run3_PromptReco + '/TnPTree_EGamma_2022_Run2022E.root', lumi = 5.8784),
+        'data_Run2022F': tnpSample('data_Run2022F', eos_Reco_Run3_PromptReco + '/TnPTree_EGamma_2022_Run2022F.root', lumi = 18.0064),
+        'data_Run2022G': tnpSample('data_Run2022G', eos_Reco_Run3_PromptReco + '/TnPTree_EGamma_2022_Run2022G.root', lumi = 3.1219)
+        }

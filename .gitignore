@@ -3,7 +3,15 @@
 *.d
 *.so
 *.pcm
+*.sub
 results/
 .__afsB28E
 .__afs0E8E
 .__afs0DB3
+
+SubmitAll.sh
+
+etc/*.pyc
+etc/config/*.pyc
+
+condor/*

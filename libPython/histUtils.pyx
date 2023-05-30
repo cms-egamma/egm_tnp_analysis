@@ -58,6 +58,7 @@ def makePassFailHistograms( sample, flag, bindef, var ):
     # Read in Tag and Probe Ntuples
     ###############################
 
+    print(sample.tree)
     tree = new TChain(sample.tree)
 
     for p in sample.path:
