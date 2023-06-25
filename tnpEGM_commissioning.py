@@ -6,7 +6,7 @@ sys.path.append("..")
 import etc.inputs.tnpSampleDef as tnpSamples
 import libPython.tnpClassUtils as tnpClasses
 import libPython.CMS_lumi as CMS_lumi
-import libPython.tdrstyle as tdrstyle 
+import libPython.tdrstyle as tdrstyle
 
 import ROOT as rt
 from ROOT import gStyle
@@ -15,14 +15,14 @@ from ROOT import gROOT
 
 
 #################################################################################################
-########## settings 
+########## settings
 #################################################################################################
 treename = 'tnpEleIDs/fitter_tree'
 
 
 tdrstyle.setTDRStyle()
 CMS_lumi.extraText = "Preliminary"
-CMS_lumi.lumi_sqrtS = "35.9 fb^{-1} (13 TeV)" 
+CMS_lumi.lumi_sqrtS = "35.9 fb^{-1} (13 TeV)"
 
 iPos = 11
 iPeriod = 0
@@ -38,8 +38,8 @@ dataSamples = {
 
 ##### define mc samples
 mcSamples = {
-#    'runBCD'  : tnpSamples.Remini17_80X['DY_madgraph'  ].clone(),  
-    'runH'  : tnpSamples.Legacy2016_v1_80X['DY_madgraph_Winter17' ].clone(),  
+#    'runBCD'  : tnpSamples.Remini17_80X['DY_madgraph'  ].clone(),
+    'runH'  : tnpSamples.Legacy2016_v1_80X['DY_madgraph_Winter17' ].clone(),
 }
 #mcSamples['runBCD'].set_puTree('root://eoscms.cern.ch//eos/cms/store/group/phys_egamma/tnp/80X/pu/DY_madgraph_MCWinter17_rec_rec.pu.puTree.root')
 #mcSamples['runBCD'].set_weight('weights_2016_runBCD.totWeight')
@@ -92,7 +92,7 @@ varList = [
 ########## loop over events and fill histograms
 #################################################################################################
 def loopTree(sample, isMC):
-    
+
 
     tree = rt.TChain(treename)
     for p in sample.path:
@@ -107,10 +107,10 @@ def loopTree(sample, isMC):
 
     print "friendTreeName is ", friendTreeName
 
-   
+
     if(isMC):
         friendTree = tree.GetFriend(friendTreeName)
-    
+
     treeVars = ['tag_Ele_pt','tag_sc_abseta','passingLoose80X','el_pt','el_sc_abseta',
                 'el_neuIso','el_phoIso','el_chIso',
                 'tag_Ele_q','el_q']
@@ -120,7 +120,7 @@ def loopTree(sample, isMC):
         histList.append( copy.deepcopy(var) )
 
     if isMC: treeVars.append('totWeight')
-        
+
     print 'Getting vars: '
     print treeVars
 #    tree.Print('toponly')
@@ -131,7 +131,7 @@ def loopTree(sample, isMC):
     print 'Nentries: ', nentries
     for ev in range(nentries):
         if ev % 100000 == 0 : print ' Nevts: ', ev
-            
+
         # combinedProbeIso   = (el_neuIso+el_phoIso+el_chIso)/el_pt
 
 #        print "tag pt : mass : combinedIso ", tag_Ele_pt, " ",pair_mass, " ", combinedTagIso
@@ -139,7 +139,8 @@ def loopTree(sample, isMC):
         if evt['tag_Ele_pt'] < 35 : continue
         if evt['el_pt']      < 20 : continue
         if evt['el_q'] * evt['tag_Ele_q'] > 0 : continue
-            
+        if evt['el_sc_eta']>-1.566 and evt['el_sc_eta']<-1.4442: continue
+        if evt['el_sc_eta']<1.566 and evt['el_sc_eta']>1.4442: continue
        # if int(evt['passingLoose80X']) == 0 : continue
 
         weight = 1
@@ -156,7 +157,7 @@ def loopTree(sample, isMC):
 
 ######For drawing purpose
 def setCanvas():
-    
+
     W = 800
     H = 600
     H_ref = 600
@@ -165,21 +166,21 @@ def setCanvas():
     B = 0.12*H_ref
     L = 0.12*W_ref
     R = 0.04*W_ref
-    
+
     c = rt.TCanvas('c','c',50,50,W,H)
     c.SetLeftMargin( L/W )
     c.SetRightMargin( R/W )
     c.SetTopMargin( T/H )
     c.SetBottomMargin( B/H )
-    
-    
-    
+
+
+
     pad1 = rt.TPad("pad1", "The pad 80% of the height",0.0,0.2,1.0,1.0,21)
     pad2 = rt.TPad("pad2", "The pad 20% of the height",0.0,0.001,1.0,0.25,22)
-    
+
     pad1.SetFillColor(0)
     pad2.SetFillColor(0)
-    
+
     pad2.SetTopMargin(0.02619172);
     pad2.SetBottomMargin(0.3102846);
 
@@ -198,20 +199,20 @@ def setLegend():
     leg.SetLineWidth(1)
     leg.SetFillColor(0)
     leg.SetFillStyle(1001)
-    
+
     return leg
 
 
 def getRatioPlot(histData,histMC ):
     hratio = histData.Clone()
-        
+
     hratio.Divide(histData,histMC)
     hratio.GetXaxis().SetTitle(histData.GetXaxis().GetTitle())
-    
+
     hratio.GetXaxis().SetLabelSize(0.11)
     hratio.GetYaxis().SetLabelSize(0.11)
     hratio.GetYaxis().SetTitleSize(0.09)
-    
+
     hratio.GetXaxis().SetLabelFont(42)
     hratio.GetXaxis().SetLabelSize(0.11)
     hratio.GetXaxis().SetTitleSize(0.035)
@@ -221,7 +222,7 @@ def getRatioPlot(histData,histMC ):
     hratio.GetYaxis().SetLabelSize(0.11)
     hratio.GetYaxis().SetTitleSize(0.13)
     hratio.GetYaxis().SetTitleOffset(0.3)
-    
+
     hratio.GetYaxis().SetNdivisions(205)
     hratio.GetXaxis().SetTitleSize(0.08)
     hratio.GetXaxis().SetLabelSize(0.13)
@@ -233,26 +234,26 @@ def getRatioPlot(histData,histMC ):
     hratio.GetZaxis().SetLabelSize(0.035)
     hratio.GetZaxis().SetTitleSize(0.035)
     hratio.GetZaxis().SetTitleFont(62)
-    
+
     hratio.GetYaxis().SetTitleOffset(0.3)
     hratio.GetYaxis().SetTitle("#frac{Data}{MC}")
-    
+
     hratio.SetMaximum(1.5)
     hratio.SetMinimum(0.5)
 
-    return hratio    
+    return hratio
 
 
 
 
 #################################################################################################
-########## main 
+########## main
 #################################################################################################
 for epoch in  epochs:
 
-    histListData = loopTree(dataSamples[epoch],0) 
+    histListData = loopTree(dataSamples[epoch],0)
     histListMC   = loopTree(mcSamples[epoch]  ,1)
-    
+
 
     os.system("mkdir -p "+ outputdir + '/' + epoch + '/linear/' )
     os.system("mkdir -p "+ outputdir + '/' + epoch + '/log/' )
@@ -266,7 +267,7 @@ for epoch in  epochs:
         ####save the hists first in a root file which can be used later###
         fileoutMC.cd()
         histMC.Write()
-        
+
         fileoutData.cd()
         histData.Write()
 
@@ -276,7 +277,7 @@ for epoch in  epochs:
 
         histMC.SetFillColor(rt.kOrange-2)
         histMC.SetLineColor(rt.kOrange-2)
-        
+
         histData.SetLineWidth(2)
         histData.SetMarkerStyle(20)
         histData.SetLineColor(1)
@@ -285,13 +286,13 @@ for epoch in  epochs:
         print "MC integral ",histMC.Integral()
         if not (histMC.Integral() == 0):
             scale = histData.Integral()/histMC.Integral()
-        
-        if(histMC.Integral() == 0):               
+
+        if(histMC.Integral() == 0):
            print "hist: ",histMC.GetName(), " MC integral is 0 so not plotting"
            continue
-           
+
         histMC.Scale(scale)
-        
+
         pad1.cd()
         gStyle.SetOptStat(0)
         histMC.GetXaxis().SetLabelSize(0)
@@ -306,7 +307,7 @@ for epoch in  epochs:
         #iPos = 11
         CMS_lumi.CMS_lumi(pad1, iPeriod, iPos)
 
-        leg = setLegend()        
+        leg = setLegend()
         leg.AddEntry(histData,"Data","P")
         leg.AddEntry(histMC, "Z#rightarrow ee (MC)","f")
         leg.Draw()
@@ -317,7 +318,7 @@ for epoch in  epochs:
         tex.SetLineWidth(2)
 #        tex.Draw()
 
-        pad2.cd()        
+        pad2.cd()
         hratio = getRatioPlot(histData,histMC)
         hratio.SetTitle('')
         hratio.DrawCopy("E1")
@@ -331,7 +332,7 @@ for epoch in  epochs:
         l.SetLineWidth(2)
         l.Draw("sames")
         c.Update()
-        
+
         pngname = "%s.png" % (histData.GetTitle())
         print("png name is ",pngname)
         c.Print( outputdir + '/' + epoch + '/linear/' + pngname )
@@ -346,19 +347,19 @@ for epoch in  epochs:
         histData.DrawCopy('same e')
         CMS_lumi.CMS_lumi(pad1, iPeriod, iPos)
         leg.Draw()
-        
+
         pad2.cd()
         hratio.DrawCopy("E1")
         l.Draw("sames")
 
         c.Update()
-        c.Print( outputdir + '/' + epoch + '/log/' + pngname )            
+        c.Print( outputdir + '/' + epoch + '/log/' + pngname )
         ###### end of log plots
-        
+
 
     fileoutMC.Write()
     fileoutData.Write()
     fileoutMC.Close()
     fileoutData.Close()
-    
-######end of the function        
+
+######end of the function

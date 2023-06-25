@@ -1,0 +1,26 @@
+===> settings etc/config/settings_passTrigger18.py <===
+import etc.config.settings_passTrigger18 as tnpConf
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+===>  Output directory: 
+results/trigger/UL2018_passheep_finalresult_4etabin/passingTrigger/
+**** name: data_Run2018A                                                                                        
+  path    :  ['/eos/user/r/ryi/TagandProbe/TnP2018/UL2018_Run2018A_heep.root', '/eos/user/r/ryi/TagandProbe/TnP2018/UL2018_Run2018B_heep.root', '/eos/user/r/ryi/TagandProbe/TnP2018/UL2018_Run2018C_heep.root', '/eos/user/r/ryi/TagandProbe/TnP2018/UL2018_Run2018D_heep.root']
+  tnpTree :  None
+   --- Data sample --- 
+  lumi     :  59.724318946
+
+RooWorkspace(w) w contents
+
+variables
+---------
+(acmsF,acmsP,betaF,betaP,gammaF,gammaP,meanF,meanP,nBkgF,nBkgP,nSigF,nSigP,peakF,peakP,sigmaF,sigmaP,x)
+
+p.d.f.s
+-------
+RooCMSShape::bkgFail[ x=x alpha=acmsF beta=betaF gamma=gammaF peak=peakF ] = 1.96611
+RooCMSShape::bkgPass[ x=x alpha=acmsP beta=betaP gamma=gammaP peak=peakP ] = 1.96611
+RooAddPdf::pdfFail[ nSigF * sigFail + nBkgF * bkgFail ] = [#0] ERROR:Integration --  RooNumIntFactory::Init : libRooFitMore cannot be loaded. GSL integrators will not beavailable ! 

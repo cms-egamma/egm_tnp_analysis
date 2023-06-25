@@ -1,2 +1,0 @@
-The condition was not met.
-bindef['cut'] value: tag_Ele_pt > 32 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5 && el_sc_eta >= 1.566000 && el_sc_eta < 2.500000 && el_pt >= 350.000000 && el_pt < 500.000000

@@ -134,7 +134,7 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     effminmax =  findMinMax( effDataList )
     effiMin = effminmax[0]
     effiMax = effminmax[1]
-    effiMin = 0.5
+    effiMin = 0.3
     effiMax = 1.5
 
     sfminmax =  findMinMax( sfList )
@@ -210,13 +210,14 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
         listOfTGraph1[use_igr].SetMarkerColor(graphColors[use_igr])
         if not listOfMC[use_igr] is None:
             listOfMC[use_igr].SetLineColor(graphColors[use_igr])
+            p1.cd()
+            listOfMC[use_igr].Draw("ez")
 
         listOfTGraph1[use_igr].GetHistogram().SetMinimum(effiMin)
         listOfTGraph1[use_igr].GetHistogram().SetMaximum(effiMax)
         p1.cd()
         listOfTGraph1[use_igr].Draw(option)
-        if not listOfMC[use_igr] is None:
-            listOfMC[use_igr].Draw("same ez")
+
 
         p2.cd()
         listOfTGraph2[use_igr].SetLineColor(graphColors[use_igr])
@@ -285,6 +286,7 @@ def diagnosticErrorPlot( effgr, ierror, nameout ):
     listName = nameout.split('/')
     for iext in ["pdf","C","png"]:
         c2D_Err.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+'_'+errorNames[ierror]+listName[-3]).replace('pdf','root'))
+    #    c2D_Err.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+xAxis+'_'             +listName[-3]).replace('pdf','root'))
 
 
     return h2_sfErrorAbs
@@ -328,10 +330,9 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     customEtaBining = []
     customEtaBining.append( (0.000,0.800))
     customEtaBining.append( (0.800,1.444))
-    customEtaBining.append( (1.566,2.000))
-    customEtaBining.append( (2.000,2.500))
-#    customEtaBining.append( (0.000,1.444))
-#    customEtaBining.append( (1.566,2.500))
+    customEtaBining.append( (1.566,2.500))
+#    customEtaBining.append( (1.566,2.000))
+#    customEtaBining.append( (2.000,2.500))
 
     pdfout = nameOutBase + '_egammaPlots.pdf'
     cDummy = rt.TCanvas()
@@ -339,8 +340,8 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
 
 
     EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, False) , #eff Data
-                 #None,
-                 effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, True ) , #plot mc efficiency
+                 None,
+                # effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, False ) , #plot mc efficiency
                  effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, True ) , #SF
                  pdfout,
                  xAxis = axis[0], yAxis = axis[1] )
@@ -382,14 +383,20 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     dmin = 1.0 - h2SF.GetMinimum()
     dmax = h2SF.GetMaximum() - 1.0
     dall = max(dmin,dmax)
-    h2SF.SetMinimum(1-dall)
-    h2SF.SetMaximum(1+dall)
+#    h2SF.SetMinimum(1-dall)
+    h2SF.SetMinimum(0.5)
+#    h2SF.SetMaximum(1+dall)
+    h2SF.SetMaximum(1.5)  # Set max to 3
     h2SF.Draw("colz TEXT45")
 
     c2D.cd(2)
     h2Error.SetMinimum(0)
-    h2Error.SetMaximum(min(h2Error.GetMaximum(),0.2))
+#    h2Error.SetMaximum(min(h2Error.GetMaximum(),0.2))
+    h2Error.SetMaximum(0.2)  # Set max to 0.2
     h2Error.DrawCopy("colz TEXT45")
+
+
+
 
     # Specify the bins you want to check bin error
 #    bins_to_check = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
@@ -402,7 +409,8 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     c2D.Print( pdfout )
     listName = pdfout.split('/')
     for iext in ["pdf","C","png"]:
-        c2D.SaveAs(pdfout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+'_'+listName[-3]).replace('pdf',iext))
+        #c2D.SaveAs(pdfout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+'_'+listName[-3]).replace('pdf',iext))
+        c2D.SaveAs(pdfout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+'_'+listName[-3]).replace('pdf','root'))
 
     rootout = rt.TFile(nameOutBase + '_EGM2D.root','recreate')
     rootout.cd()

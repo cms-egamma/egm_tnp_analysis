@@ -19,7 +19,7 @@ flags = {
 #    "passingTrigger": "(passHltEle27WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton175 == 1)",  #2016
 }
 #baseOutDir = "results/trigger/2017_heep70_3_18_23"
-baseOutDir = "results/trigger/UL2017_passheep_finalresult_4etabin_moreptbin"
+baseOutDir = "results/trigger/UL2017_passheep_finalresult_3etabin"
 #############################################################
 # ######### samples definition  - preparing the samples
 #############################################################
@@ -126,9 +126,8 @@ if not samplesDef["tagSel"] is None:
 biningDef = [
  #  { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, 0.0,  1.4442, 1.566,  2.5] },
   # { 'var' : 'el_pt' , 'type': 'float', 'bins': [35, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 300, 500., 1000.] },
-   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
+   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566,  2.5] },
 #   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566,2.5] },
-#   { 'var' : 'el_pt' , 'type': 'float', 'bins': [35,50, 80, 110, 150, 400., 1000.] },
    { 'var' : 'el_pt' , 'type': 'float', 'bins': [35, 40, 50, 65, 85, 110, 140, 200, 300, 400., 1000.]},
 ]
 #############################################################

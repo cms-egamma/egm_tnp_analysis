@@ -75,6 +75,20 @@ class efficiency:
             self.systCombined += self.syst[isyst]*self.syst[isyst];
 
         self.systCombined = math.sqrt(self.systCombined)
+        print("errEffData:", self.errEffData)
+        print("errEffMC:", self.errEffMC)
+        print("effAltBkgModel:", self.altEff[self.iAltBkgModel])
+        print("effAltSigModel:", self.altEff[self.iAltSigModel])
+        print("effAltMCSignal:", self.altEff[self.iAltMCSignal])
+        print("effAltTagSel:", self.altEff[self.iAltTagSelec])
+        print("systAltBkg:", systAltBkg)
+        print("systAltSig:", systAltSig)
+        print("systAltMC:", systAltMC)
+        print("systAltTagSelec:", systAltTagSelec)
+        print("averageEffData:", averageEffData)
+        print("averageEffMC:", averageEffMC)
+        print("systCombined:", self.systCombined)
+        print("---")
 
 
     def __add__(self,eff):
@@ -83,6 +97,21 @@ class efficiency:
         if eff.effData < 0 :
             return self.deepcopy()
         #    return copy.deepcopy(self)
+
+##debug AttributeError error
+#    def __add__(self, eff):
+#        try:
+#            if self.effData < 0:
+#                return copy.deepcopy(eff)
+#            if eff.effData < 0:
+#                return copy.deepcopy(self)
+#        except AttributeError as error:
+#            print "Error: {}".format(error)
+#            print "self attributes: {}".format(dir(self))
+#            print "eff attributes: {}".format(dir(eff))
+#            return copy.deepcopy(self)
+
+
         ptbin  = self.ptBin
         etabin = self.etaBin
         errData2 = 1.0 / (1.0/(self.errEffData*self.errEffData)+1.0/(eff.errEffData*eff.errEffData))
@@ -335,13 +364,22 @@ class efficiencyList:
                                 h2.SetBinContent(ix,iy, 0 )
                             else:
                                 h2.SetBinContent(ix,iy, abs(self.effList[ptBin][etaBin].syst[onlyError-1]) / denominator )
-
+                        print("ix:", ix)
+                        print("iy:", iy)
+                        print("pt:", h2.GetYaxis().GetBinCenter(iy))
+                        print("eta:", h2.GetXaxis().GetBinCenter(ix))
+                        print("effData:", self.effList[ptBin][etaBin].effData)
+                        print("effMC:", self.effList[ptBin][etaBin].effMC)
+                        print("systCombined:", self.effList[ptBin][etaBin].systCombined)
+                        print("averageMC:", averageMC)
+                        print("---")
         h2.GetXaxis().SetTitle("SuperCluster #eta")
         h2.GetYaxis().SetTitle("p_{T} [GeV]")
         return h2
 
 
     def pt_1DGraph_list(self, doScaleFactor):
+        print "pt_1DGraph_list started"
 #        self.symmetrizeSystVsEta()
         self.combineSyst()
         listOfGraphs = {}
@@ -361,6 +399,9 @@ class efficiencyList:
                     effAverage = effPlus
                     if not effMinus is None:
                         effAverage = effPlus + effMinus
+                    print "effData:", effAverage.effData
+                    if effAverage.effData < 0:
+                        print "Negative effData found. ptBin:", ptBin, "etaBin:", etaBin
 
 
                     if not listOfGraphs.has_key(etaBin):
@@ -399,10 +440,11 @@ class efficiencyList:
                         effMinus = None
                         if self.effList[ptBin].has_key(etaBinMinus):
                             effMinus =  self.effList[ptBin][etaBinMinus]
-
                         effAverage = effPlus
                         if not effMinus is None:
                             effAverage = effPlus + effMinus
+                        if effAverage.effData < 0:
+                            print "Negative effData found. ptBin:", ptBin, "etaBin:", etaBin, "abin:", abin
 
                         effAverage.combineSyst(effAverage.effData,effAverage.effMC)
                         aValue  = effAverage.effData
@@ -432,6 +474,10 @@ class efficiencyList:
                     ### init average efficiency
                     listOfGraphs[ptBin] = []
                 effAverage = self.effList[ptBin][etaBin]
+                if effAverage.effData < 0:
+                    print "Negative effData found. ptBin:", ptBin, "etaBin:", etaBin
+
+
                 aValue  = effAverage.effData
                 anError = effAverage.systCombined
                 if typeGR == 1:

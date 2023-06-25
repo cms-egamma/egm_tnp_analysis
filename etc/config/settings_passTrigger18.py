@@ -20,7 +20,7 @@ flags = {
 #    "passingTrigger": "(passHltEle27WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton175 == 1)",  #2016
 }
 #baseOutDir = "results/trigger/2018_heep70_3_18_23"
-baseOutDir = "results/trigger/UL2018_passheep_finalresult_4etabin"
+baseOutDir = "results/trigger/UL2018_passheep_finalresult_4etabin_moreptbin"
 #############################################################
 # ######### samples definition  - preparing the samples
 #############################################################
@@ -129,8 +129,9 @@ biningDef = [
 #   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, 0.0,  1.4442, 1.566,  2.5] },
 #   { 'var' : 'el_pt' , 'type': 'float', 'bins': [32, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 300, 500., 1000.] },
    { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
-   { 'var' : 'el_pt' , 'type': 'float', 'bins': [32., 50, 80, 110, 150, 400., 1000.] },
-
+ #  { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566,2.5] },
+ #  { 'var' : 'el_pt' , 'type': 'float', 'bins': [32., 50, 80, 110, 150, 400., 1000.] },
+   { 'var' : 'el_pt' , 'type': 'float', 'bins': [35, 40, 50, 65, 85, 110, 140, 200, 300, 400., 1000.]},
 
 ]
 #############################################################
@@ -170,19 +171,47 @@ additionalCuts = None
 # ######### fitting params to tune fit by hand if necessary
 #############################################################
 # from Jaesung
+#for failed bins. These adjustment attempts aim to reduce the parameter ranges and step sizes to improve search precision.
 tnpParNomFit = [
-    "meanP[-0.0,-5.0,5.0]", "sigmaP[0.5,0.1,5.0]",
-    "meanF[-0.0,-5.0,5.0]", "sigmaF[0.5,0.1,5.0]",
-    "acmsP[60.,50.,80.]", "betaP[0.05,0.01,0.08]", "gammaP[0.1, 0, 1]", "peakP[90.0]",
-    "acmsF[60.,50.,80.]", "betaF[0.05,0.01,0.08]", "gammaF[0.1, 0, 1]", "peakF[90.0]",
-    ]
+    "meanP[-0.5,0.5]", "sigmaP[0.1,0.01,1.0]",
+    "meanF[-0.5,0.5]", "sigmaF[0.1,0.01,1.0]",
+    "acmsP[65.,60.,70.]", "betaP[0.08,0.05,0.2]", "gammaP[0.5,0,1]", "peakP[90.0]",
+    "acmsF[65.,60.,70.]", "betaF[0.08,0.05,0.2]", "gammaF[0.5,0,1]", "peakF[90.0]",
+]
+
+# for "meanP(The mean value of the Pass distribution)" and "meanF", the initial range is adjusted to [-0.5, 0.5] to limit the parameter search space.
+# For "sigmaP(The standard deviation of the Pass distribution)" and "sigmaF", the step size is reduced from [0.1, 5.0] to [0.1, 1.0].
+# For "acmsP(The amplitude of the Pass Crystal Ball function)" and "acmsF", the range is narrowed down to [60., 70.] to focus on specific fitting regions.
+# The range for "betaP(The crystal ball transition parameter for the Pass distribution)" and "betaF" is adjusted to [0.08, 0.2] to accommodate a wider range of data distributions.
+# The range for "gammaP(The crystal ball tail parameter for the Pass distribution)" and "gammaF" is set to [0.5, 1] to control the shape of the function.
+#- "peakP": The peak position of the Pass distribution.
+
+#These adjustments aim to fine-tune the fitting parameters and improve the agreement between the data and the MC simulation in the specified bin.
+#By narrowing the parameter ranges and adjusting the step sizes, the fitting algorithm can explore the parameter space more precisely,
+#potentially leading to a smaller error in the scale factor estimation.
+
+#normally
+#tnpParNomFit = [
+#    "meanP[-0.0,-5.0,5.0]", "sigmaP[0.5,0.1,5.0]",
+#    "meanF[-0.0,-5.0,5.0]", "sigmaF[0.5,0.1,5.0]",
+#    "acmsP[60.,50.,80.]", "betaP[0.05,0.01,0.08]", "gammaP[0.1, 0, 1]", "peakP[90.0]",
+#    "acmsF[60.,50.,80.]", "betaF[0.05,0.01,0.08]", "gammaF[0.1, 0, 1]", "peakF[90.0]",
+#    ]#ori
+
+#tnpParAltSigFit = [
+#    "meanP[-0.0,-5.0,5.0]", "sigmaP[1,0.7,6.0]",  "alphaP[2.0,1.2,3.5]", 'nP[3,-5,5]', "sigmaP_2[1.5,0.5,6.0]", "sosP[1,0.5,5.0]",
+#    "meanF[-0.0,-5.0,5.0]", "sigmaF[2,0.7,15.0]", "alphaF[2.0,1.2,3.5]", 'nF[3,-5,5]', "sigmaF_2[2.0,0.5,6.0]", "sosF[1,0.5,5.0]",
+#    "acmsP[60.,50.,75.]", "betaP[0.04,0.01,0.06]", "gammaP[0.1, 0.005, 1]", "peakP[90.0]",
+#    "acmsF[60.,50.,75.]", "betaF[0.04,0.01,0.06]", "gammaF[0.1, 0.005, 1]", "peakF[90.0]",
+#    ]#ori
 
 tnpParAltSigFit = [
-    "meanP[-0.0,-5.0,5.0]", "sigmaP[1,0.7,6.0]",  "alphaP[2.0,1.2,3.5]", 'nP[3,-5,5]', "sigmaP_2[1.5,0.5,6.0]", "sosP[1,0.5,5.0]",
-    "meanF[-0.0,-5.0,5.0]", "sigmaF[2,0.7,15.0]", "alphaF[2.0,1.2,3.5]", 'nF[3,-5,5]', "sigmaF_2[2.0,0.5,6.0]", "sosF[1,0.5,5.0]",
-    "acmsP[60.,50.,75.]", "betaP[0.04,0.01,0.06]", "gammaP[0.1, 0.005, 1]", "peakP[90.0]",
-    "acmsF[60.,50.,75.]", "betaF[0.04,0.01,0.06]", "gammaF[0.1, 0.005, 1]", "peakF[90.0]",
+    "meanP[-0.5,0.5]", "sigmaP[0.1,0.01,1.0]",  "alphaP[2.0,1.2,3.5]", 'nP[3,-5,5]', "sigmaP_2[1.5,0.5,6.0]", "sosP[1,0.5,5.0]",
+    "meanF[-0.5,0.5]", "sigmaF[0.1,0.01,1.0]", "alphaF[2.0,1.2,3.5]", 'nF[3,-5,5]', "sigmaF_2[2.0,0.5,6.0]", "sosF[1,0.5,5.0]",
+    "acmsP[65.,60.,70.]", "betaP[0.08,0.05,0.2]", "gammaP[0.5,0,1]", "peakP[90.0]",
+    "acmsF[65.,60.,70.]", "betaF[0.08,0.05,0.2]", "gammaF[0.5,0,1]", "peakF[90.0]",
     ]
+
 
 tnpParAltBkgFit = [
     "meanP[-0.0,-5.0,5.0]", "sigmaP[0.5,0.1,5.0]",

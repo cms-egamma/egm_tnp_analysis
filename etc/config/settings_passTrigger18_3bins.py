@@ -13,47 +13,48 @@ flags = {
     "passingLoose":   "(passingLoose  == 1)",
     "passingMedium":  "(passingMedium == 1)",
     "passingTight":   "(passingTight  == 1)",
+    "passingTrigger": "(passHltEle32WPTightGsf == 1) || (passHltPhoton200 == 1)", #2018
 #    "passingTrigger": "(passHltEle32WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton200 == 1)", #2018
 #    "passingTrigger": "(passHltEle35WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton200 == 1)",  #2017
-    "passingTrigger": "(passHltEle35WPTightGsf == 1)  || (passHltPhoton200 == 1)",  #2017
+#    "passingTrigger": "(passHltEle35WPTightGsf == 1)  || (passHltPhoton200 == 1)",  #2017
 #    "passingTrigger": "(passHltEle27WPTightGsf == 1) || (passHltEle115CaloIdVTGsfTrkIdTGsf == 1) || (passHltPhoton175 == 1)",  #2016
 }
-#baseOutDir = "results/trigger/2017_heep70_3_18_23"
-baseOutDir = "results/trigger/UL2017_passheep_finalresult_4etabin_moreptbin"
+#baseOutDir = "results/trigger/2018_heep70_3_18_23"
+baseOutDir = "results/trigger/UL2018_passheep_finalresult_3etabin"
 #############################################################
 # ######### samples definition  - preparing the samples
 #############################################################
 tnpTreeDir = "tnpEleTrig"
 
 #UL2018
-#samplesDef = {
-#    "data": tnpSamples.UL2018["data_Run2018A"].clone(),
-#    "mcNom": tnpSamples.UL2018["DY_madgraph"].clone(),
-##    "mcAlt": tnpSamples.UL2018["DY_amcatnloext"].clone(),
-#    #"mcAlt": tnpSamples.UL2018["mc_DY_amcatnlo_ele"].clone(),
+samplesDef = {
+    "data": tnpSamples.UL2018["data_Run2018A"].clone(),
+    "mcNom": tnpSamples.UL2018["DY_amcatnloext"].clone(),
+    "mcAlt": tnpSamples.UL2018["DY_madgraph"].clone(),
+    #"mcAlt": tnpSamples.UL2018["mc_DY_amcatnlo_ele"].clone(),
 #    "mcAlt": None,
-#    "tagSel": tnpSamples.UL2018["DY_madgraph"].clone(),
-#}
-# # can add data sample easily
-#samplesDef['data'].add_sample( tnpSamples.UL2018['data_Run2018B'] )
-#samplesDef['data'].add_sample( tnpSamples.UL2018['data_Run2018C'] )
-#samplesDef['data'].add_sample( tnpSamples.UL2018['data_Run2018D'] )
+    "tagSel": tnpSamples.UL2018["DY_amcatnloext"].clone(),
+}
+ # can add data sample easily
+samplesDef['data'].add_sample( tnpSamples.UL2018['data_Run2018B'] )
+samplesDef['data'].add_sample( tnpSamples.UL2018['data_Run2018C'] )
+samplesDef['data'].add_sample( tnpSamples.UL2018['data_Run2018D'] )
 
 
 ##UL2017
-samplesDef = {
-    "data": tnpSamples.UL2017["data_Run2017B"].clone(),
-    "mcNom": tnpSamples.UL2017["DY_amcatnloext"].clone(),
-    "mcAlt": tnpSamples.UL2017["DY_madgraph"].clone(),
-    #"mcAlt": tnpSamples.UL2017["mc_DY_amcatnlo_ele"].clone(),
-#    "mcAlt": None,
-    "tagSel": tnpSamples.UL2017["DY_amcatnloext"].clone(),
-}
- # can add data sample easily
-samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017C'] )
-samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017D'] )
-samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017E'] )
-samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017F'] )
+#samplesDef = {
+#    "data": tnpSamples.UL2017["data_Run2017B"].clone(),
+#    "mcNom": tnpSamples.UL2017["DY_madgraph"].clone(),
+#    "mcAlt": tnpSamples.UL2017["DY_amcatnloext"].clone(),
+#    #"mcAlt": tnpSamples.UL2017["mc_DY_amcatnlo_ele"].clone(),
+##    "mcAlt": None,
+#    "tagSel": tnpSamples.UL2017["DY_madgraph"].clone(),
+#}
+ ## can add data sample easily
+#samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017C'] )
+#samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017D'] )
+#samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017E'] )
+#samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017F'] )
 
 ##UL2016_preVFP
 #samplesDef = {
@@ -100,7 +101,7 @@ if not samplesDef["tagSel"] is None:
     samplesDef["tagSel"].set_mcTruth()
 if not samplesDef["tagSel"] is None:
     samplesDef["tagSel"].rename("mcAltSel_DY_madgraph_ele")
-    samplesDef['tagSel'].set_cut('tag_Ele_pt > 35')  # FIXME TODO SIC: not sure about this cut value
+    samplesDef['tagSel'].set_cut('tag_Ele_pt > 32')  # FIXME TODO SIC: not sure about this cut value
 
 # # set MC weight, simple way (use tree weight)
 weightName = "totWeight" #Weight totWeight PUweight
@@ -123,13 +124,15 @@ if not samplesDef["tagSel"] is None:
 #    {"var": "el_pt", "type": "float", "bins": [10,20,35,50,100,200,500]},
 #]
 
+
 biningDef = [
- #  { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, 0.0,  1.4442, 1.566,  2.5] },
-  # { 'var' : 'el_pt' , 'type': 'float', 'bins': [35, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 300, 500., 1000.] },
-   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
-#   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566,2.5] },
-#   { 'var' : 'el_pt' , 'type': 'float', 'bins': [35,50, 80, 110, 150, 400., 1000.] },
+#   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, 0.0,  1.4442, 1.566,  2.5] },
+#   { 'var' : 'el_pt' , 'type': 'float', 'bins': [32, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 300, 500., 1000.] },
+   { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566,2.5] },
+ #  { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566,2.5] },
    { 'var' : 'el_pt' , 'type': 'float', 'bins': [35, 40, 50, 65, 85, 110, 140, 200, 300, 400., 1000.]},
+
+
 ]
 #############################################################
 # ######### Cuts definition for all samples
@@ -144,7 +147,7 @@ biningDef = [
 #cutBase   = 'tag_Ele_pt > 35 && abs(tag_sc_eta) < 2.17 && el_q*tag_Ele_q < 0'
 #cutBase   = 'tag_Ele_pt > 30 && abs(tag_sc_eta) < 2.1 && passingCutBasedLoose94XV2==1 && abs(el_eta) < 2.5 && el_pt > 5 && el_q*tag_Ele_q < 0' #UL2016
 #cutBase   = ' tag_Ele_pt > 30 && abs(tag_sc_eta) < 2.17 && el_q*tag_Ele_q < 0 && passingCutBasedLoose94XV2==1 && abs(el_eta) < 2.5 && el_pt > 5 ' #UL2016
-cutBase   = 'tag_Ele_pt > 35 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5' #UL2017 18
+cutBase   = 'tag_Ele_pt > 32 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5' #UL2017 18
 
 
 # can add addtionnal cuts for some bins (first check bin number using tnpEGM --checkBins)

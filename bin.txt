@@ -1,0 +1,125 @@
+bin00_el_sc_eta_m2p50Tom2p00_el_pt_35p00To40p00
+bin01_el_sc_eta_m2p00Tom1p57_el_pt_35p00To40p00
+bin02_el_sc_eta_m1p57Tom1p44_el_pt_35p00To40p00
+bin03_el_sc_eta_m1p44Tom0p80_el_pt_35p00To40p00
+bin04_el_sc_eta_m0p80To0p00_el_pt_35p00To40p00
+bin05_el_sc_eta_0p00To0p80_el_pt_35p00To40p00
+bin06_el_sc_eta_0p80To1p44_el_pt_35p00To40p00
+bin07_el_sc_eta_1p44To1p57_el_pt_35p00To40p00
+bin08_el_sc_eta_1p57To2p00_el_pt_35p00To40p00
+bin09_el_sc_eta_2p00To2p50_el_pt_35p00To40p00
+
+bin10_el_sc_eta_m2p50Tom2p00_el_pt_40p00To50p00
+bin11_el_sc_eta_m2p00Tom1p57_el_pt_40p00To50p00
+bin12_el_sc_eta_m1p57Tom1p44_el_pt_40p00To50p00
+bin13_el_sc_eta_m1p44Tom0p80_el_pt_40p00To50p00
+bin14_el_sc_eta_m0p80To0p00_el_pt_40p00To50p00
+bin15_el_sc_eta_0p00To0p80_el_pt_40p00To50p00
+bin16_el_sc_eta_0p80To1p44_el_pt_40p00To50p00
+bin17_el_sc_eta_1p44To1p57_el_pt_40p00To50p00
+bin18_el_sc_eta_1p57To2p00_el_pt_40p00To50p00
+bin19_el_sc_eta_2p00To2p50_el_pt_40p00To50p00
+
+bin20_el_sc_eta_m2p50Tom2p00_el_pt_50p00To65p00
+bin21_el_sc_eta_m2p00Tom1p57_el_pt_50p00To65p00
+bin22_el_sc_eta_m1p57Tom1p44_el_pt_50p00To65p00
+bin23_el_sc_eta_m1p44Tom0p80_el_pt_50p00To65p00
+bin24_el_sc_eta_m0p80To0p00_el_pt_50p00To65p00
+bin25_el_sc_eta_0p00To0p80_el_pt_50p00To65p00
+bin26_el_sc_eta_0p80To1p44_el_pt_50p00To65p00
+bin27_el_sc_eta_1p44To1p57_el_pt_50p00To65p00
+bin28_el_sc_eta_1p57To2p00_el_pt_50p00To65p00
+bin29_el_sc_eta_2p00To2p50_el_pt_50p00To65p00
+
+bin30_el_sc_eta_m2p50Tom2p00_el_pt_65p00To85p00
+bin31_el_sc_eta_m2p00Tom1p57_el_pt_65p00To85p00
+bin32_el_sc_eta_m1p57Tom1p44_el_pt_65p00To85p00
+bin33_el_sc_eta_m1p44Tom0p80_el_pt_65p00To85p00
+bin34_el_sc_eta_m0p80To0p00_el_pt_65p00To85p00
+bin35_el_sc_eta_0p00To0p80_el_pt_65p00To85p00
+bin36_el_sc_eta_0p80To1p44_el_pt_65p00To85p00
+bin37_el_sc_eta_1p44To1p57_el_pt_65p00To85p00
+bin38_el_sc_eta_1p57To2p00_el_pt_65p00To85p00
+bin39_el_sc_eta_2p00To2p50_el_pt_65p00To85p00
+
+bin40_el_sc_eta_m2p50Tom2p00_el_pt_85p00To110p00
+bin41_el_sc_eta_m2p00Tom1p57_el_pt_85p00To110p00
+bin42_el_sc_eta_m1p57Tom1p44_el_pt_85p00To110p00
+bin43_el_sc_eta_m1p44Tom0p80_el_pt_85p00To110p00
+bin44_el_sc_eta_m0p80To0p00_el_pt_85p00To110p00
+bin45_el_sc_eta_0p00To0p80_el_pt_85p00To110p00
+bin46_el_sc_eta_0p80To1p44_el_pt_85p00To110p00
+bin47_el_sc_eta_1p44To1p57_el_pt_85p00To110p00
+bin48_el_sc_eta_1p57To2p00_el_pt_85p00To110p00
+bin49_el_sc_eta_2p00To2p50_el_pt_85p00To110p00
+
+bin50_el_sc_eta_m2p50Tom2p00_el_pt_110p00To140p00
+bin51_el_sc_eta_m2p00Tom1p57_el_pt_110p00To140p00
+bin52_el_sc_eta_m1p57Tom1p44_el_pt_110p00To140p00
+bin53_el_sc_eta_m1p44Tom0p80_el_pt_110p00To140p00
+bin54_el_sc_eta_m0p80To0p00_el_pt_110p00To140p00
+bin55_el_sc_eta_0p00To0p80_el_pt_110p00To140p00
+bin56_el_sc_eta_0p80To1p44_el_pt_110p00To140p00
+bin57_el_sc_eta_1p44To1p57_el_pt_110p00To140p00
+bin58_el_sc_eta_1p57To2p00_el_pt_110p00To140p00
+bin59_el_sc_eta_2p00To2p50_el_pt_110p00To140p00
+
+bin60_el_sc_eta_m2p50Tom2p00_el_pt_140p00To200p00
+bin61_el_sc_eta_m2p00Tom1p57_el_pt_140p00To200p00
+bin62_el_sc_eta_m1p57Tom1p44_el_pt_140p00To200p00
+bin63_el_sc_eta_m1p44Tom0p80_el_pt_140p00To200p00
+bin64_el_sc_eta_m0p80To0p00_el_pt_140p00To200p00
+bin65_el_sc_eta_0p00To0p80_el_pt_140p00To200p00
+bin66_el_sc_eta_0p80To1p44_el_pt_140p00To200p00
+bin67_el_sc_eta_1p44To1p57_el_pt_140p00To200p00
+bin68_el_sc_eta_1p57To2p00_el_pt_140p00To200p00
+bin69_el_sc_eta_2p00To2p50_el_pt_140p00To200p00
+
+bin70_el_sc_eta_m2p50Tom2p00_el_pt_200p00To300p00
+bin71_el_sc_eta_m2p00Tom1p57_el_pt_200p00To300p00
+bin72_el_sc_eta_m1p57Tom1p44_el_pt_200p00To300p00
+bin73_el_sc_eta_m1p44Tom0p80_el_pt_200p00To300p00
+bin74_el_sc_eta_m0p80To0p00_el_pt_200p00To300p00
+bin75_el_sc_eta_0p00To0p80_el_pt_200p00To300p00
+bin76_el_sc_eta_0p80To1p44_el_pt_200p00To300p00
+bin77_el_sc_eta_1p44To1p57_el_pt_200p00To300p00
+bin78_el_sc_eta_1p57To2p00_el_pt_200p00To300p00
+bin79_el_sc_eta_2p00To2p50_el_pt_200p00To300p00
+
+bin80_el_sc_eta_m2p50Tom2p00_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -2.500000 && el_sc_eta < -2.000000 && el_pt >= 300.000000 && el_pt < 400.000000
+bin81_el_sc_eta_m2p00Tom1p57_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -2.000000 && el_sc_eta < -1.566000 && el_pt >= 300.000000 && el_pt < 400.000000
+bin82_el_sc_eta_m1p57Tom1p44_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -1.566000 && el_sc_eta < -1.444200 && el_pt >= 300.000000 && el_pt < 400.000000
+bin83_el_sc_eta_m1p44Tom0p80_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -1.444200 && el_sc_eta < -0.800000 && el_pt >= 300.000000 && el_pt < 400.000000
+bin84_el_sc_eta_m0p80To0p00_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -0.800000 && el_sc_eta < 0.000000 && el_pt >= 300.000000 && el_pt < 400.000000
+bin85_el_sc_eta_0p00To0p80_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= 0.000000 && el_sc_eta < 0.800000 && el_pt >= 300.000000 && el_pt < 400.000000
+bin86_el_sc_eta_0p80To1p44_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= 0.800000 && el_sc_eta < 1.444200 && el_pt >= 300.000000 && el_pt < 400.000000
+bin87_el_sc_eta_1p44To1p57_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= 1.444200 && el_sc_eta < 1.566000 && el_pt >= 300.000000 && el_pt < 400.000000
+bin88_el_sc_eta_1p57To2p00_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= 1.566000 && el_sc_eta < 2.000000 && el_pt >= 300.000000 && el_pt < 400.000000
+bin89_el_sc_eta_2p00To2p50_el_pt_300p00To400p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= 2.000000 && el_sc_eta < 2.500000 && el_pt >= 300.000000 && el_pt < 400.000000
+bin90_el_sc_eta_m2p50Tom2p00_el_pt_400p00To1000p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -2.500000 && el_sc_eta < -2.000000 && el_pt >= 400.000000 && el_pt < 1000.000000
+bin91_el_sc_eta_m2p00Tom1p57_el_pt_400p00To1000p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -2.000000 && el_sc_eta < -1.566000 && el_pt >= 400.000000 && el_pt < 1000.000000
+bin92_el_sc_eta_m1p57Tom1p44_el_pt_400p00To1000p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -1.566000 && el_sc_eta < -1.444200 && el_pt >= 400.000000 && el_pt < 1000.000000
+bin93_el_sc_eta_m1p44Tom0p80_el_pt_400p00To1000p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -1.444200 && el_sc_eta < -0.800000 && el_pt >= 400.000000 && el_pt < 1000.000000
+bin94_el_sc_eta_m0p80To0p00_el_pt_400p00To1000p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= -0.800000 && el_sc_eta < 0.000000 && el_pt >= 400.000000 && el_pt < 1000.000000
+bin95_el_sc_eta_0p00To0p80_el_pt_400p00To1000p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= 0.000000 && el_sc_eta < 0.800000 && el_pt >= 400.000000 && el_pt < 1000.000000
+bin96_el_sc_eta_0p80To1p44_el_pt_400p00To1000p00
+  - cut:   tag_Ele_pt > 27 && abs(tag_sc_eta) < 2.5 && el_q*tag_Ele_q < 0 && passingHEEPV70==1 && abs(el_eta) < 2.5 && el_pt > 5  && el_sc_eta >= 0.800000 && el_sc_eta < 1.444200 && el_pt >= 400.000000 && el_pt < 1000.000000
+bin97_el_sc_eta_1p44To1p57_el_pt_400p00To1000p00
+bin98_el_sc_eta_1p57To2p00_el_pt_400p00To1000p00
+bin99_el_sc_eta_2p00To2p50_el_pt_400p00To1000p00
