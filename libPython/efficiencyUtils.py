@@ -4,11 +4,12 @@ class efficiency:
     #    altEff = [-1]*7
     iAltBkgModel = 0
     iAltSigModel = 1
-    iAltMCSignal = 2
+    iAltMCSignal = 7
     iAltTagSelec = 3
     iPUup        = 4
     iPUdown      = 5
     iAltFitRange = 6
+    iAltSigBkgModel = 2
 
     def __init__(self,abin):
         self.ptBin   = abin
@@ -17,7 +18,7 @@ class efficiency:
         self.altEff  = [-1]*7
         self.syst    = [-1]*7
     
-    def __init__(self,ptBin,etaBin,effData,errEffData,effMC,errEffMC,effAltBkgModel,effAltSigModel,effAltMCSignal,effAltTagSel):
+    def __init__(self,ptBin,etaBin,effData,errEffData,effMC,errEffMC,effAltBkgModel,effAltSigModel,effAltMCSignal,effAltTagSel,effAltSigBkgModel):
         self.ptBin      = ptBin
         self.etaBin     = etaBin
         self.effData    = effData
@@ -30,6 +31,7 @@ class efficiency:
         self.altEff[self.iAltSigModel] = effAltSigModel
         self.altEff[self.iAltMCSignal] = effAltMCSignal
         self.altEff[self.iAltTagSelec] = effAltTagSel
+        self.altEff[self.iAltSigBkgModel] = effAltSigBkgModel
 
     def __str__(self):
         return '%2.3f\t%2.3f\t%2.1f\t%2.1f\t%2.4f\t%2.4f\t%2.4f\t%2.4f\t%2.4f\t%2.4f\t%2.4f\t%2.4f' % (self.etaBin[0],self.etaBin[1],
@@ -39,16 +41,19 @@ class efficiency:
 
     @staticmethod
     def getSystematicNames():
-        return [ 'statData', 'statMC', 'altBkgModel', 'altSignalModel', 'altMCEff', 'altTagSelection' ]
+        return [ 'statData', 'statMC', 'altBkgModel', 'altSignalModel', 'altMCEff', 'altTagSelection','altSigBkgModel' ]
 
 
 
     def combineSyst(self,averageEffData,averageEffMC):
-        systAltBkg      = self.altEff[self.iAltBkgModel] - averageEffData
-        systAltSig      = self.altEff[self.iAltSigModel] - averageEffData
+        meanEff = (systAltBkg + systAltSig + systAltSigBkg + averageEffData)/4 # we use mean value of 4 variations insted of the nominal one
+        systAltBkg      = self.altEff[self.iAltBkgModel] - meanEff
+        systAltSig      = self.altEff[self.iAltSigModel] - meanEff
         systAltMC       = self.altEff[self.iAltMCSignal] - averageEffMC
 #        systAltTagSelec = self.altEff[self.iAltTagSelec] - averageEffData
-        systAltTagSelec = self.altEff[self.iAltTagSelec] - averageEffMC
+        systAltSigBkg   = self.altEff[self.iAltSigBkgModel] - meanEff
+        # systAltTagSelec = self.altEff[self.iAltTagSelec] - averageEffMC
+        systAltTagSelec = 0 # we remove it as systematic as it is a cut test
 
         if self.altEff[self.iAltBkgModel] < 0:
             systAltBkg = 0
@@ -58,22 +63,36 @@ class efficiency:
 
         if self.altEff[self.iAltMCSignal] < 0:
             systAltMC = 0
-        
+
+        if self.altEff[self.iAltSigBkgModel] < 0:
+            systAltSigBkg = 0
+
         if self.altEff[self.iAltTagSelec] < 0:
             systAltTagSelec = 0
+
+        #don't include systMC when smaller than statMC
+        if(systAltMC<self.errEffMC):
+            systAltMC = 0
 
         self.syst[ 0                 ] = self.errEffData
         self.syst[ 1                 ] = self.errEffMC
         self.syst[self.iAltBkgModel+2] = systAltBkg
         self.syst[self.iAltSigModel+2] = systAltSig
-        self.syst[self.iAltMCSignal+2] = systAltMC
+        self.syst[self.iAltMCSignal-1] = systAltMC
         self.syst[self.iAltTagSelec+2] = systAltTagSelec
+        self.syst[self.iAltSigBkgModel+2] = systAltSigBkg
         
         self.systCombined = 0
-        for isyst in range(6):
-            self.systCombined += self.syst[isyst]*self.syst[isyst];
+        ##Sum in Q##
+        # for isyst in range(6):
+        #     self.systCombined += self.syst[isyst]*self.syst[isyst];
 
-        self.systCombined = math.sqrt(self.systCombined)
+        ##NEW PROPOSAL##
+        for isyst in range(2,6): #check if 6 is excluded!
+            self.systCombined = self.syst[isyst]*self.syst[isyst]
+        self.systCombined= math.sqrt(self.systCombined/3)
+
+        self.systCombined = math.sqrt(self.systCombined*self.systCombined/2 + self.syst[6]*self.syst[6] + self.syst[0]*self.syst[0]+ self.syst[1]*self.syst[1])
         
 
     def __add__(self,eff):
@@ -100,8 +119,9 @@ class efficiency:
         newEffAltSigModel = wData1 * self.altEff[self.iAltSigModel] + wData2 * eff.altEff[self.iAltSigModel]
         newEffAltMCSignal = wData1 * self.altEff[self.iAltMCSignal] + wData2 * eff.altEff[self.iAltMCSignal]
         newEffAltTagSelec = wData1 * self.altEff[self.iAltTagSelec] + wData2 * eff.altEff[self.iAltTagSelec]
-
-        effout = efficiency(ptbin,etabin,newEffData,newErrEffData,newEffMC,newErrEffMC,newEffAltBkgModel,newEffAltSigModel,newEffAltMCSignal,newEffAltTagSelec)
+        newEffAltSigBkgModel = wData1 * self.altEff[self.iAltSigBkgModel] + wData2 * eff.altEff[self.iAltSigBkgModel]
+        
+        effout = efficiency(ptbin,etabin,newEffData,newErrEffData,newEffMC,newErrEffMC,newEffAltBkgModel,newEffAltSigModel,newEffAltMCSignal,newEffAltTagSelec,newEffAltSigBkgModel)
         return effout
     
 
