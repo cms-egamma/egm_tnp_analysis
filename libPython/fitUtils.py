@@ -250,7 +250,7 @@ def histFitterAltBkg( sample, tnpBin, tnpWorkspaceParam ):
 #############################################################
 ########## alternate signal+background fitter
 #############################################################
-def histFitterAltSigBkg( sample, tnpBin, tnpWorkspaceParam ):
+def histFitterAltSigBkg( sample, tnpBin, tnpWorkspaceParam):
 
     tnpWorkspaceFunc = [
         "tailLeft[1]",
@@ -270,11 +270,13 @@ def histFitterAltSigBkg( sample, tnpBin, tnpWorkspaceParam ):
     hF = infile.Get('%s_Fail' % tnpBin['name'] )
     fitter = tnpFitter( hP, hF, tnpBin['name'] )
     infile.Close()
-
+    
     ## setup
-    rootfile = rt.TFile(sample.altSigBkgFit,'update')
+    rootpath = sample.altSigBkgFit.replace('.root', '-%s.root' % tnpBin['name'])
+    rootfile = rt.TFile(rootpath,'update')
     fitter.setOutputFile( rootfile )
 #    fitter.setFitRange(65,115)
+
 
     ## generated Z LineShape
     ## for high pT change the failing spectra to any probe to get statistics
@@ -296,7 +298,7 @@ def histFitterAltSigBkg( sample, tnpBin, tnpWorkspaceParam ):
     title = tnpBin['title'].replace(';',' - ')
     title = title.replace('probe_sc_eta','#eta_{SC}')
     title = title.replace('probe_Ele_pt','p_{T}')
-    fitter.fits(sample.mcTruth,title)
+    fitter.fits(sample.mcTruth,sample.isMC,title)
     rootfile.Close()
 
 
