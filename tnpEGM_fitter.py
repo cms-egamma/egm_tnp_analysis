@@ -159,6 +159,10 @@ if  args.doFit:
                 tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFit )
     pool = Pool()
     pool.map(parallel_fit, range(len(tnpBins['bins'])))
+    
+    # for ib in range(len(tnpBins['bins'])):
+    #     if args.altSigBkg:
+    #         tnpRoot.histFitterAltSigBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigBkgFit )
 
     args.doPlot = True
      
@@ -209,10 +213,10 @@ if args.sumUp:
         'tagSel'      : None
         }
 
-    #if not tnpConf.samplesDef['mcAlt' ] is None:
-    #    info['mcAlt'    ] = tnpConf.samplesDef['mcAlt' ].histFile
-    if not tnpConf.samplesDef['tagSel'] is None:
-        info['tagSel'   ] = tnpConf.samplesDef['tagSel'].histFile
+    if not tnpConf.samplesDef['mcAlt' ] is None:
+       info['mcAlt'    ] = tnpConf.samplesDef['mcAlt' ].histFile
+    # if not tnpConf.samplesDef['tagSel'] is None:
+    #     info['tagSel'   ] = tnpConf.samplesDef['tagSel'].histFile
 
     effis = None
     effFileName ='%s/egammaEffi.txt' % outputDirectory 
@@ -239,9 +243,9 @@ if args.sumUp:
             effis['mcNominal'  ][0],effis['mcNominal'  ][1],
             effis['dataAltBkg' ][0],
             effis['dataAltSig' ][0],
-            effis['dataAltSigBkg' ][0],
             effis['mcAlt' ][0],
-            effis['tagSel'][0],
+            # effis['tagSel'][0],
+            effis['dataAltSigBkg' ][0],
             )
         print(astr)
         fOut.write( astr + '\n' )
