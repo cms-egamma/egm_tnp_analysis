@@ -109,6 +109,11 @@ Everything will be done for a specific flag (so the settings can be the same for
       ```bash
       python tnpEGM_fitter.py etc/config/settings.py --flag myWP --doFit  --altBkg
       ```
+   5. Alternate signal + background fit (using constraints from previous fits)
+
+      ```bash
+      python tnpEGM_fitter.py etc/config/settings.py --flag myWP --doFit  --altSigBkg
+      ```
    5. **Check fits and redo failed ones.** (there is a web `index.php` in the plot directory to vizualize from the web)
       - can redo a given bin using its bin number ib. The bin number can be found from `--checkBins`, directly in the ouput dir (or web interface)
 
