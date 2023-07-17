@@ -16,10 +16,9 @@ effiMin = 0.68
 effiMax = 1.07
 
 
-# sfMin = 0.78
-# sfMax = 1.12
-sfMin = 0.8
-sfMax = 1.2
+sfMin = 0.78
+sfMax = 1.12
+
 
 def isFloat( myFloat ):
     try:
@@ -139,8 +138,8 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
 
     sfminmax =  findMinMax( sfList )
     sfMin = sfminmax[0]
-    sfMin = 0.8
-    sfMax = 1.2
+    sfMin = 0.78
+    sfMax = 1.12
 
     for key in sorted(effDataList.keys()):
         grBinsEffData = effUtil.makeTGraphFromList(effDataList[key], 'min', 'max')
@@ -316,22 +315,23 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
 
     fileWithEff.close()
 ### massage the numbers a bit
-    # effGraph.symmetrizeSystVsEta()# -----CHECK IF WE SHOULD KEEP IT (looks the same?)
+    # effGraph.symmetrizeSystVsEta()# ----- REMOVING SYMM ETA AS DISCUSSED WITH RICCARDO
     effGraph.combineSyst()
 
     print " ------------------------------- "
 
     customEtaBining = []
-#     customEtaBining.append( (0.000,0.800))
-#     customEtaBining.append( (0.800,1.444))
-# #    customEtaBining.append( (1.444,1.566))
-#     customEtaBining.append( (1.566,2.000))
-#     customEtaBining.append( (2.000,2.500))
-    customEtaBining.append( (0.000,0.500))
-    customEtaBining.append( (0.500,1.0))    
-    customEtaBining.append( (1.000,1.5))
-    customEtaBining.append( (1.5,2.000))
+    customEtaBining.append( (0.000,0.800))
+    customEtaBining.append( (0.800,1.444))
+#    customEtaBining.append( (1.444,1.566)) #gap region
+    customEtaBining.append( (1.566,2.000))
     customEtaBining.append( (2.000,2.500))
+    #HZZ bins - can be deleted
+    # customEtaBining.append( (0.000,0.500))
+    # customEtaBining.append( (0.500,1.0))    
+    # customEtaBining.append( (1.000,1.5))
+    # customEtaBining.append( (1.5,2.000))
+    # customEtaBining.append( (2.000,2.500))
 
 
 
