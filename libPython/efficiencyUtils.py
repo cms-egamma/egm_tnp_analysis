@@ -93,16 +93,10 @@ class efficiency:
         #     self.systCombined += self.syst[isyst]*self.syst[isyst];
 
         ##NEW PROPOSAL##
-        #print("eta bin: ",self.etaBin[0],self.etaBin[1])
-        #for isyst in range (7):
-           # print("isyst: ", isyst, " syst[isyst]: ", self.syst[isyst])
         for isyst in range(2,6):
-            # print("isyst: ", isyst, " syst[isyst]: ", self.syst[isyst])
-            self.systCombined += self.syst[isyst]*self.syst[isyst]
-        self.systCombined= math.sqrt(self.systCombined/3)
-        #print("no stat: ",self.systCombined )
-        self.systCombined = math.sqrt(self.systCombined*self.systCombined/4 + self.syst[6]*self.syst[6] + self.syst[0]*self.syst[0]+ self.syst[1]*self.syst[1])
-        #print("syst + stat: ",self.systCombined )
+            self.systCombined += self.syst[isyst]*self.syst[isyst] 
+        self.systCombined= math.sqrt(self.systCombined/3) #RMS/sqrtN
+        self.systCombined = math.sqrt(self.systCombined*self.systCombined/4 + self.syst[6]*self.syst[6] + self.syst[0]*self.syst[0]+ self.syst[1]*self.syst[1]) #sum in quad with syst_altMC, statData and statMC
 
     def __add__(self,eff):
         if self.effData < 0 :
