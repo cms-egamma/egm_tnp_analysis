@@ -318,22 +318,22 @@ class efficiencyList:
                         else:                        
                             averageMC   = (effPlus.effMC   + effMinus.effMC  )/2.
                         ### so this is h2D bin is inside the bining used by e/gamma POG
-                        h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effData      / self.effList[ptBin][etaBin].effMC)
-                        h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / averageMC )
+                        h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].mean      / self.effList[ptBin][etaBin].effMC)
+                        h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / self.effList[ptBin][etaBin].effMC )
                         if onlyError   == 0 :
-                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].systCombined      / averageMC  )
+                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].systCombined      / self.effList[ptBin][etaBin].effMC  )
                         if   onlyError == -3 :
-                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effData      )
-                            h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined * self.effList[ptBin][etaBin].effMC / averageMC )
+                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].mean      )
+                            h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined * self.effList[ptBin][etaBin].effMC / self.effList[ptBin][etaBin].effMC )
                         elif onlyError == -2 :
                             h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effMC)
                             h2.SetBinError  (ix,iy, 0 )
                         elif onlyError == -1 :
-                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effData      / self.effList[ptBin][etaBin].effMC)
-                            h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / averageMC )
+                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].mean      / self.effList[ptBin][etaBin].effMC)
+                            h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / self.effList[ptBin][etaBin].effMC )
 
                         if onlyError   == 0 :
-                                h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].systCombined      / averageMC  )
+                                h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].systCombined      / self.effList[ptBin][etaBin].effMC  )
                         elif onlyError >= 1 and onlyError <= 6:
                             denominator = averageMC
                             if relError:
@@ -372,7 +372,7 @@ class efficiencyList:
                         listOfGraphs[etaBin] = []
 
                     effAverage.combineSyst(effAverage.effData,effAverage.effMC)
-                    aValue  = effAverage.effData
+                    aValue  = effAverage.mean
                     anError = effAverage.systCombined 
                     if doScaleFactor :
                         aValue  = effAverage.mean      / effAverage.effMC
@@ -408,12 +408,12 @@ class efficiencyList:
                         if not effMinus is None:
                             effAverage = effPlus + effMinus
 
-                        effAverage.combineSyst(effAverage.effData,effAverage.effMC)
-                        aValue  = effAverage.mean
-                        anError = effAverage.systCombined 
+                        #effAverage.combineSyst(effAverage.effData,effAverage.effMC)
+                        aValue  = (effPlus.mean + effMinus.mean)/2   #we use abs eta (average between etaplus and etaminus) for pt plot
+                        anError = (effPlus.systCombined + effMinus.systCombined)/2
                         if doScaleFactor :
-                            aValue  = effAverage.mean      / effAverage.effMC
-                            anError = effAverage.systCombined / effAverage.effMC  
+                            aValue  = aValue   / effAverage.effMC
+                            anError = anError / effAverage.effMC  
                         listOfGraphs[abin].append( {'min': ptBin[0], 'max': ptBin[1],
                                                     'val': aValue  , 'err': anError } ) 
                                                   
