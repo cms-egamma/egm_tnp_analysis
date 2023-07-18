@@ -78,6 +78,8 @@ Everything will be done for a specific flag (so the settings can be the same for
    ```
 
 5. **Do your first round of fits.**
+   
+   ***KEEP IN MIND:*** please check that all of the fits have converged correctly and don't allow for extreme low mass tail variations as these can't be considered as valid fits (see S8 in presentation https://indico.cern.ch/event/1288547/contributions/5414376/attachments/2654622/4597206/26052023_RMS_EGamma.pdf) 
    1. nominal fit
 
       ```bash
@@ -131,7 +133,7 @@ Everything will be done for a specific flag (so the settings can be the same for
       python tnpEGM_fitter.py etc/config/settings.py --flag myWP --doFit --mcSig --altSig --iBin ib
       ```
 
-6. **egm txt ouput file.** Once all fits are fine, put everything in the egm format txt file
+7. **egm txt ouput file.** Once all fits are fine, put everything in the egm format txt file
 
    ```bash
    python tnpEGM_fitter.py etc/config/setting.py  --flag myWP --sumUp
