@@ -106,9 +106,9 @@ if args.createHists:
                 var = { 'name' : 'pair_mass', 'nbins' : 80, 'min' : 50, 'max': 130 }
             tnpHist.makePassFailHistograms( sample, tnpConf.flags[args.flag], tnpBins, var )
     
-    #pool = Pool()
-    #pool.map(parallel_hists, tnpConf.samplesDef.keys())
-    for k in tnpConf.samplesDef.keys(): parallel_hists(k)
+    pool = Pool()
+    pool.map(parallel_hists, tnpConf.samplesDef.keys())
+    #for k in tnpConf.samplesDef.keys(): parallel_hists(k)
 
     sys.exit(0)
 
