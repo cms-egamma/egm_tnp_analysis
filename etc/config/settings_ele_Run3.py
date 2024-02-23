@@ -7,10 +7,10 @@ cutpass90 = '(( abs(probe_sc_eta) < 0.8 && probe_Ele_nonTrigMVA > %f ) ||  ( abs
 
 # flag to be Tested
 flags = {
-    'passingVeto94XV2'    : '(passingVeto94XV2   == 1)',
-    'passingLoose94XV2'   : '(passingLoose94XV2  == 1)',
-    'passingMedium94XV2'  : '(passingMedium94XV2 == 1)',
-    'passingTight94XV2'   : '(passingTight94XV2  == 1)',
+    'passingCutBasedVeto94XV2'    : '(passingCutBasedVeto94XV2   == 1)',
+    'passingCutBasedLoose94XV2'   : '(passingCutBasedLoose94XV2  == 1)',
+    'passingCutBasedMedium94XV2'  : '(passingCutBasedMedium94XV2 == 1)',
+    'passingCutBasedTight94XV2'   : '(passingCutBasedTight94XV2  == 1)',
     'passingMVA94Xwp80isoV2' : '(passingMVA94Xwp80isoV2 == 1)',
     'passingMVA94Xwp90isoV2' : '(passingMVA94Xwp90isoV2 == 1)',
     'passingMVA94Xwp80noisoV2' : '(passingMVA94Xwp80noisoV2 == 1)',
@@ -20,7 +20,7 @@ flags = {
     'passingMVA94XwpHZZisoV2'  : '(passingMVA94XwpHZZisoV2 == 1)',
     }
 
-baseOutDir = 'results/UL2017/tnpEleID/'
+baseOutDir = 'results/Run3_BCDEFG/tnpEleID/'
 
 #############################################################
 ########## samples definition  - preparing the samples
@@ -31,17 +31,18 @@ import etc.inputs.tnpSampleDef as tnpSamples
 tnpTreeDir = 'tnpEleIDs'
 
 samplesDef = {
-    'data'   : tnpSamples.UL2017['data_Run2017B'].clone(),
-    'mcNom'  : tnpSamples.UL2017['DY_amcatnloext'].clone(),
-    'mcAlt'  : tnpSamples.UL2017['DY_madgraph'].clone(),
-    'tagSel' : tnpSamples.UL2017['DY_amcatnloext'].clone(),
+    'data'   : tnpSamples.Run3['data_Run3B'].clone(),
+    'mcNom'  : tnpSamples.Run3['DY_madgraph'].clone(),
+    #'mcAlt'  : tnpSamples.Run3['DY_amcatnloext'].clone(),
+    'tagSel' : tnpSamples.Run3['DY_madgraph'].clone(),
 }
 
 ## can add data sample easily
-samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017C'] )
-samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017D'] )
-samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017E'] )
-samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017F'] )
+samplesDef['data'].add_sample( tnpSamples.Run3['data_Run3C'] )
+samplesDef['data'].add_sample( tnpSamples.Run3['data_Run3D'] )
+samplesDef['data'].add_sample( tnpSamples.Run3['data_Run3E'] )
+samplesDef['data'].add_sample( tnpSamples.Run3['data_Run3F'] )
+samplesDef['data'].add_sample( tnpSamples.Run3['data_Run3G'] )
 
 ## some sample-based cuts... general cuts defined here after
 ## require mcTruth on MC DY samples and additional cuts
@@ -50,35 +51,33 @@ samplesDef['data'].add_sample( tnpSamples.UL2017['data_Run2017F'] )
 #samplesDef['data'  ].set_cut('run >= 273726')
 samplesDef['data' ].set_tnpTree(tnpTreeDir)
 if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_tnpTree(tnpTreeDir)
-if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_tnpTree(tnpTreeDir)
+#if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_tnpTree(tnpTreeDir)
 if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_tnpTree(tnpTreeDir)
 
 if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_mcTruth()
-if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_mcTruth()
+#if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_mcTruth()
 if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_mcTruth()
 if not samplesDef['tagSel'] is None:
-    samplesDef['tagSel'].rename('mcAltSel_DY_amcatnloext')
+    samplesDef['tagSel'].rename('mcAltSel_DY_madgraph')
     samplesDef['tagSel'].set_cut('tag_Ele_pt > 37') #canceled non trig MVA cut
 
 
 ## set MC weight, can use several pileup rw for different data taking periods
-weightName = 'weights_2017_runBCDEF.totWeight'
+#weightName = 'weights_data_Run2022_B-G.totWeight'
+weightName = 'weights_data_Run2022_inclusive.totWeight'
 if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_weight(weightName)
-if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_weight(weightName)
+#if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_weight(weightName)
 if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_weight(weightName)
-if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_puTree('/eos/cms/store/group/phys_egamma/swmukher/UL2017/PU_miniAOD/DY_amcatnloext_ele.pu.puTree.root')
-if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_puTree('/eos/cms/store/group/phys_egamma/swmukher/UL2017/PU_miniAOD/DY_madgraph_ele.pu.puTree.root')
-if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_puTree('/eos/cms/store/group/phys_egamma/swmukher/UL2017/PU_miniAOD/DY_amcatnloext_ele.pu.puTree.root')
-
+if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_puTree('/eos/cms/store/group/phys_egamma/ec/fmausolf/EGM_comm/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8_EleID_PhoID/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8_EleID_PhoID/221018_080249/0000/DY_powheg_ele.pu.puTree.root')
+#if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_puTree('/eos/cms/store/group/phys_egamma/swmukher/UL2017/PU_miniAOD/DY_amcatnloext_ele.pu.puTree.root')
+if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_puTree('/eos/cms/store/group/phys_egamma/ec/fmausolf/EGM_comm/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8_EleID_PhoID/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8_EleID_PhoID/221018_080249/0000/DY_powheg_ele.pu.puTree.root')
 
 #############################################################
 ########## bining definition  [can be nD bining]
 #############################################################
 biningDef = [
    { 'var' : 'el_sc_eta' , 'type': 'float', 'bins': [-2.5,-2.0,-1.566,-1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5] },
-   { 'var' : 'el_pt' , 'type': 'float', 'bins': [10,20,35,50,100,200,500] },
-
-
+   { 'var' : 'el_pt' , 'type': 'float', 'bins': [10,20,35,50,100,500] },
 ]
 
 #############################################################
@@ -134,4 +133,3 @@ tnpParAltBkgFit = [
     "alphaP[0.,-5.,5.]",
     "alphaF[0.,-5.,5.]",
     ]
-        
