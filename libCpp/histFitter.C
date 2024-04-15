@@ -158,6 +158,8 @@ void tnpFitter::fits(bool mcTruth,bool isMC,string title, bool isaddGaus) {
     if( _work->var("betaF")  ) _work->var("betaF")->setConstant();
     if( _work->var("gammaP") ) _work->var("gammaP")->setConstant();
     if( _work->var("gammaF") ) _work->var("gammaF")->setConstant();
+    if( _work->var("peakP") ) _work->var("peakP")->setConstant();
+    if( _work->var("peakF") ) _work->var("peakF")->setConstant();
   }
 
   /// FC: seems to be better to change the actual range than using a fitRange in the fit itself (???)

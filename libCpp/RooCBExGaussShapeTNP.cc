@@ -1,8 +1,8 @@
-#include "RooCBExGaussShape.h" 
+#include "RooCBExGaussShapeTNP.h" 
 
-ClassImp(RooCBExGaussShape) 
+ClassImp(RooCBExGaussShapeTNP) 
 
-RooCBExGaussShape::RooCBExGaussShape(const char *name, const char *title, 
+RooCBExGaussShapeTNP::RooCBExGaussShapeTNP(const char *name, const char *title, 
 				     RooAbsReal& _m,
 				     RooAbsReal& _m0,
 				     RooAbsReal& _sigma,
@@ -22,7 +22,7 @@ RooAbsPdf(name,title),
 
 {}
 
-RooCBExGaussShape::RooCBExGaussShape(const RooCBExGaussShape& other, const char* name):
+RooCBExGaussShapeTNP::RooCBExGaussShapeTNP(const RooCBExGaussShapeTNP& other, const char* name):
   RooAbsPdf(other,name), 
   m("m",this,other.m),
   m0(" m0",this,other. m0),
@@ -35,7 +35,7 @@ RooCBExGaussShape::RooCBExGaussShape(const RooCBExGaussShape& other, const char*
 {}
 
 
-Double_t RooCBExGaussShape::evaluate() const 
+Double_t RooCBExGaussShapeTNP::evaluate() const 
 { 
   Double_t rval=0;
 
@@ -46,7 +46,6 @@ Double_t RooCBExGaussShape::evaluate() const
   //   t0 = -t0;
   // }
 
-  std::cout << "Hello Hello Hello Hello " << std::endl;
   Double_t absAlpha = fabs((Double_t)alpha);
   if( tailLeft >= 0 ) {
     if (t>0) {
