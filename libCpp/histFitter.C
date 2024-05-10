@@ -136,7 +136,6 @@ void tnpFitter::setWorkspace(std::vector<std::string> workspace, bool isaddGaus)
 void tnpFitter::fits(bool mcTruth,string title, bool isaddGaus) {
 
   cout << " title : " << title << endl;
-
   
   RooAbsPdf *pdfPass = _work->pdf("pdfPass");
   RooAbsPdf *pdfFail = _work->pdf("pdfFail");
@@ -160,7 +159,7 @@ void tnpFitter::fits(bool mcTruth,string title, bool isaddGaus) {
   /// FC: I don't know why but the integral is done over the full range in the fit not on the reduced range
   _work->var("x")->setRange(_xFitMin,_xFitMax);
   _work->var("x")->setRange("fitMassRange",_xFitMin,_xFitMax);
-  RooFitResult* resPass = pdfPass->fitTo(*_work->data("hPass"),Minos(_useMinos),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
+  RooFitResult* resPass = pdfPass->fitTo(*_work->data("hPass"),Minimizer("Minuit2","MIGRAD"),Minos(_useMinos),Strategy(2),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
   //RooFitResult* resPass = pdfPass->fitTo(*_work->data("hPass"),Minos(_useMinos),SumW2Error(kTRUE),Save());
   if( _fixSigmaFtoSigmaP ) {
     _work->var("sigmaF")->setVal( _work->var("sigmaP")->getVal() );
@@ -169,7 +168,7 @@ void tnpFitter::fits(bool mcTruth,string title, bool isaddGaus) {
 
   _work->var("sigmaF")->setVal(_work->var("sigmaP")->getVal());
   _work->var("sigmaF")->setRange(0.8* _work->var("sigmaP")->getVal(), 3.0* _work->var("sigmaP")->getVal());
-  RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minos(_useMinos),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
+  RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minimizer("Minuit2","MIGRAD"),Minos(_useMinos),Strategy(2),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
   //RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minos(_useMinos),SumW2Error(kTRUE),Save());
 
   RooPlot *pPass = _work->var("x")->frame(60,120);
@@ -198,7 +197,7 @@ void tnpFitter::fits(bool mcTruth,string title, bool isaddGaus) {
   c.Write(TString::Format("%s_Canv",_histname_base.c_str()),TObject::kOverwrite);
   resPass->Write(TString::Format("%s_resP",_histname_base.c_str()),TObject::kOverwrite);
   resFail->Write(TString::Format("%s_resF",_histname_base.c_str()),TObject::kOverwrite);
-
+  //_fOut->Close();
   
 }
 

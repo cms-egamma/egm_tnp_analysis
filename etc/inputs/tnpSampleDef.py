@@ -15,6 +15,10 @@ eosUL2016preVFP  = '/eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-
 eosUL2016postVFP = '/eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-10/UL2016postVFP/merged/'
 eosUL2017 = '/eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2017/merged/'
 eosUL2018 = '/eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2018/merged/'
+eosPrompt2022FG = '/eos/cms/store/group/phys_egamma/ec/tnpTuples/rsalvatico/ntuples_Run3/PromptData2022/'
+eos2022MC = '/eos/cms/store/group/phys_egamma/abelvede/MC_merged/'
+eosPrompt2023 = '/eos/cms/store/group/phys_egamma/ec/tnpTuples/Prompt2023/photonIDpostBPIXntuples/'
+#eosPrompt2022MC = '/eos/cms/store/group/phys_egamma/ec/fmausolf/EGM_comm/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8_EleID_PhoID/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/DYToEE_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8_EleID_PhoID/221018_080249/0000/'
 
 
 ReReco2017 = {
@@ -140,5 +144,68 @@ UL2018 = {
     'data_Run2018B' : tnpSample('data_Run2018B' , eosUL2018 + 'Run2018B.root' , lumi = 7.060617355),
     'data_Run2018C' : tnpSample('data_Run2018C' , eosUL2018 + 'Run2018C.root' , lumi = 6.894770971),
     'data_Run2018D' : tnpSample('data_Run2018D' , eosUL2018 + 'Run2018D.root' , lumi = 31.74220577),
+}
+
+the2022_preEE = {
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eos2022MC + 'DYJetsToLL_MG-pythia8_Run3Summer22MiniAODv4_13_3_0.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'           : tnpSample('DY_powheg',
+                                       eos2022MC + 'DYto2E_powheg-pythia8_Run3Summer22MiniAODv4_13_3_0.root',
+                                       isMC = True, nEvts =  -1 ),
+}
+
+the2022_postEE = {
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eos2022MC + 'DYJetsToLL_MG-pythia8_Run3Summer22EEMiniAODv4_13_3_0.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'           : tnpSample('DY_powheg',
+                                       eos2022MC + 'DYto2E_powheg-pythia8_Run3Summer22EEMiniAODv4_13_3_0.root',
+                                       isMC = True, nEvts =  -1 ),
+}
+
+
+Prompt2023_preBPIX = {
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosPrompt2023 + 'DY_LO_2023preBPIX.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'           : tnpSample('DY_amcatnloext',
+                                       eosPrompt2023 + 'DY_NLO_2023preBPIX.root',
+                                       isMC = True, nEvts =  -1 ),
+
+    'data_Run2023C' : tnpSample('data_Run2023C' , eosPrompt2023 + 'data_2023C.root' , lumi = 17.060),
+}
+
+Prompt2023_postBPIX = {
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosPrompt2023 + 'DY_LO_2023postBPIX.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'           : tnpSample('DY_amcatnloext',
+                                       eosPrompt2023 + 'DY_NLO_2023postBPIX.root',
+                                       isMC = True, nEvts =  -1 ),
+
+    'data_Run2023D' : tnpSample('data_Run2023D' , eosPrompt2023 + 'data_2023D.root' , lumi = 9.525),
+}
+
+Prompt2023_preBPIX_AOD = {
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosPrompt2023 + '/AODntuples/DY_LO_2023preBPIX_AOD.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'           : tnpSample('DY_amcatnloext',
+                                       eosPrompt2023 + '/AODntuples/DY_NLO_2023preBPIX_AOD.root',
+                                       isMC = True, nEvts =  -1 ),
+
+    'data_Run2023C' : tnpSample('data_Run2023C' , eosPrompt2023 + '/AODntuples/data_2023C_AOD.root' , lumi = 17.060),
+}
+
+Prompt2023_postBPIX_AOD = {
+    'DY_madgraph'              : tnpSample('DY_madgraph',
+                                       eosPrompt2023 + '/AODntuples/DY_LO_2023postBPIX_AOD.root',
+                                       isMC = True, nEvts =  -1 ),
+    'DY_amcatnloext'           : tnpSample('DY_amcatnloext',
+                                       eosPrompt2023 + '/AODntuples/DY_NLO_2023postBPIX_AOD.root',
+                                       isMC = True, nEvts =  -1 ),
+
+    'data_Run2023D' : tnpSample('data_Run2023D' , eosPrompt2023 + '/AODntuples/data_2023D_AOD.root' , lumi = 9.525),
 }
 

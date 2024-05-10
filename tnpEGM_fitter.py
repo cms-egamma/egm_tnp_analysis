@@ -100,6 +100,7 @@ if args.createHists:
         if sampleType == args.sample or args.sample == 'all' :
             print 'creating histogram for sample '
             sample.dump()
+
             var = { 'name' : 'pair_mass', 'nbins' : 80, 'min' : 50, 'max': 130 }
             if sample.mcTruth:
                 var = { 'name' : 'pair_mass', 'nbins' : 80, 'min' : 50, 'max': 130 }
@@ -169,6 +170,7 @@ if  args.doPlot:
         fitType  = 'altBkgFit'
         
     os.system('hadd -f %s %s' % (fileName, fileName.replace('.root', '-*.root')))
+    print "STILL ALRIGHT HERE"
 
     plottingDir = '%s/plots/%s/%s' % (outputDirectory,sampleToFit.name,fitType)
     if not os.path.exists( plottingDir ):
@@ -213,6 +215,8 @@ if args.sumUp:
         ### formatting assuming 2D bining -- to be fixed        
         v1Range = tnpBins['bins'][ib]['title'].split(';')[1].split('<')
         v2Range = tnpBins['bins'][ib]['title'].split(';')[2].split('<')
+        print tnpBins['bins'][ib]['title']
+        print "ranges",v1Range, v2Range
         if ib == 0 :
             astr = '### var1 : %s' % v1Range[1]
             print astr
@@ -225,11 +229,14 @@ if args.sumUp:
             float(v1Range[0]), float(v1Range[2]),
             float(v2Range[0]), float(v2Range[2]),
             effis['dataNominal'][0],effis['dataNominal'][1],
-            effis['mcNominal'  ][0],effis['mcNominal'  ][1],
+            #effis['mcNominal'  ][0],effis['mcNominal'  ][1],
+            1.,1.,
             effis['dataAltBkg' ][0],
             effis['dataAltSig' ][0],
-            effis['mcAlt' ][0],
-            effis['tagSel'][0],
+            #effis['mcAlt' ][0],
+            1.,1.,
+            #effis['tagSel'][0],
+            #1.,1.,
             )
         print astr
         fOut.write( astr + '\n' )

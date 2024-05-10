@@ -68,6 +68,7 @@ def makePassFailHistograms( sample, flag, bindef, var ):
         print ' - Adding weight tree: %s from file %s ' % (sample.weight.split('.')[0], sample.puTree)
         tree.AddFriend(sample.weight.split('.')[0],sample.puTree)
 
+
     #################################
     # Prepare hists, cuts and outfile
     #################################
@@ -120,12 +121,13 @@ def makePassFailHistograms( sample, flag, bindef, var ):
 
     # Note: with str.encode we convert a string to bytes, which is needed for C++ functions
     branches = set([str.encode(x) for x in branches.split(" ") if x != '' and not is_number(x)])
+    #print("these are the branches:", branches)
 
     # Activate only branches which matter for the tag selection
-    tree.SetBranchStatus("*", 0)
+    #tree.SetBranchStatus("*", 0)
 
-    for br in branches:
-        tree.SetBranchStatus(br, 1)
+    #for br in branches:
+    #    tree.SetBranchStatus(br, 1)
 
     # Set adress of pair mass
     tree.SetBranchAddress("pair_mass", <void*>&pair_mass)
