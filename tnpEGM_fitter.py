@@ -159,10 +159,6 @@ if  args.doFit:
                 tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFit )
     pool = Pool()
     pool.map(parallel_fit, range(len(tnpBins['bins'])))
-    
-    # for ib in range(len(tnpBins['bins'])):
-    #     if args.altSigBkg:
-    #         tnpRoot.histFitterAltSigBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigBkgFit )
 
     args.doPlot = True
      
