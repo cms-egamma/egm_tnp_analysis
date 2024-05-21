@@ -247,3 +247,58 @@ def histFitterAltBkg( sample, tnpBin, tnpWorkspaceParam ):
     rootfile.Close()
 
 
+#############################################################
+########## alternate signal+background fitter
+#############################################################
+def histFitterAltSigBkg( sample, tnpBin, tnpWorkspaceParam):
+
+    tnpWorkspaceFunc = [
+        "tailLeft[1]",
+        "RooCBExGaussShape::sigResPass(x,meanP,expr('sqrt(sigmaP*sigmaP+sosP*sosP)',{sigmaP,sosP}),alphaP,nP, expr('sqrt(sigmaP_2*sigmaP_2+sosP*sosP)',{sigmaP_2,sosP}),tailLeft)",
+        "RooCBExGaussShape::sigResFail(x,meanF,expr('sqrt(sigmaF*sigmaF+sosF*sosF)',{sigmaF,sosF}),alphaF,nF, expr('sqrt(sigmaF_2*sigmaF_2+sosF*sosF)',{sigmaF_2,sosF}),tailLeft)",
+        "Exponential::bkgPass(x, alphaP_2)",
+        "Exponential::bkgFail(x, alphaF_2)",
+        ]
+
+    tnpWorkspace = []
+    tnpWorkspace.extend(tnpWorkspaceParam)
+    tnpWorkspace.extend(tnpWorkspaceFunc)
+            
+    ## init fitter
+    infile = rt.TFile(sample.histFile,'read')
+    hP = infile.Get('%s_Pass' % tnpBin['name'] )
+    hF = infile.Get('%s_Fail' % tnpBin['name'] )
+    fitter = tnpFitter( hP, hF, tnpBin['name'] )
+    infile.Close()
+    
+    ## setup
+    rootpath = sample.altSigBkgFit.replace('.root', '-%s.root' % tnpBin['name'])
+    rootfile = rt.TFile(rootpath,'update')
+    fitter.setOutputFile( rootfile )
+#    fitter.setFitRange(65,115)
+
+
+    ## generated Z LineShape
+    ## for high pT change the failing spectra to any probe to get statistics
+    fileTruth = rt.TFile(sample.mcRef.histFile,'read')
+    histZLineShapeP = fileTruth.Get('%s_Pass'%tnpBin['name'])
+    histZLineShapeF = fileTruth.Get('%s_Fail'%tnpBin['name'])
+    if ptMin( tnpBin ) > minPtForSwitch: 
+        histZLineShapeF = fileTruth.Get('%s_Pass'%tnpBin['name'])
+#        fitter.fixSigmaFtoSigmaP()
+    fitter.setZLineShapes(histZLineShapeP,histZLineShapeF)
+    fileTruth.Close()
+
+    ### set workspace
+    workspace = rt.vector("string")()
+    for iw in tnpWorkspace:
+        workspace.push_back(iw)
+    fitter.setWorkspace( workspace )
+
+    title = tnpBin['title'].replace(';',' - ')
+    title = title.replace('probe_sc_eta','#eta_{SC}')
+    title = title.replace('probe_Ele_pt','p_{T}')
+    fitter.fits(sample.mcTruth,sample.isMC,title)
+    rootfile.Close()
+
+

@@ -226,6 +226,34 @@ def getAllEffi( info, bindef ):
         rootfile.Close()
 
         effis['dataAltBkg'] = computeEffi(nP,nF,eP,eF)
+    
     else:
         effis['dataAltBkg'] = [-1,-1]
+    
+    if not info['dataAltSigBkg'] is None and os.path.isfile(info['dataAltSigBkg']) :
+        rootfile = rt.TFile( info['dataAltSigBkg'], 'read' )
+        from ROOT import RooFit,RooFitResult
+        fitresP = rootfile.Get( '%s_resP' % bindef['name']  )
+        fitresF = rootfile.Get( '%s_resF' % bindef['name'] )
+
+        nP = fitresP.floatParsFinal().find('nSigP').getVal()
+        nF = fitresF.floatParsFinal().find('nSigF').getVal()
+        eP = fitresP.floatParsFinal().find('nSigP').getError()
+        eF = fitresF.floatParsFinal().find('nSigF').getError()
+        rootfile.Close()
+
+        rootfile = rt.TFile( info['data'], 'read' )
+        hP = rootfile.Get('%s_Pass'%bindef['name'])
+        hF = rootfile.Get('%s_Fail'%bindef['name'])
+
+        # if eP > math.sqrt(hP.Integral()) : eP = math.sqrt(hP.Integral())
+        # if eF > math.sqrt(hF.Integral()) : eF = math.sqrt(hF.Integral())
+        rootfile.Close()
+
+        effis['dataAltSigBkg'] = computeEffi(nP,nF,eP,eF)
+
+    else:
+        effis['dataAltSigBkg'] = [-1,-1]
+        
     return effis
+    

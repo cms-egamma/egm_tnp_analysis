@@ -46,7 +46,6 @@ Double_t RooCBExGaussShape::evaluate() const
   //   t0 = -t0;
   // }
 
-  std::cout << "Hello Hello Hello Hello " << std::endl;
   Double_t absAlpha = fabs((Double_t)alpha);
   if( tailLeft >= 0 ) {
     if (t>0) {

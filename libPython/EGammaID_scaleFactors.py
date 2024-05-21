@@ -15,6 +15,7 @@ tdrstyle.setTDRStyle()
 effiMin = 0.68
 effiMax = 1.07
 
+
 sfMin = 0.78
 sfMax = 1.12
 
@@ -305,7 +306,6 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
         if len(numbers) > 0 and isFloat(numbers[0]):
             etaKey = ( float(numbers[0]), float(numbers[1]) )
             ptKey  = ( float(numbers[2]), min(500,float(numbers[3])) )
-        
             myeff = efficiency(ptKey,etaKey,
                                float(numbers[4]),float(numbers[5]),float(numbers[6] ),float(numbers[7] ),
                                float(numbers[8]),float(numbers[9]),float(numbers[10]),float(numbers[11]) )
@@ -314,9 +314,8 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
             effGraph.addEfficiency(myeff)
 
     fileWithEff.close()
-
 ### massage the numbers a bit
-    effGraph.symmetrizeSystVsEta()
+    # effGraph.symmetrizeSystVsEta()# ----- REMOVING SYMM ETA AS DISCUSSED WITH RICCARDO
     effGraph.combineSyst()
 
     print " ------------------------------- "
@@ -324,24 +323,30 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     customEtaBining = []
     customEtaBining.append( (0.000,0.800))
     customEtaBining.append( (0.800,1.444))
-#    customEtaBining.append( (1.444,1.566))
+#    customEtaBining.append( (1.444,1.566)) #gap region
     customEtaBining.append( (1.566,2.000))
     customEtaBining.append( (2.000,2.500))
+    #HZZ bins - can be deleted
+    # customEtaBining.append( (0.000,0.500))
+    # customEtaBining.append( (0.500,1.0))    
+    # customEtaBining.append( (1.000,1.5))
+    # customEtaBining.append( (1.5,2.000))
+    # customEtaBining.append( (2.000,2.500))
+
 
 
     pdfout = nameOutBase + '_egammaPlots.pdf'
     cDummy = rt.TCanvas()
     cDummy.Print( pdfout + "[" )
 
-
     EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, False ) , #eff Data
                  None, 
                  effGraph.pt_1DGraph_list_customEtaBining(customEtaBining, True ) , #SF
                  pdfout,
                  xAxis = axis[0], yAxis = axis[1] )
-#EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,False) , 
-#             effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,True)   , False, pdfout )
-#    EffiGraph1D( effGraph.eta_1DGraph_list(False), effGraph.eta_1DGraph_list(True), True , pdfout )
+    # EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,False) , 
+    #         effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,True)   , False, pdfout )
+    # EffiGraph1D( effGraph.eta_1DGraph_list(False), effGraph.eta_1DGraph_list(True), True , pdfout )
     listOfSF1D = EffiGraph1D( effGraph.eta_1DGraph_list( typeGR =  0 ) , # eff Data
                               effGraph.eta_1DGraph_list( typeGR = -1 ) , # eff MC
                               effGraph.eta_1DGraph_list( typeGR = +1 ) , # SF

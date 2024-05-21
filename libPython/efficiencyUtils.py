@@ -5,10 +5,11 @@ class efficiency:
     iAltBkgModel = 0
     iAltSigModel = 1
     iAltMCSignal = 2
-    iAltTagSelec = 3
+    # iAltTagSelec = 3
     iPUup        = 4
     iPUdown      = 5
     iAltFitRange = 6
+    iAltSigBkgModel = 3
 
     def __init__(self,abin):
         self.ptBin   = abin
@@ -16,8 +17,9 @@ class efficiency:
         self.effMC   = -1
         self.altEff  = [-1]*7
         self.syst    = [-1]*7
+        self.mean    = -1
     
-    def __init__(self,ptBin,etaBin,effData,errEffData,effMC,errEffMC,effAltBkgModel,effAltSigModel,effAltMCSignal,effAltTagSel):
+    def __init__(self,ptBin,etaBin,effData,errEffData,effMC,errEffMC,effAltBkgModel,effAltSigModel,effAltMCSignal,effAltSigBkgModel):
         self.ptBin      = ptBin
         self.etaBin     = etaBin
         self.effData    = effData
@@ -25,11 +27,14 @@ class efficiency:
         self.errEffData = errEffData        
         self.errEffMC   = errEffMC
         self.altEff = [-1]*7
-        self.syst   = [-1]*9
+        self.syst   = [-1]*7
         self.altEff[self.iAltBkgModel] = effAltBkgModel
         self.altEff[self.iAltSigModel] = effAltSigModel
         self.altEff[self.iAltMCSignal] = effAltMCSignal
-        self.altEff[self.iAltTagSelec] = effAltTagSel
+        # self.altEff[self.iAltTagSelec] = effAltTagSel
+        self.altEff[self.iAltSigBkgModel] = effAltSigBkgModel
+        self.mean=(effAltBkgModel+effAltSigModel+effAltSigBkgModel+effData)/4
+
 
     def __str__(self):
         return '%2.3f\t%2.3f\t%2.1f\t%2.1f\t%2.4f\t%2.4f\t%2.4f\t%2.4f\t%2.4f\t%2.4f\t%2.4f\t%2.4f' % (self.etaBin[0],self.etaBin[1],
@@ -39,16 +44,19 @@ class efficiency:
 
     @staticmethod
     def getSystematicNames():
-        return [ 'statData', 'statMC', 'altBkgModel', 'altSignalModel', 'altMCEff', 'altTagSelection' ]
+        return [ 'statData', 'statMC', 'altBkgModel', 'altSignalModel', 'altSigBkgModel' ,'nominal','altMC']
 
 
 
     def combineSyst(self,averageEffData,averageEffMC):
-        systAltBkg      = self.altEff[self.iAltBkgModel] - averageEffData
-        systAltSig      = self.altEff[self.iAltSigModel] - averageEffData
-        systAltMC       = self.altEff[self.iAltMCSignal] - averageEffMC
+        systNom         = self.effData - self.mean
+        systAltBkg      = self.altEff[self.iAltBkgModel] - self.mean
+        systAltSig      = self.altEff[self.iAltSigModel] - self.mean
+        systAltMC       = self.altEff[self.iAltMCSignal] - self.effMC
 #        systAltTagSelec = self.altEff[self.iAltTagSelec] - averageEffData
-        systAltTagSelec = self.altEff[self.iAltTagSelec] - averageEffMC
+        systAltSigBkg   = self.altEff[self.iAltSigBkgModel] - self.mean
+        # systAltTagSelec = self.altEff[self.iAltTagSelec] - averageEffMC
+
 
         if self.altEff[self.iAltBkgModel] < 0:
             systAltBkg = 0
@@ -58,23 +66,37 @@ class efficiency:
 
         if self.altEff[self.iAltMCSignal] < 0:
             systAltMC = 0
-        
-        if self.altEff[self.iAltTagSelec] < 0:
-            systAltTagSelec = 0
+
+        if self.altEff[self.iAltSigBkgModel] < 0:
+            systAltSigBkg = 0
+
+        # if self.altEff[self.iAltTagSelec] < 0:
+        #     systAltTagSelec = 0
+
+        #don't include systMC when smaller than statMC
+        if(systAltMC<self.errEffMC):
+            systAltMC = 0
 
         self.syst[ 0                 ] = self.errEffData
         self.syst[ 1                 ] = self.errEffMC
-        self.syst[self.iAltBkgModel+2] = systAltBkg
-        self.syst[self.iAltSigModel+2] = systAltSig
-        self.syst[self.iAltMCSignal+2] = systAltMC
-        self.syst[self.iAltTagSelec+2] = systAltTagSelec
+        self.syst[ 2                 ] = systAltBkg
+        self.syst[ 3                 ] = systAltSig
+        self.syst[ 4                 ] = systAltSigBkg
+        self.syst[ 5                 ] = systNom
+        self.syst[ 6                 ] = systAltMC
+        # self.syst[self.iAltTagSelec+2] = systAltTagSelec
+        
         
         self.systCombined = 0
-        for isyst in range(6):
-            self.systCombined += self.syst[isyst]*self.syst[isyst];
+        ##Sum in Q##
+        # for isyst in range(6):
+        #     self.systCombined += self.syst[isyst]*self.syst[isyst];
 
-        self.systCombined = math.sqrt(self.systCombined)
-        
+        ##NEW PROPOSAL##
+        for isyst in range(2,6):
+            self.systCombined += self.syst[isyst]*self.syst[isyst] 
+        self.systCombined= math.sqrt(self.systCombined/3) #RMS/sqrtN
+        self.systCombined = math.sqrt(self.systCombined*self.systCombined/4 + self.syst[6]*self.syst[6] + self.syst[0]*self.syst[0]+ self.syst[1]*self.syst[1]) #sum in quad with syst_altMC, statData and statMC
 
     def __add__(self,eff):
         if self.effData < 0 :
@@ -99,9 +121,10 @@ class efficiency:
         newEffAltBkgModel = wData1 * self.altEff[self.iAltBkgModel] + wData2 * eff.altEff[self.iAltBkgModel]
         newEffAltSigModel = wData1 * self.altEff[self.iAltSigModel] + wData2 * eff.altEff[self.iAltSigModel]
         newEffAltMCSignal = wData1 * self.altEff[self.iAltMCSignal] + wData2 * eff.altEff[self.iAltMCSignal]
-        newEffAltTagSelec = wData1 * self.altEff[self.iAltTagSelec] + wData2 * eff.altEff[self.iAltTagSelec]
-
-        effout = efficiency(ptbin,etabin,newEffData,newErrEffData,newEffMC,newErrEffMC,newEffAltBkgModel,newEffAltSigModel,newEffAltMCSignal,newEffAltTagSelec)
+        # newEffAltTagSelec = wData1 * self.altEff[self.iAltTagSelec] + wData2 * eff.altEff[self.iAltTagSelec]
+        newEffAltSigBkgModel = wData1 * self.altEff[self.iAltSigBkgModel] + wData2 * eff.altEff[self.iAltSigBkgModel]
+        
+        effout = efficiency(ptbin,etabin,newEffData,newErrEffData,newEffMC,newErrEffMC,newEffAltBkgModel,newEffAltSigModel,newEffAltMCSignal,newEffAltSigBkgModel)
         return effout
     
 
@@ -176,6 +199,7 @@ class efficiencyList:
     def symmetrizeSystVsEta(self):
         for ptBin in self.effList.keys():
             for etaBin in self.effList[ptBin].keys():
+                print("etaBin:  ",etaBin)
                 if etaBin[0] >= 0 and etaBin[1] > 0:
                     etaBinPlus  = etaBin
                     etaBinMinus = (-etaBin[1],-etaBin[0])
@@ -288,22 +312,22 @@ class efficiencyList:
                         else:                        
                             averageMC   = (effPlus.effMC   + effMinus.effMC  )/2.
                         ### so this is h2D bin is inside the bining used by e/gamma POG
-                        h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effData      / self.effList[ptBin][etaBin].effMC)
-                        h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / averageMC )
+                        h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].mean      / self.effList[ptBin][etaBin].effMC)
+                        h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / self.effList[ptBin][etaBin].effMC )
                         if onlyError   == 0 :
-                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].systCombined      / averageMC  )
+                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].systCombined      / self.effList[ptBin][etaBin].effMC  )
                         if   onlyError == -3 :
-                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effData      )
-                            h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined * self.effList[ptBin][etaBin].effMC / averageMC )
+                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].mean      )
+                            h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined * self.effList[ptBin][etaBin].effMC / self.effList[ptBin][etaBin].effMC )
                         elif onlyError == -2 :
                             h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effMC)
                             h2.SetBinError  (ix,iy, 0 )
                         elif onlyError == -1 :
-                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effData      / self.effList[ptBin][etaBin].effMC)
-                            h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / averageMC )
+                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].mean      / self.effList[ptBin][etaBin].effMC)
+                            h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / self.effList[ptBin][etaBin].effMC )
 
                         if onlyError   == 0 :
-                                h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].systCombined      / averageMC  )
+                                h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].systCombined      / self.effList[ptBin][etaBin].effMC  )
                         elif onlyError >= 1 and onlyError <= 6:
                             denominator = averageMC
                             if relError:
@@ -342,10 +366,10 @@ class efficiencyList:
                         listOfGraphs[etaBin] = []
 
                     effAverage.combineSyst(effAverage.effData,effAverage.effMC)
-                    aValue  = effAverage.effData
+                    aValue  = effAverage.mean
                     anError = effAverage.systCombined 
                     if doScaleFactor :
-                        aValue  = effAverage.effData      / effAverage.effMC
+                        aValue  = effAverage.mean      / effAverage.effMC
                         anError = effAverage.systCombined / effAverage.effMC  
                     listOfGraphs[etaBin].append( {'min': ptBin[0], 'max': ptBin[1],
                                                   'val': aValue  , 'err': anError } ) 
@@ -379,11 +403,13 @@ class efficiencyList:
                             effAverage = effPlus + effMinus
 
                         effAverage.combineSyst(effAverage.effData,effAverage.effMC)
-                        aValue  = effAverage.effData
-                        anError = effAverage.systCombined 
+                        aValue  = effAverage.mean
+                        anError = effAverage.systCombined
+                        #aValue  = (effPlus.mean + effMinus.mean)/2   #we use abs eta (average between etaplus and etaminus) for pt plot
+                        #anError = (effPlus.systCombined + effMinus.systCombined)/2
                         if doScaleFactor :
-                            aValue  = effAverage.effData      / effAverage.effMC
-                            anError = effAverage.systCombined / effAverage.effMC  
+                            aValue  = aValue   / effAverage.effMC
+                            anError = anError / effAverage.effMC  
                         listOfGraphs[abin].append( {'min': ptBin[0], 'max': ptBin[1],
                                                     'val': aValue  , 'err': anError } ) 
                                                   
@@ -402,10 +428,10 @@ class efficiencyList:
                     ### init average efficiency 
                     listOfGraphs[ptBin] = []
                 effAverage = self.effList[ptBin][etaBin]
-                aValue  = effAverage.effData
+                aValue  = effAverage.mean
                 anError = effAverage.systCombined 
                 if typeGR == 1:
-                    aValue  = effAverage.effData      / effAverage.effMC
+                    aValue  = effAverage.mean      / effAverage.effMC
                     anError = effAverage.systCombined / effAverage.effMC  
                 if typeGR == -1:
                     aValue  = effAverage.effMC

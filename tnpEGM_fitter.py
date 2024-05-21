@@ -16,6 +16,7 @@ parser.add_argument('--sample'     , default='all'        , help = 'create histo
 parser.add_argument('--altSig'     , action='store_true'  , help = 'alternate signal model fit')
 parser.add_argument('--addGaus'    , action='store_true'  , help = 'add gaussian to alternate signal model failing probe')
 parser.add_argument('--altBkg'     , action='store_true'  , help = 'alternate background model fit')
+parser.add_argument('--altSigBkg'  , action='store_true'  , help = 'alternate signal and background model fit')
 parser.add_argument('--doFit'      , action='store_true'  , help = 'fit sample (sample should be defined in settings.py)')
 parser.add_argument('--mcSig'      , action='store_true'  , help = 'fit MC nom [to init fit parama]')
 parser.add_argument('--doPlot'     , action='store_true'  , help = 'plotting')
@@ -133,6 +134,7 @@ for s in tnpConf.samplesDef.keys():
     setattr( sample, 'nominalFit', '%s/%s_%s.nominalFit.root' % ( outputDirectory , sample.name, args.flag ) )
     setattr( sample, 'altSigFit' , '%s/%s_%s.altSigFit.root'  % ( outputDirectory , sample.name, args.flag ) )
     setattr( sample, 'altBkgFit' , '%s/%s_%s.altBkgFit.root'  % ( outputDirectory , sample.name, args.flag ) )
+    setattr( sample, 'altSigBkgFit' , '%s/%s_%s.altSigBkgFit.root'  % ( outputDirectory , sample.name, args.flag ) )
 
 
 
@@ -151,6 +153,8 @@ if  args.doFit:
                 tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit_addGaus, 1)
             elif args.altBkg:
                 tnpRoot.histFitterAltBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltBkgFit )
+            elif args.altSigBkg:
+                tnpRoot.histFitterAltSigBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigBkgFit )
             else:
                 tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFit )
     pool = Pool()
@@ -170,6 +174,9 @@ if  args.doPlot:
     if args.altBkg : 
         fileName = sampleToFit.altBkgFit
         fitType  = 'altBkgFit'
+    if args.altSigBkg : 
+        fileName = sampleToFit.altSigBkgFit
+        fitType  = 'altSigBkgFit'
         
     os.system('hadd -f %s %s' % (fileName, fileName.replace('.root', '-*.root')))
 
@@ -196,15 +203,16 @@ if args.sumUp:
         'dataNominal' : sampleToFit.nominalFit,
         'dataAltSig'  : sampleToFit.altSigFit ,
         'dataAltBkg'  : sampleToFit.altBkgFit ,
+        'dataAltSigBkg'  : sampleToFit.altSigBkgFit ,
         'mcNominal'   : sampleToFit.mcRef.histFile,
         'mcAlt'       : None,
         'tagSel'      : None
         }
 
-    #if not tnpConf.samplesDef['mcAlt' ] is None:
-    #    info['mcAlt'    ] = tnpConf.samplesDef['mcAlt' ].histFile
-    if not tnpConf.samplesDef['tagSel'] is None:
-        info['tagSel'   ] = tnpConf.samplesDef['tagSel'].histFile
+    if not tnpConf.samplesDef['mcAlt' ] is None:
+       info['mcAlt'    ] = tnpConf.samplesDef['mcAlt' ].histFile
+    # if not tnpConf.samplesDef['tagSel'] is None:
+    #     info['tagSel'   ] = tnpConf.samplesDef['tagSel'].histFile
 
     effis = None
     effFileName ='%s/egammaEffi.txt' % outputDirectory 
@@ -232,7 +240,8 @@ if args.sumUp:
             effis['dataAltBkg' ][0],
             effis['dataAltSig' ][0],
             effis['mcAlt' ][0],
-            effis['tagSel'][0],
+            # effis['tagSel'][0],
+            effis['dataAltSigBkg' ][0],
             )
         print(astr)
         fOut.write( astr + '\n' )
